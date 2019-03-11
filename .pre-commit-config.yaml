@@ -54,7 +54,7 @@ repos:
     rev: v4.1.0a0
     hooks:
       - id: ansible-lint
-        # files: molecule/default/playbook.yml
+        files: molecule/default/playbook.yml
   - repo: https://github.com/antonbabenko/pre-commit-terraform.git
     rev: v1.11.0
     hooks:
