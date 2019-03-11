@@ -2,4 +2,4 @@
 - name: Converge
   hosts: all
   roles:
-    - role: skeleton-role
+    - role: skeleton-ansible-role
