@@ -50,6 +50,8 @@ repos:
     rev: 2a1dbab
     hooks:
       - id: bandit
+        # Bandit complains about the use of assert() in tests
+        exclude: molecule/default/tests
   - repo: https://github.com/ambv/black
     rev: 19.3b0
     hooks:
