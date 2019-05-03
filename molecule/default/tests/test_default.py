@@ -1,3 +1,5 @@
+"""Module containing the tests for the default scenario."""
+
 import os
 import pytest
 
@@ -10,5 +12,5 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 @pytest.mark.parametrize("x", [True])
 def test_packages(host, x):
-    """A dummy test, just to show what one would look like"""
+    """Run a dummy test, just to show what one would look like."""
     assert x
