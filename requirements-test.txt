@@ -1,3 +1,11 @@
 docker # Needed for molecule to work correctly
-molecule
+flake8
+# Temporarily use the latest molecule from master.  The latest release
+# of molecule does not play well with ansible 2.8.  We will revert
+# this once a new release comes out.
+#
+# Also install flake8, since it appears to be missing from the
+# dependencies for the bleeding edge molecule.
+# molecule
+git+https://github.com/ansible/molecule.git#egg=molecule
 pre-commit
