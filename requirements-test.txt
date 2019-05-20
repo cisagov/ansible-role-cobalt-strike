@@ -1,3 +1,7 @@
 docker # Needed for molecule to work correctly
-molecule
+# Temporarily use the latest molecule from master.  The latest release
+# of molecule does not play well with ansible 2.8.  We will revert
+# this once a new release comes out.
+# molecule
+git+https://github.com/ansible/molecule.git#egg=molecule
 pre-commit
