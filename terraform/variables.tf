@@ -13,14 +13,8 @@ variable "tags" {
   }
 }
 
-variable "s3_bucket" {
+variable "bucket_name" {
   type        = "string"
-  description = "The name of the AWS S3 bucket that the IAM user needs to be able to read."
+  description = "The name of the AWS S3 bucket from which the IAM user needs to be able to read."
   default     = "cobalt-strike-for-pca-teamservers"
-}
-
-variable "s3_keys" {
-  type        = "list"
-  description = "The AWS S3 keys that the IAM user needs to be able to read."
-  default     = ["cobaltstrike.tgz", "cobaltstrike.license"]
 }
