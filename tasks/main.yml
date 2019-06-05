@@ -1,2 +1,70 @@
 ---
-# tasks file for skeleton
+# tasks file for cobalt_strike
+
+#
+# Install and license Cobalt Strike
+#
+- name: Grab Cobalt Strike tarball and license from S3
+  aws_s3:
+    bucket: cobalt-strike-for-pca-teamservers
+    object: "{{ item }}"
+    dest: "/tmp/{{ item }}"
+    mode: get
+  become: no
+  delegate_to: localhost
+  loop:
+    - cobaltstrike.tgz
+    - cobaltstrike.license
+
+- name: Copy the Cobalt Strike tarball
+  copy:
+    src: /tmp/cobaltstrike.tgz
+    dest: /tmp/cobaltstrike.tgz
+    mode: 0644
+
+- name: Copy the Cobalt Strike license
+  copy:
+    src: /tmp/cobaltstrike.license
+    dest: /root/.cobaltstrike.license
+    mode: 0400
+
+- name: Delete local copies of Cobalt Strike tarball and license
+  file:
+    path: "/tmp/{{ item }}"
+    state: absent
+  become: no
+  delegate_to: localhost
+  loop:
+    - cobaltstrike.tgz
+    - cobaltstrike.license
+
+- name: Extract the Cobalt Strike tarball
+  unarchive:
+    src: /tmp/cobaltstrike.tgz
+    dest: /opt
+    remote_src: yes
+
+- name: Delete remote copy of Cobalt Strike tarball
+  file:
+    path: /tmp/cobaltstrike.tgz
+    state: absent
+
+#
+# Upgrade Cobalt Strike
+#
+# The expect Ansible module requires pexpect.
+#
+- name: Install pexpect
+  package:
+    name:
+      - python-pexpect
+
+- name: Upgrade Cobalt Strike
+  expect:
+    chdir: /opt/cobaltstrike
+    command: sh ./update
+    timeout: 300
+    responses:
+      continue: "yes"
+  async: 300
+  poll: 30

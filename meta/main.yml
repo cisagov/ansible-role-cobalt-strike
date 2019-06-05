@@ -1,7 +1,7 @@
 ---
 galaxy_info:
-  author: First Last
-  description: Skeleton Ansible role
+  author: Shane Frasier
+  description: Install Cobalt Strike.
   company: CISA NCATS
   license: CC0
   min_ansible_version: 2.0
@@ -9,10 +9,9 @@ galaxy_info:
     - name: Debian
       versions:
         - stretch
-    - name: Amazon
-      versions:
-        - 2018.03
   galaxy_tags:
-    - skeleton
+    - cobaltstrike
 
-dependencies: []
+dependencies:
+  - src: https://github.com/cisagov/ansible-role-oracle-java-11
+    name: oracle_java_11

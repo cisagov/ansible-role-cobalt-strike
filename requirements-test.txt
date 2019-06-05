@@ -1,3 +1,4 @@
+boto3
 docker # Needed for molecule to work correctly
 flake8
 # Temporarily use the latest molecule from master.  The latest release

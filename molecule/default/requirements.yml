@@ -1,0 +1,5 @@
+---
+- src: https://github.com/cisagov/ansible-role-pip
+  name: pip
+- src: https://github.com/cisagov/ansible-role-oracle-java-11
+  name: oracle_java_11

@@ -8,8 +8,6 @@ lint:
 platforms:
   - name: debian9
     image: debian:stretch-slim
-  - name: amazon2018.03
-    image: amazonlinux:2018.03
 provisioner:
   name: ansible
   lint:
