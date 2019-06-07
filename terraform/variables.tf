@@ -4,7 +4,7 @@ variable "aws_region" {
 }
 
 variable "tags" {
-  type        = "map"
+  type        = map(string)
   description = "Tags to apply to all AWS resources created"
 
   default = {
@@ -14,7 +14,7 @@ variable "tags" {
 }
 
 variable "bucket_name" {
-  type        = "string"
+  type        = string
   description = "The name of the AWS S3 bucket from which the IAM user needs to be able to read."
   default     = "cobalt-strike-for-pca-teamservers"
 }
