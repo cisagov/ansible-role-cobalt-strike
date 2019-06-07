@@ -51,7 +51,7 @@ cache:
 before_install:
   - >
     wget
-    https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
+    https://releases.hashicorp.com/terraform/0.12.1/terraform_0.12.1_linux_amd64.zip
     -O terraform.zip
   - sudo unzip terraform.zip -d /opt/terraform
   - sudo ln -s /opt/terraform/terraform /usr/bin/terraform
