@@ -1,17 +1,17 @@
 # The user being created
 resource "aws_iam_user" "user" {
   name = "test-ansible-role-cobalt-strike"
-  tags = "${var.tags}"
+  tags = var.tags
 }
 
 # The IAM access key for the user
 resource "aws_iam_access_key" "key" {
-  user = "${aws_iam_user.user.name}"
+  user = aws_iam_user.user.name
 }
 
 # The S3 bucket of interest
 data "aws_s3_bucket" "bucket" {
-  bucket = "${var.bucket_name}"
+  bucket = var.bucket_name
 }
 
 # IAM policy document that allows reading from a specific S3 bucket.
@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "s3_doc" {
     ]
 
     resources = [
-      "${data.aws_s3_bucket.bucket.arn}",
+      data.aws_s3_bucket.bucket.arn,
     ]
   }
 
@@ -45,6 +45,6 @@ data "aws_iam_policy_document" "s3_doc" {
 # The S3 policy for our IAM user that lets the user read from a
 # particular bucket.
 resource "aws_iam_user_policy" "s3_policy" {
-  user   = "${aws_iam_user.user.id}"
-  policy = "${data.aws_iam_policy_document.s3_doc.json}"
+  user   = aws_iam_user.user.id
+  policy = data.aws_iam_policy_document.s3_doc.json
 }
