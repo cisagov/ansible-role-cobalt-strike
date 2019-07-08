@@ -9,6 +9,7 @@ galaxy_info:
     - name: Debian
       versions:
         - stretch
+        - buster
     - name: Amazon
       versions:
         - 2018.03
