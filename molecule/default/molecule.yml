@@ -10,6 +10,10 @@ platforms:
     image: debian:stretch-slim
   - name: debian10
     image: debian:buster-slim
+  - name: fedora29
+    image: fedora:29
+  - name: fedora30
+    image: fedora:30
   - name: amazon2018.03
     image: amazonlinux:2018.03
 provisioner:
