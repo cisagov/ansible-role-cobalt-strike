@@ -1,8 +1,10 @@
 """Module containing the tests for the default scenario."""
 
+# Standard Python Libraries
 import os
-import pytest
 
+# Third-Party Libraries
+import pytest
 import testinfra.utils.ansible_runner
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
