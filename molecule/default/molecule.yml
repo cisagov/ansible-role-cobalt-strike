@@ -3,8 +3,10 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  yamllint .
+  ansible-lint
+  flake8
 platforms:
   - name: debian9
     image: debian:stretch-slim
@@ -16,13 +18,5 @@ platforms:
     image: fedora:30
   - name: amazon2018.03
     image: amazonlinux:2018.03
-provisioner:
-  name: ansible
-  lint:
-    name: ansible-lint
 scenario:
   name: default
-verifier:
-  name: testinfra
-  lint:
-    name: flake8
