@@ -1,5 +1,5 @@
 # Temporarily use a prerelease of molecule.  The latest release of
 # molecule does not play well with ansible 2.8.  We will revert this
 # once a new release comes out.
-molecule[docker] >= 3.0a9
+molecule[docker] < 3
 pre-commit
