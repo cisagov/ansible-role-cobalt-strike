@@ -4,9 +4,9 @@ dependency:
 driver:
   name: docker
 lint: |
-  yamllint .
-  ansible-lint
-  flake8
+    yamllint .
+    ansible-lint
+    flake8
 platforms:
   - name: debian9
     image: debian:stretch-slim
