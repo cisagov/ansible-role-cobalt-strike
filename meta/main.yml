@@ -16,10 +16,10 @@ galaxy_info:
     - name: Fedora
       versions:
         - 29
-          # Ansible currently insists on installing python2-dnf, which does
-          # not exist in Fedora 30.  Until that is resolved, we can't use
-          # Fedora 30.
-          # - 30
+        # Ansible currently insists on installing python2-dnf, which
+        # does not exist in Fedora 30.  Until that is resolved, we
+        # can't use Fedora 30.
+        # - 30
         - 31
   galaxy_tags:
     - skeleton
