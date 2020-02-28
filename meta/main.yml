@@ -6,13 +6,13 @@ galaxy_info:
   license: CC0
   min_ansible_version: 2.0
   platforms:
+    - name: Amazon
+      versions:
+        - 2018.03
     - name: Debian
       versions:
         - stretch
         - buster
-    - name: Amazon
-      versions:
-        - 2018.03
     - name: Fedora
       versions:
         - 29
