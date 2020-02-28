@@ -12,8 +12,13 @@ platforms:
     image: debian:buster-slim
   - name: fedora29
     image: fedora:29
-  - name: fedora30
-    image: fedora:30
+  # Ansible currently insists on installing python2-dnf, which does
+  # not exist in Fedora 30.  Until that is resolved, we can't use
+  # Fedora 30.
+  # - name: fedora30
+  #   image: fedora:30
+  - name: fedora31
+    image: fedora:31
   - name: amazon2018.03
     image: amazonlinux:2018.03
 provisioner:
