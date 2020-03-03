@@ -6,8 +6,8 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: amazon2018.03
-    image: amazonlinux:2018.03
+  - name: amazonlinux2
+    image: amazonlinux:2
   - name: debian9
     image: debian:stretch-slim
   - name: debian10

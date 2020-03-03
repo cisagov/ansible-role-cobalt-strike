@@ -8,7 +8,7 @@ galaxy_info:
   platforms:
     - name: Amazon
       versions:
-        - 2018.03
+        - 2
     - name: Debian
       versions:
         - stretch
