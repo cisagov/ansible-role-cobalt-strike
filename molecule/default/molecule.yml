@@ -15,7 +15,7 @@ platforms:
   - name: debian11
     image: debian:bullseye-slim
   - name: kalilinux
-    image: kalilinux/kali-linux-docker
+    image: kalilinux/kali-rolling
   - name: fedora29
     image: fedora:29
   # Ansible currently insists on installing python2-dnf, which does
