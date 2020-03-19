@@ -14,7 +14,7 @@ platforms:
     image: debian:buster-slim
   - name: debian11
     image: debian:bullseye-slim
-  - name: kalilinux
+  - name: kali
     image: kalilinux/kali-rolling
   - name: fedora29
     image: fedora:29
