@@ -13,6 +13,10 @@ galaxy_info:
       versions:
         - stretch
         - buster
+        # Kali linux isn't an option here, but it is based on
+        # Debian Testing:
+        # https://www.kali.org/docs/policy/kali-linux-relationship-with-debian
+        - bullseye
     - name: Fedora
       versions:
         - 29
@@ -21,6 +25,10 @@ galaxy_info:
         # can't use Fedora 30.
         # - 30
         - 31
+    - name: Ubuntu
+      versions:
+        - bionic
+        - xenial
   galaxy_tags:
     - skeleton
 
