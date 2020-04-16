@@ -13,6 +13,7 @@ platforms:
     image: amazonlinux:2
   - name: debian9
     image: debian:stretch-slim
+    dockerfile: Dockerfile_debian_9.j2
   - name: debian10
     image: debian:buster-slim
   - name: debian11
