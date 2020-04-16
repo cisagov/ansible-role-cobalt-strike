@@ -35,18 +35,13 @@ platforms:
     image: ubuntu:bionic
 provisioner:
   name: ansible
-  defaults:
+  config_options:
+    defaults:
       # The OS family and distribution for Kali is "Kali GNU/Linux",
       # which is not an allowable group name in Ansible due to the
       # space and the slash.  This option converts those characters to
       # underscores when creating the group name.
       force_valid_group_names: always
-      # This behavior makes Ansible go ahead and determine the correct
-      # version of python to use using the heuristics that will become
-      # default in Ansible 2.12.  For more details, please see this
-      # link:
-      # https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html
-      interpreter_python: auto
 scenario:
   name: default
 verifier:
