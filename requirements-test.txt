@@ -1,6 +1,6 @@
-# molecule v3 introduces substantial changes to how tests are configured.
-# Moving to v3+ will require other changes to be in place so we will pin under
-# that version for now. When v3 sees an official release we should revisit and
-# make the necessary changes.
-molecule[docker] < 3
+ansible-lint
+flake8
+molecule[docker]
 pre-commit
+testinfra
+yamllint
