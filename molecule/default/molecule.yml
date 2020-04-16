@@ -35,7 +35,8 @@ platforms:
     image: ubuntu:bionic
 provisioner:
   name: ansible
-  defaults:
+  config_options:
+    defaults:
       # The OS family and distribution for Kali is "Kali GNU/Linux",
       # which is not an allowable group name in Ansible due to the
       # space and the slash.  This option converts those characters to
