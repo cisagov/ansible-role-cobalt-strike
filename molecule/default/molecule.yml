@@ -3,18 +3,31 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8
 platforms:
   - name: debian9
     image: debian:stretch-slim
+    dockerfile: Dockerfile_debian_9.j2
+  - name: debian10
+    image: debian:buster-slim
+  - name: debian11
+    image: debian:bullseye-slim
+  - name: kali
+    image: kalilinux/kali-rolling
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
+  config_options:
+    defaults:
+      # The OS family and distribution for Kali is "Kali GNU/Linux",
+      # which is not an allowable group name in Ansible due to the
+      # space and the slash.  This option converts those characters to
+      # underscores when creating the group name.
+      force_valid_group_names: always
 scenario:
   name: default
 verifier:
   name: testinfra
-  lint:
-    name: flake8
