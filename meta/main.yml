@@ -6,9 +6,6 @@ galaxy_info:
   license: CC0
   min_ansible_version: 2.0
   platforms:
-    - name: Amazon
-      versions:
-        - 2
     - name: Debian
       versions:
         - stretch
