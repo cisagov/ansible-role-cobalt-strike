@@ -17,6 +17,4 @@ galaxy_info:
   galaxy_tags:
     - cobaltstrike
 
-dependencies:
-  - src: https://github.com/cisagov/ansible-role-oracle-java
-    name: oracle_java
+dependencies: []
