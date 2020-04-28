@@ -1,12 +1,8 @@
-locals {
-  test_user_name = "test-ansible-role-cobalt-strike"
-}
-
 # Create the test user and its access key
 resource "aws_iam_user" "user" {
   provider = aws.users
 
-  name = local.test_user_name
+  name = "test-ansible-role-cobalt-strike"
   tags = var.tags
 }
 resource "aws_iam_access_key" "key" {
