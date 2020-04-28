@@ -25,7 +25,7 @@
   block:
     - name: Grab Cobalt Strike tarball and license from S3
       aws_s3:
-        bucket: cobalt-strike-for-pca-teamservers
+        bucket: cisa-cool-third-party-production
         object: "{{ item }}"
         dest: "/tmp/{{ item }}"
         mode: get
