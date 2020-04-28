@@ -47,8 +47,6 @@ module "bucket_access" {
 # Ensure that the test user is allowed to assume the bucket read-only
 # role
 data "aws_iam_policy_document" "assume_bucket_role" {
-  provider = aws.images
-
   statement {
     effect = "Allow"
 
