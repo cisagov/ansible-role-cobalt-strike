@@ -1,6 +1,20 @@
 ---
 # tasks file for cobalt_strike
 
+- name: Load var file with package names based on the OS type
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        # Add regex_replace() filters to remove spaces and
+        # slashes. This allows the OS family/distribution for Kali,
+        # "Kali GNU/Linux", to be easily mapped to a vars file.
+        - "{{ ansible_distribution | regex_replace('[ /]', '_') }}_{{ ansible_distribution_version }}.yml"
+        - "{{ ansible_distribution | regex_replace('[ /]', '_') }}.yml"
+        - "{{ ansible_os_family | regex_replace('[ /]', '_') }}.yml"
+      paths:
+        - "{{ role_path }}/vars"
+
 # Check if Cobalt Strike is already installed in the expected place
 - name: Check if Cobalt Strike is already installed
   stat:
@@ -11,25 +25,25 @@
   block:
     - name: Grab Cobalt Strike tarball and license from S3
       aws_s3:
-        bucket: cobalt-strike-for-pca-teamservers
+        bucket: "{{ bucket_name }}"
         object: "{{ item }}"
         dest: "/tmp/{{ item }}"
         mode: get
       become: no
       delegate_to: localhost
       loop:
-        - cobaltstrike.tgz
-        - cobaltstrike.license
+        - "{{ tarball_object_name }}"
+        - "{{ license_object_name }}"
 
     - name: Copy the Cobalt Strike tarball
       copy:
-        src: /tmp/cobaltstrike.tgz
-        dest: /tmp/cobaltstrike.tgz
+        src: /tmp/{{ tarball_object_name }}
+        dest: /tmp/{{ tarball_object_name }}
         mode: 0644
 
     - name: Copy the Cobalt Strike license
       copy:
-        src: /tmp/cobaltstrike.license
+        src: /tmp/{{ license_object_name }}
         dest: /root/.cobaltstrike.license
         mode: 0400
 
@@ -40,18 +54,18 @@
       become: no
       delegate_to: localhost
       loop:
-        - cobaltstrike.tgz
-        - cobaltstrike.license
+        - "{{ tarball_object_name }}"
+        - "{{ license_object_name }}"
 
     - name: Extract the Cobalt Strike tarball
       unarchive:
-        src: /tmp/cobaltstrike.tgz
+        src: /tmp/{{ tarball_object_name }}
         dest: /opt
         remote_src: yes
 
     - name: Delete remote copy of Cobalt Strike tarball
       file:
-        path: /tmp/cobaltstrike.tgz
+        path: /tmp/{{ tarball_object_name }}
         state: absent
 
     #
@@ -61,8 +75,7 @@
     #
     - name: Install pexpect
       package:
-        name:
-          - python-pexpect
+        name: "{{ pexpect_package_names }}"
     - name: Upgrade Cobalt Strike
       expect:
         chdir: /opt/cobaltstrike

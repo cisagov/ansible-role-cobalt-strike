@@ -1,10 +1,13 @@
 ---
-# boto3 is installed anywhere we would be applying this Ansible role
-- name: Prepare
+# boto3 is installed anywhere we would be applying this Ansible role,
+# and this role also requires a Java installation
+- name: Install boto3
   hosts: all
   roles:
+    - openjdk
     - pip
   tasks:
     - name: Install boto3
       pip:
-        name: boto3
+        name:
+          - boto3

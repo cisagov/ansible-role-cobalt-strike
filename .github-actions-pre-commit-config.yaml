@@ -81,7 +81,16 @@ repos:
     rev: v1.29.0
     hooks:
       - id: terraform_fmt
-      - id: terraform_validate
+      # I am commenting out this hook because terraform validate
+      # cannot currently run without accessing the remote state
+      # because of the way the providers are defined in
+      # terraform/providers.tf.  This is something that may be
+      # remedied in the future.  For more information, check out these
+      # two GitHub issues:
+      # * https://github.com/hashicorp/terraform/issues/15895
+      # * https://github.com/hashicorp/terraform/issues/15811
+      #
+      # - id: terraform_validate
   - repo: https://github.com/IamTheFij/docker-pre-commit
     rev: v1.0.1
     hooks:

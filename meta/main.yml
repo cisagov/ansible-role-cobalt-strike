@@ -2,16 +2,19 @@
 galaxy_info:
   author: Shane Frasier
   description: Install Cobalt Strike.
-  company: CISA NCATS
+  company: CISA Cyber Assessments
   license: CC0
   min_ansible_version: 2.0
   platforms:
     - name: Debian
       versions:
         - stretch
+        - buster
+        # Kali linux isn't an option here, but it is based on
+        # Debian Testing:
+        # https://www.kali.org/docs/policy/kali-linux-relationship-with-debian
+        - bullseye
   galaxy_tags:
     - cobaltstrike
 
-dependencies:
-  - src: https://github.com/cisagov/ansible-role-oracle-java
-    name: oracle_java
+dependencies: []

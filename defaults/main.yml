@@ -1,0 +1,10 @@
+---
+# defaults file for ansible-role-cobalt-strike
+
+# The name of the AWS S3 bucket where the Cobalt Strike tarball and
+# license files are stored
+bucket_name: cisa-cool-third-party-production
+# The name of the AWS S3 object that is the Cobalt Strike tarball
+tarball_object_name: cobaltstrike.tgz
+# The name of the AWS S3 object that is the Cobalt Strike license
+license_object_name: cobaltstrike.license
