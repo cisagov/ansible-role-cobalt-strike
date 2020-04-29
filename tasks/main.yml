@@ -25,25 +25,25 @@
   block:
     - name: Grab Cobalt Strike tarball and license from S3
       aws_s3:
-        bucket: cisa-cool-third-party-production
+        bucket: "{{ bucket_name }}"
         object: "{{ item }}"
         dest: "/tmp/{{ item }}"
         mode: get
       become: no
       delegate_to: localhost
       loop:
-        - cobaltstrike.tgz
-        - cobaltstrike.license
+        - "{{ tarball_object_name }}"
+        - "{{ license_object_name }}"
 
     - name: Copy the Cobalt Strike tarball
       copy:
-        src: /tmp/cobaltstrike.tgz
-        dest: /tmp/cobaltstrike.tgz
+        src: /tmp/{{ tarball_object_name }}
+        dest: /tmp/{{ tarball_object_name }}
         mode: 0644
 
     - name: Copy the Cobalt Strike license
       copy:
-        src: /tmp/cobaltstrike.license
+        src: /tmp/{{ license_object_name }}
         dest: /root/.cobaltstrike.license
         mode: 0400
 
@@ -54,18 +54,18 @@
       become: no
       delegate_to: localhost
       loop:
-        - cobaltstrike.tgz
-        - cobaltstrike.license
+        - "{{ tarball_object_name }}"
+        - "{{ license_object_name }}"
 
     - name: Extract the Cobalt Strike tarball
       unarchive:
-        src: /tmp/cobaltstrike.tgz
+        src: /tmp/{{ tarball_object_name }}
         dest: /opt
         remote_src: yes
 
     - name: Delete remote copy of Cobalt Strike tarball
       file:
-        path: /tmp/cobaltstrike.tgz
+        path: /tmp/{{ tarball_object_name }}
         state: absent
 
     #
