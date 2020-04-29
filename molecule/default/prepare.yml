@@ -4,47 +4,10 @@
 - name: Install boto3
   hosts: all
   roles:
+    - openjdk
     - pip
   tasks:
     - name: Install boto3
       pip:
         name:
           - boto3
-
-- name: Group hosts by OS distribution
-  hosts: all
-  tasks:
-    - name: Group hosts by OS distribution
-      group_by:
-        key: os_{{ ansible_distribution }}
-
-- name: Install Java (Kali)
-  hosts: os_Kali_GNU_Linux
-  tasks:
-    - name: Install OpenJDK (Kali)
-      package:
-        name:
-          - openjdk-11-jdk-headless
-
-- name: Install Java (Debian)
-  hosts: os_Debian
-  tasks:
-    # For some reason this path is missing on Debian
-    - name: Create /usr/share/man/man1 (Debian)
-      file:
-        path: /usr/share/man/man1
-        mode: 0755
-        state: directory
-    - name: Install OpenJDK (Debian 9)
-      package:
-        name:
-          - openjdk-8-jdk-headless
-      when:
-        - ansible_distribution_version == "9" or ansible_distribution_version == "9.12"
-    - name: Install OpenJDK (not Debian 9)
-      package:
-        name:
-          - openjdk-11-jdk-headless
-      when:
-        - ansible_distribution_version != "9"
-        - ansible_distribution_version != "9.12"
