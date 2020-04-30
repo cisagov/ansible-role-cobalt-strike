@@ -23,6 +23,11 @@
 
 - name: Install and license Cobalt Strike
   block:
+    # The aws_s3 Ansible module requires boto3 to be installed
+    - name: Install boto3
+      package:
+        name: "{{ boto3_package_names }}"
+
     - name: Grab Cobalt Strike tarball and license from S3
       aws_s3:
         bucket: "{{ bucket_name }}"

@@ -1,5 +1,3 @@
 ---
 - src: https://github.com/cisagov/ansible-role-openjdk
   name: openjdk
-- src: https://github.com/cisagov/ansible-role-pip
-  name: pip

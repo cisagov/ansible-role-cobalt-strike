@@ -4,3 +4,7 @@
 # The packages to install for pexpect
 pexpect_package_names:
   - python3-pexpect
+
+# The packages to install for boto3
+boto3_package_names:
+  - python3-boto3
