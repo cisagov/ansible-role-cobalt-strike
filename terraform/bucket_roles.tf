@@ -3,7 +3,7 @@
 module "production_bucket_access" {
   source = "github.com/cisagov/s3-read-role-tf-module"
   providers = {
-    aws = aws.images
+    aws = aws.images_production
   }
 
   account_ids = [data.aws_caller_identity.current.account_id]
@@ -21,7 +21,7 @@ module "production_bucket_access" {
 module "staging_bucket_access" {
   source = "github.com/cisagov/s3-read-role-tf-module"
   providers = {
-    aws = aws.images
+    aws = aws.images_staging
   }
 
   account_ids = [data.aws_caller_identity.current.account_id]

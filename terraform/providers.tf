@@ -6,13 +6,24 @@ provider "aws" {
   region = var.aws_region
 }
 
-# The provider used to create roles that can read certificates from an
-# S3 bucket
+# The provider used to create roles that can read certificates from a
+# production S3 bucket
 provider "aws" {
-  alias  = "images"
+  alias  = "images_production"
   region = var.aws_region
   assume_role {
-    role_arn     = data.terraform_remote_state.images.outputs.provisionthirdpartybucketreadroles_role.arn
+    role_arn     = data.terraform_remote_state.images_production.outputs.provisionthirdpartybucketreadroles_role.arn
+    session_name = local.caller_user_name
+  }
+}
+
+# The provider used to create roles that can read certificates from a
+# staging S3 bucket
+provider "aws" {
+  alias  = "images_staging"
+  region = var.aws_region
+  assume_role {
+    role_arn     = data.terraform_remote_state.images_staging.outputs.provisionthirdpartybucketreadroles_role.arn
     session_name = local.caller_user_name
   }
 }
