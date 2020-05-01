@@ -10,15 +10,27 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable "bucket_name" {
+variable "production_bucket_name" {
   type        = string
-  description = "The name of the S3 bucket where the Cobalt Strike tarball and license live."
+  description = "The name of the S3 bucket where the production Cobalt Strike tarball and license live."
   default     = "cisa-cool-third-party-production"
 }
 
-variable "objects" {
+variable "production_objects" {
   type        = list(string)
-  description = "The Cobalt Strike tarball and license objects inside the bucket."
+  description = "The Cobalt Strike tarball and license objects inside the production bucket."
+  default     = ["cobaltstrike.tgz", "cobaltstrike.license"]
+}
+
+variable "staging_bucket_name" {
+  type        = string
+  description = "The name of the S3 bucket where the staging Cobalt Strike tarball and license live."
+  default     = "cisa-cool-third-party-staging"
+}
+
+variable "staging_objects" {
+  type        = list(string)
+  description = "The Cobalt Strike tarball and license objects inside the staging bucket."
   default     = ["cobaltstrike.tgz", "cobaltstrike.license"]
 }
 

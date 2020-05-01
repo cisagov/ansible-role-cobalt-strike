@@ -11,29 +11,8 @@ resource "aws_iam_access_key" "key" {
   user = aws_iam_user.user.name
 }
 
-# Create the role that allows read-only access to the particular S3
-# objects that are required by this Ansible role
-module "bucket_access" {
-  source = "github.com/cisagov/s3-read-role-tf-module"
-  providers = {
-    aws = aws.images
-  }
-
-  account_ids = [data.aws_caller_identity.current.account_id]
-  entity_name = aws_iam_user.user.name
-  role_name   = "ThirdPartyBucketRead-${aws_iam_user.user.name}"
-  role_tags = merge(var.tags,
-    {
-      "GitHub_Secret_Name"             = "TEST_ROLE_TO_ASSUME",
-      "GitHub_Secret_Terraform_Lookup" = "arn"
-    }
-  )
-  s3_bucket  = var.bucket_name
-  s3_objects = var.objects
-}
-
 # Ensure that the test user is allowed to assume the bucket read-only
-# role
+# roles
 data "aws_iam_policy_document" "assume_bucket_role" {
   statement {
     effect = "Allow"
@@ -44,7 +23,8 @@ data "aws_iam_policy_document" "assume_bucket_role" {
     ]
 
     resources = [
-      module.bucket_access.role.arn,
+      module.production_bucket_access.role.arn,
+      module.staging_bucket_access.role.arn,
     ]
   }
 }

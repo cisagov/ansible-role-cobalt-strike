@@ -4,7 +4,7 @@
 # data for this configuration.
 # ------------------------------------------------------------------------------
 
-data "terraform_remote_state" "images" {
+data "terraform_remote_state" "images_production" {
   backend = "s3"
 
   config = {
@@ -17,6 +17,21 @@ data "terraform_remote_state" "images" {
   }
 
   workspace = "production"
+}
+
+data "terraform_remote_state" "images_staging" {
+  backend = "s3"
+
+  config = {
+    encrypt        = true
+    bucket         = "cisa-cool-terraform-state"
+    dynamodb_table = "terraform-state-lock"
+    profile        = "cool-terraform-readstate"
+    region         = "us-east-1"
+    key            = "cool-accounts/images.tfstate"
+  }
+
+  workspace = "staging"
 }
 
 data "terraform_remote_state" "users" {
