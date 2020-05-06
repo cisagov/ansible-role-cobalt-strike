@@ -20,15 +20,12 @@ platforms:
     image: debian:bullseye-slim
   - name: kali
     image: kalilinux/kali-rolling
-  - name: fedora29
-    image: fedora:29
-  # Ansible currently insists on installing python2-dnf, which does
-  # not exist in Fedora 30.  Until that is resolved, we can't use
-  # Fedora 30.
-  # - name: fedora30
-  #   image: fedora:30
   - name: fedora31
     image: fedora:31
+  - name: fedora32
+    image: fedora:32
+  - name: fedora33
+    image: fedora:33
   - name: ubuntu16
     image: ubuntu:xenial
   - name: ubuntu18
