@@ -20,8 +20,6 @@ platforms:
     image: debian:bullseye-slim
   - name: kali
     image: kalilinux/kali-rolling
-  - name: fedora31
-    image: fedora:31
   - name: fedora32
     image: fedora:32
   - name: fedora33
