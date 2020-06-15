@@ -1,3 +1,4 @@
+--requirement requirements.txt
 ansible-lint
 flake8
 molecule[docker]
