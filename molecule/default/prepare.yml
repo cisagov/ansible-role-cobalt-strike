@@ -1,7 +1,22 @@
 ---
-# boto3 is installed anywhere we would be applying this Ansible role,
+# The Debian images we are using require a cache update before they
+# can install anything.
+- name: Group hosts by OS distribution
+  hosts: all
+  tasks:
+    - name: Group hosts by OS distribution
+      group_by:
+        key: os_{{ ansible_os_family }}
+- name: Update apt cache (Debian)
+  hosts: os_Debian:os_Kali_GNU_Linux
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+# boto3 is installed anywhere we would be applying this Ansible role
 # and this role also requires a Java installation
-- name: Install boto3
+- name: Install Java and boto3
   hosts: all
   roles:
     - openjdk
