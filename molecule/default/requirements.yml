@@ -1,6 +1,9 @@
 ---
+<<<<<<< HEAD
 - src: https://github.com/cisagov/ansible-role-openjdk
   name: openjdk
+=======
+>>>>>>> 5fe7ba99c2b2eb5be18c2d0a5466949a714591a8
 - src: https://github.com/cisagov/ansible-role-pip
   name: pip
 - src: https://github.com/cisagov/ansible-role-python
