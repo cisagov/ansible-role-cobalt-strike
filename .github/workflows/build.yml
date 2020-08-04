@@ -20,8 +20,7 @@ jobs:
     steps:
       - uses: cisagov/setup-env-github-action@develop
       - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
           python-version: 3.8
       - uses: actions/setup-go@v2
@@ -31,42 +30,28 @@ jobs:
         run: |
           echo "::set-env name=PY_VERSION::"\
           "$(python -c "import platform;print(platform.python_version())")"
-      - name: Cache pip test requirements
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.PIP_CACHE_DIR }}
-          key: "${{ runner.os }}-pip-test-py${{ env.PY_VERSION }}-\
-            ${{ hashFiles('**/requirements-test.txt') }}"
-          restore-keys: |
-            ${{ runner.os }}-pip-test-py${{ env.PY_VERSION }}-
-            ${{ runner.os }}-pip-test-
-            ${{ runner.os }}-pip-
-      - name: Cache pre-commit hooks
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.PRE_COMMIT_CACHE_DIR }}
-          key: "${{ runner.os }}-pre-commit-py${{ env.PY_VERSION }}-\
-            ${{ hashFiles('**/.pre-commit-config.yaml') }}"
-      - name: Cache curl downloads
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.CURL_CACHE_DIR }}
-          key: "${{ runner.os }}-curl-\
-            terraform-${{ env.TERRAFORM_VERSION }}"
       - name: Lookup go cache directory
         id: go-cache
         run: |
           echo "::set-output name=dir::$(go env GOCACHE)"
-      - name: Cache go
-        uses: actions/cache@v1
+      - name: Cache linting environments
+        uses: actions/cache@v2
         with:
-          path: ${{ steps.go-cache.outputs.dir }}
-          key: "${{ runner.os }}-go"
-      - name: Cache Terraform initialization
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.TF_CACHE_DIR }}
-          key: "${{ runner.os }}-terraform-initialization"
+          path: |
+            ${{ env.PIP_CACHE_DIR }}
+            ${{ env.PRE_COMMIT_CACHE_DIR }}
+            ${{ env.CURL_CACHE_DIR }}
+            ${{ steps.go-cache.outputs.dir }}
+            ${{ env.TF_CACHE_DIR }}
+          key: "lint-${{ runner.os }}-\
+            py${{ env.PY_VERSION }}-\
+            tf${{ env.TERRAFORM_VERSION }}-\
+            ${{ hashFiles('**/requirements-test.txt') }}-\
+            ${{ hashFiles('**/.pre-commit-config.yaml') }}"
+          restore-keys: |
+            lint-${{ runner.os }}-py${{ env.PY_VERSION }}-\
+            tf${{ env.TERRAFORM_VERSION }}-
+            lint-${{ runner.os }}-
       - name: Install Terraform
         run: |
           mkdir -p ${{ env.CURL_CACHE_DIR }}
@@ -114,23 +99,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: 3.8
       - name: Store installed Python version
         run: |
           echo "::set-env name=PY_VERSION::"\
           "$(python -c "import platform;print(platform.python_version())")"
-      - name: Cache pip test requirements
-        uses: actions/cache@v1
+      - name: Cache testing environments
+        uses: actions/cache@v2
         with:
           path: ${{ env.PIP_CACHE_DIR }}
-          key: "${{ runner.os }}-pip-test-py${{ env.PY_VERSION }}-\
+          key: "test-${{ runner.os }}-py${{ env.PY_VERSION }}-\
             ${{ hashFiles('**/requirements-test.txt') }}"
           restore-keys: |
-            ${{ runner.os }}-pip-test-py${{ env.PY_VERSION }}-
-            ${{ runner.os }}-pip-test-
-            ${{ runner.os }}-pip-
+            test-${{ runner.os }}-py${{ env.PY_VERSION }}-
+            test-${{ runner.os }}-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
