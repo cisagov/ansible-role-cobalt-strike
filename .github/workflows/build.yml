@@ -8,6 +8,8 @@ on:
     types: [apb]
 
 env:
+  AWS_DEFAULT_REGION: us-east-1
+  CURL_CACHE_DIR: ~/.cache/curl
   PIP_CACHE_DIR: ~/.cache/pip
   PRE_COMMIT_CACHE_DIR: ~/.cache/pre-commit
 
@@ -15,35 +17,94 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - uses: cisagov/setup-env-github-action@develop
       - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2
         with:
           python-version: 3.8
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.14.2'
       - name: Store installed Python version
         run: |
           echo "::set-env name=PY_VERSION::"\
           "$(python -c "import platform;print(platform.python_version())")"
+      - name: Store installed Go version
+        run: |
+          echo "::set-env name=GO_VERSION::"\
+          "$(go version | sed 's/^go version go\([0-9.]\+\) .*/\1/')"
+      - name: Lookup go cache directory
+        id: go-cache
+        run: |
+          echo "::set-output name=dir::$(go env GOCACHE)"
       - name: Cache linting environments
         uses: actions/cache@v2
         with:
+          # Note that the .terraform directory IS NOT included in the
+          # cache because we use the -upgrade=true option when we run
+          # terraform below.  That option pulls down the latest
+          # modules and providers no matter what, so there is no point
+          # in caching the .terraform directory.
           path: |
             ${{ env.PIP_CACHE_DIR }}
             ${{ env.PRE_COMMIT_CACHE_DIR }}
-          key: "lint-${{ runner.os }}-py${{ env.PY_VERSION }}-\
+            ${{ env.CURL_CACHE_DIR }}
+            ${{ steps.go-cache.outputs.dir }}
+          key: "lint-${{ runner.os }}-\
+            py${{ env.PY_VERSION }}-\
+            go${{ env.GO_VERSION }}-\
+            tf${{ env.TERRAFORM_VERSION }}-\
             ${{ hashFiles('**/requirements-test.txt') }}-\
             ${{ hashFiles('**/.pre-commit-config.yaml') }}"
           restore-keys: |
-            lint-${{ runner.os }}-py${{ env.PY_VERSION }}-
+            lint-${{ runner.os }}-\
+            py${{ env.PY_VERSION }}-\
+            go${{ env.GO_VERSION }}-\
+            tf${{ env.TERRAFORM_VERSION }}-
             lint-${{ runner.os }}-
+      - name: Install Terraform
+        run: |
+          mkdir -p ${{ env.CURL_CACHE_DIR }}
+          TERRAFORM_ZIP="terraform_${TERRAFORM_VERSION}_linux_amd64.zip"
+          curl --output ${{ env.CURL_CACHE_DIR }}/"${TERRAFORM_ZIP}" \
+            --time-cond ${{ env.CURL_CACHE_DIR }}/"${TERRAFORM_ZIP}" \
+            --location \
+            "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/${TERRAFORM_ZIP}"
+          sudo unzip -d /opt/terraform \
+            ${{ env.CURL_CACHE_DIR }}/"${TERRAFORM_ZIP}"
+          sudo ln -s /opt/terraform/terraform /usr/bin/terraform
+      - name: Install Terraform-docs
+        run: GO111MODULE=on go get github.com/segmentio/terraform-docs
+      - name: Find and initialize Terraform directories
+        run: |
+          for path in $(find . -type f -iname "*.tf" -exec dirname "{}" \; \
+            | sort -u); do \
+            echo "Initializing '$path'..."; \
+            terraform init -upgrade=true -input=false -backend=false "$path"; \
+            done
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade --requirement requirements-test.txt
       - name: Set up pre-commit hook environments
         run: pre-commit install-hooks
-      - name: Run pre-commit on all files
-        run: pre-commit run --all-files
+      - name: Create modified GitHub Actions pre-commit configuration
+        run: |
+          sed '/terraform_validate/d' < .pre-commit-config.yaml \
+          > /tmp/.github-actions-pre-commit-config.yaml
+      - name: Run pre-commit with modified configuration file on all files
+        # We run pre-commit here with a custom configuration that has
+        # the terraform-validate hook removed.  This is because
+        # terraform validate cannot currently run without accessing
+        # the remote state because of the way the providers are
+        # defined in terraform/providers.tf.  This is something that
+        # may be remedied in the future.  For more information, check
+        # out these two GitHub issues:
+        # * https://github.com/hashicorp/terraform/issues/15895
+        # * https://github.com/hashicorp/terraform/issues/15811
+        run: |
+          pre-commit run --all-files \
+          --config=/tmp/.github-actions-pre-commit-config.yaml
   test:
     runs-on: ubuntu-latest
     steps:
@@ -69,5 +130,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade --requirement requirements-test.txt
+      - name: Assume AWS test role
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_DEFAULT_REGION }}
+          role-to-assume: ${{ secrets.TEST_ROLE_TO_ASSUME }}
+          role-duration-seconds: 3600
       - name: Run molecule tests
         run: molecule test
