@@ -6,11 +6,14 @@
 
 This is a skeleton project that can be used to quickly get a new
 [cisagov](https://github.com/cisagov) Ansible role GitHub project
-started.  This skeleton project contains
-[licensing information](LICENSE), as well as
-[pre-commit hooks](https://pre-commit.com) and
-[GitHub Actions](https://github.com/features/actions) configurations
-appropriate for an Ansible role.
+started, where that Ansible role requires an AWS test user for
+automated testing.
+
+This skeleton project contains [licensing information](LICENSE), as
+well as [pre-commit hooks](https://pre-commit.com) and [GitHub
+Actions](https://github.com/features/actions) configurations
+appropriate for an Ansible role, as well as the Terraform code to
+create the AWS test user.
 
 ## Requirements ##
 
