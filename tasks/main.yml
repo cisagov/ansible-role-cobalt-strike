@@ -58,7 +58,10 @@
         - "{{ license_object_name }}"
 
     - name: Extract the Cobalt Strike tarball
-      unarchive:
+      # ansible-lint E208 gives an error if we don't specify the mode,
+      # but we definitely don't want to do that here since it will
+      # override the permissions on the files in the archive.
+      unarchive: # noqa 208
         src: /tmp/{{ tarball_object_name }}
         dest: /opt
         remote_src: yes
