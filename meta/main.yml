@@ -3,6 +3,8 @@ galaxy_info:
   author: Shane Frasier
   description: Install Cobalt Strike.
   company: CISA Cyber Assessments
+  galaxy_tags:
+    - cobaltstrike
   license: CC0
   min_ansible_version: 2.0
   platforms:
@@ -14,7 +16,6 @@ galaxy_info:
         # Debian Testing:
         # https://www.kali.org/docs/policy/kali-linux-relationship-with-debian
         - bullseye
-  galaxy_tags:
-    - cobaltstrike
+  role_name: cobalt_strike
 
 dependencies: []
