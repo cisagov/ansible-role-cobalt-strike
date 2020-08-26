@@ -3,6 +3,8 @@ galaxy_info:
   author: First Last
   description: Skeleton Ansible role
   company: CISA Cyber Assessments
+  galaxy_tags:
+    - skeleton
   license: CC0
   min_ansible_version: 2.0
   platforms:
@@ -25,7 +27,6 @@ galaxy_info:
       versions:
         - bionic
         - xenial
-  galaxy_tags:
-    - skeleton
+  role_name: skeleton
 
 dependencies: []
