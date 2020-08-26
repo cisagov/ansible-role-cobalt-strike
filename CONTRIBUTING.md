@@ -110,7 +110,7 @@ Once `pyenv` and `pyenv-virtualenv` are installed on your system, you
 can create and configure the Python virtual environment with these
 commands:
 
-```bash
+```console
 cd ansible-role-cobalt-strike
 pyenv virtualenv <python_version_to_use> ansible-role-cobalt-strike
 pyenv local ansible-role-cobalt-strike

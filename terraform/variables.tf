@@ -47,7 +47,7 @@ variable "tags" {
   description = "Tags to apply to all AWS resources created"
 
   default = {
-    Team        = "NCATS OIS - Development"
+    Team        = "VM Fusion - Development"
     Application = "ansible-role-cobalt-strike testing"
   }
 }
