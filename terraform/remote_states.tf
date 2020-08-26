@@ -4,21 +4,6 @@
 # data for this configuration.
 # ------------------------------------------------------------------------------
 
-data "terraform_remote_state" "images_production" {
-  backend = "s3"
-
-  config = {
-    encrypt        = true
-    bucket         = "cisa-cool-terraform-state"
-    dynamodb_table = "terraform-state-lock"
-    profile        = "cool-terraform-readstate"
-    region         = "us-east-1"
-    key            = "cool-accounts/images.tfstate"
-  }
-
-  workspace = "production"
-}
-
 data "terraform_remote_state" "images_staging" {
   backend = "s3"
 
@@ -32,6 +17,21 @@ data "terraform_remote_state" "images_staging" {
   }
 
   workspace = "staging"
+}
+
+data "terraform_remote_state" "images_production" {
+  backend = "s3"
+
+  config = {
+    encrypt        = true
+    bucket         = "cisa-cool-terraform-state"
+    dynamodb_table = "terraform-state-lock"
+    profile        = "cool-terraform-readstate"
+    region         = "us-east-1"
+    key            = "cool-accounts/images.tfstate"
+  }
+
+  workspace = "production"
 }
 
 data "terraform_remote_state" "users" {
