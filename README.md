@@ -50,8 +50,8 @@ of the Project Setup README.
 
 If you have appropriate permissions for the repository you can view
 existing secrets on the [appropriate
-page](https://github.com/cisagov/skeleton-packer/settings/secrets) in
-the repository's settings.
+page](https://github.com/cisagov/ansible-role-cobalt-strike/settings/secrets)
+in the repository's settings.
 
 ## Requirements ##
 
