@@ -50,7 +50,7 @@ of the Project Setup README.
 
 If you have appropriate permissions for the repository you can view
 existing secrets on the [appropriate
-page](https://github.com/cisagov/skeleton-ansible-role-with-test-user/settings/secrets)
+page](https://github.com/cisagov/ansible-role-cobalt-strike/settings/secrets)
 in the repository's settings.
 
 ## Requirements ##
