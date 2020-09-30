@@ -30,8 +30,8 @@ galaxy_info:
         - 33
     - name: Ubuntu
       versions:
-        - bionic
         - xenial
+        - bionic
   role_name: skeleton
 
 dependencies: []
