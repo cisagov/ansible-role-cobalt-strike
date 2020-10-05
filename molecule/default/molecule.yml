@@ -28,6 +28,8 @@ platforms:
     image: ubuntu:xenial
   - name: ubuntu18
     image: ubuntu:bionic
+  - name: ubuntu20
+    image: ubuntu:focal
 provisioner:
   name: ansible
   config_options:
