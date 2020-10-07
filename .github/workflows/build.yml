@@ -54,8 +54,9 @@ jobs:
           python-version: 3.8
       - name: Store installed Python version
         run: |
-          echo "::set-env name=PY_VERSION::"\
-          "$(python -c "import platform;print(platform.python_version())")"
+          echo "PY_VERSION="\
+          "$(python -c "import platform;print(platform.python_version())")" \
+          >> $GITHUB_ENV
       - name: Cache testing environments
         uses: actions/cache@v2
         with:
