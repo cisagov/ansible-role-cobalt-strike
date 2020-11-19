@@ -88,23 +88,8 @@ jobs:
           pip install --upgrade --requirement requirements-test.txt
       - name: Set up pre-commit hook environments
         run: pre-commit install-hooks
-      - name: Create modified GitHub Actions pre-commit configuration
-        run: |
-          sed '/terraform_validate/d' < .pre-commit-config.yaml \
-          > /tmp/.github-actions-pre-commit-config.yaml
-      - name: Run pre-commit with modified configuration file on all files
-        # We run pre-commit here with a custom configuration that has
-        # the terraform-validate hook removed.  This is because
-        # terraform validate cannot currently run without accessing
-        # the remote state because of the way the providers are
-        # defined in terraform/providers.tf.  This is something that
-        # may be remedied in the future.  For more information, check
-        # out these two GitHub issues:
-        # * https://github.com/hashicorp/terraform/issues/15895
-        # * https://github.com/hashicorp/terraform/issues/15811
-        run: |
-          pre-commit run --all-files \
-          --config=/tmp/.github-actions-pre-commit-config.yaml
+      - name: Run pre-commit on all files
+        run: pre-commit run --all-files
   test:
     runs-on: ubuntu-latest
     steps:
