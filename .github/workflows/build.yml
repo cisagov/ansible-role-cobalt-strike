@@ -19,17 +19,13 @@ jobs:
     steps:
       - uses: cisagov/setup-env-github-action@develop
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - id: setup-python
+        uses: actions/setup-python@v2
         with:
           python-version: 3.9
       - uses: actions/setup-go@v2
         with:
           go-version: '1.15'
-      - name: Store installed Python version
-        run: |
-          echo "PY_VERSION="\
-          "$(python -c "import platform;print(platform.python_version())")" \
-          >> $GITHUB_ENV
       - name: Store installed Go version
         run: |
           echo "GO_VERSION="\
@@ -52,7 +48,7 @@ jobs:
             ${{ env.CURL_CACHE_DIR }}
             ${{ env.GOCACHE_DIR }}
           key: "lint-${{ runner.os }}-\
-            py${{ env.PY_VERSION }}-\
+            py${{ steps.setup-python.outputs.python-version }}-\
             go${{ env.GO_VERSION }}-\
             tf${{ env.TERRAFORM_VERSION }}-\
             ${{ hashFiles('**/requirements-test.txt') }}-\
@@ -60,7 +56,7 @@ jobs:
             ${{ hashFiles('**/.pre-commit-config.yaml') }}"
           restore-keys: |
             lint-${{ runner.os }}-\
-            py${{ env.PY_VERSION }}-\
+            py${{ steps.setup-python.outputs.python-version }}-
             go${{ env.GO_VERSION }}-\
             tf${{ env.TERRAFORM_VERSION }}-
             lint-${{ runner.os }}-
@@ -92,44 +88,27 @@ jobs:
           pip install --upgrade --requirement requirements-test.txt
       - name: Set up pre-commit hook environments
         run: pre-commit install-hooks
-      - name: Create modified GitHub Actions pre-commit configuration
-        run: |
-          sed '/terraform_validate/d' < .pre-commit-config.yaml \
-          > /tmp/.github-actions-pre-commit-config.yaml
-      - name: Run pre-commit with modified configuration file on all files
-        # We run pre-commit here with a custom configuration that has
-        # the terraform-validate hook removed.  This is because
-        # terraform validate cannot currently run without accessing
-        # the remote state because of the way the providers are
-        # defined in terraform/providers.tf.  This is something that
-        # may be remedied in the future.  For more information, check
-        # out these two GitHub issues:
-        # * https://github.com/hashicorp/terraform/issues/15895
-        # * https://github.com/hashicorp/terraform/issues/15811
-        run: |
-          pre-commit run --all-files \
-          --config=/tmp/.github-actions-pre-commit-config.yaml
+      - name: Run pre-commit on all files
+        run: pre-commit run --all-files
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - id: setup-python
+        uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Store installed Python version
-        run: |
-          echo "PY_VERSION="\
-          "$(python -c "import platform;print(platform.python_version())")" \
-          >> $GITHUB_ENV
       - name: Cache testing environments
         uses: actions/cache@v2
         with:
           path: ${{ env.PIP_CACHE_DIR }}
-          key: "test-${{ runner.os }}-py${{ env.PY_VERSION }}-\
-            ${{ hashFiles('**/requirements-test.txt') }}-\
-            ${{ hashFiles('**/requirements.txt') }}"
+          key: "test-${{ runner.os }}-\
+          py${{ steps.setup-python.outputs.python-version }}-\
+          ${{ hashFiles('**/requirements-test.txt') }}-\
+          ${{ hashFiles('**/requirements.txt') }}"
           restore-keys: |
-            test-${{ runner.os }}-py${{ env.PY_VERSION }}-
+            test-${{ runner.os }}-\
+            py${{ steps.setup-python.outputs.python-version }}-
             test-${{ runner.os }}-
       - name: Install dependencies
         run: |
