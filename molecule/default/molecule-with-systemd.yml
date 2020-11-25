@@ -90,7 +90,7 @@ provisioner:
       force_valid_group_names: always
   inventory:
     host_vars:
-      debian9:
+      debian9_systemd:
         # auto_legacy is still the default behavior until Ansible 2.12
         # is released, but Molecule overrides this and forces the use
         # of auto.
