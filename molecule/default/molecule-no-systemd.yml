@@ -1,4 +1,11 @@
 ---
+# This molecule configuration file is suitable for testing Ansible
+# roles that _do not_ require SystemD.  If your Ansible role _does_
+# require SystemD then you should use molecule-with-systemd.yml
+# instead.
+#
+# Note that the molecule configuration file that is symlinked to
+# molecule.yml is the one that will be used.
 dependency:
   name: galaxy
 driver:
