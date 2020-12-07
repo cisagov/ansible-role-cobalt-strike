@@ -1,0 +1,81 @@
+---
+# This molecule configuration file is suitable for testing Ansible
+# roles that _do not_ require SystemD.  If your Ansible role _does_
+# require SystemD then you should use molecule-with-systemd.yml
+# instead.
+#
+# Note that the molecule configuration file that is symlinked to
+# molecule.yml is the one that will be used.
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8
+platforms:
+  - name: amazonlinux2
+    image: amazonlinux:2
+  - name: debian9
+    image: debian:stretch-slim
+    dockerfile: Dockerfile_debian_9.j2
+  - name: debian10
+    image: debian:buster-slim
+  - name: debian11
+    image: debian:bullseye-slim
+  - name: kali
+    image: kalilinux/kali-rolling
+  - name: fedora32
+    image: fedora:32
+  - name: fedora33
+    image: fedora:33
+  - name: ubuntu16
+    image: ubuntu:xenial
+  - name: ubuntu18
+    image: ubuntu:bionic
+  - name: ubuntu20
+    image: ubuntu:focal
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      # The OS family and distribution for Kali is "Kali GNU/Linux",
+      # which is not an allowable group name in Ansible due to the
+      # space and the slash.  This option converts those characters to
+      # underscores when creating the group name.
+      force_valid_group_names: always
+  inventory:
+    host_vars:
+      debian9:
+        # auto_legacy is still the default behavior until Ansible 2.12
+        # is released, but Molecule overrides this and forces the use
+        # of auto.
+        #
+        # In auto_legacy mode Ansible will prefer the /usr/bin/python
+        # interpreter if it exists, while in auto mode it will prefer
+        # the Python interpreter specified in an internal map.  In
+        # most cases we only have Python3 installed, and the internal
+        # map specifies /usr/bin/python3, so it is immaterial whether
+        # we use auto_legacy or auto.
+        #
+        # The one place where it _does_ matter is our Debian9 AKA CyHy
+        # instances.  Here the /usr/bin/python _and_ /usr/bin/python3
+        # interpreters are both installed.  In Ansible 2.10 a Debian
+        # entry was added to the internal map, so now auto_legacy
+        # selects the /usr/bin/python interpreter while auto selects
+        # the /usr/bin/python3 interpreter.  We want to maintain the
+        # auto_legacy behavior in this case since CyHy is still
+        # Python2.
+        #
+        # See:
+        # * https://github.com/ansible-community/molecule/blob/3.0.8/molecule/provisioner/ansible.py#L389
+        # * https://docs.ansible.com/ansible/latest/reference_appendices/interpreter_discovery.html#interpreter-discovery
+        # * https://github.com/ansible/ansible/blob/v2.10.1/lib/ansible/config/base.yml#L1492-L1542
+        # * https://github.com/ansible/ansible/blob/v2.10.1/lib/ansible/executor/interpreter_discovery.py
+        ansible_python_interpreter: auto_legacy
+scenario:
+  name: default
+verifier:
+  name: testinfra
