@@ -10,5 +10,5 @@ boto3
 flake8
 molecule[docker]
 pre-commit
-testinfra
+pytest-testinfra
 yamllint
