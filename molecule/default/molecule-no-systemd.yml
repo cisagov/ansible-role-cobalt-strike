@@ -39,13 +39,6 @@ platforms:
     image: ubuntu:focal
 provisioner:
   name: ansible
-  config_options:
-    defaults:
-      # The OS family and distribution for Kali is "Kali GNU/Linux",
-      # which is not an allowable group name in Ansible due to the
-      # space and the slash.  This option converts those characters to
-      # underscores when creating the group name.
-      force_valid_group_names: always
   inventory:
     host_vars:
       debian9:
