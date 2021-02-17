@@ -31,8 +31,6 @@ platforms:
     image: fedora:32
   - name: fedora33
     image: fedora:33
-  - name: ubuntu16
-    image: ubuntu:xenial
   - name: ubuntu18
     image: ubuntu:bionic
   - name: ubuntu20
