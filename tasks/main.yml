@@ -1,8 +1,6 @@
 ---
-# tasks file for cobalt_strike
-
 - name: Load var file with package names based on the OS type
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -14,14 +12,14 @@
 
 # Check if Cobalt Strike is already installed in the expected place
 - name: Check if Cobalt Strike is already installed
-  stat:
+  ansible.builtin.stat:
     path: /opt/cobaltstrike
   register: cobaltstrike_directory
 
 - name: Install and license Cobalt Strike
   block:
     - name: Grab Cobalt Strike tarball and license from S3
-      aws_s3:
+      amazon.aws.aws_s3:
         bucket: "{{ bucket_name }}"
         object: "{{ item }}"
         dest: "/tmp/{{ item }}"
@@ -33,19 +31,19 @@
         - "{{ license_object_name }}"
 
     - name: Copy the Cobalt Strike tarball
-      copy:
+      ansible.builtin.copy:
         src: /tmp/{{ tarball_object_name }}
         dest: /tmp/{{ tarball_object_name }}
         mode: 0644
 
     - name: Copy the Cobalt Strike license
-      copy:
+      ansible.builtin.copy:
         src: /tmp/{{ license_object_name }}
         dest: /root/.cobaltstrike.license
         mode: 0400
 
     - name: Delete local copies of Cobalt Strike tarball and license
-      file:
+      ansible.builtin.file:
         path: "/tmp/{{ item }}"
         state: absent
       become: no
@@ -55,13 +53,13 @@
         - "{{ license_object_name }}"
 
     - name: Extract the Cobalt Strike tarball
-      unarchive:
+      ansible.builtin.unarchive:
         src: /tmp/{{ tarball_object_name }}
         dest: /opt
         remote_src: yes
 
     - name: Delete remote copy of Cobalt Strike tarball
-      file:
+      ansible.builtin.file:
         path: /tmp/{{ tarball_object_name }}
         state: absent
 
@@ -71,10 +69,10 @@
     # The expect Ansible module requires pexpect.
     #
     - name: Install pexpect
-      package:
+      ansible.builtin.package:
         name: "{{ pexpect_package_names }}"
     - name: Upgrade Cobalt Strike
-      expect:
+      ansible.builtin.expect:
         chdir: /opt/cobaltstrike
         command: sh ./update
         timeout: 300
