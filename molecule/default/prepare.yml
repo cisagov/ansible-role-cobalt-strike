@@ -1,9 +1,9 @@
 ---
 - name: Import upgrade playbook
-  import_playbook: upgrade.yml
+  ansible.builtin.import_playbook: upgrade.yml
 
 - name: Import python playbook
-  import_playbook: python.yml
+  ansible.builtin.import_playbook: python.yml
 
 # boto3 is installed anywhere we would be applying this Ansible role
 # and this role also requires a Java installation
@@ -14,6 +14,6 @@
     - pip
   tasks:
     - name: Install boto3
-      pip:
+      ansible.builtin.pip:
         name:
           - boto3
