@@ -9,7 +9,7 @@ ansible>=2.10,<3
 # documented in https://github.com/cisagov/skeleton-ansible-role/issues/69
 # We can unpin once everything with the v5 update has shaken out and we have a
 # clear path forward.
-ansible-lint<5
+ansible-lint<6
 boto3
 flake8
 molecule[docker]
