@@ -63,6 +63,9 @@
         path: /tmp/{{ tarball_object_name }}
         state: absent
 
+    # TODO: Uncomment these two tasks when that becomes possible.  See
+    # #31 for more details:
+    # https://github.com/cisagov/ansible-role-cobalt-strike/issues/31
     #
     # Upgrade Cobalt Strike
     #
