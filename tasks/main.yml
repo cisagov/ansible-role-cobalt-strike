@@ -68,16 +68,16 @@
     #
     # The expect Ansible module requires pexpect.
     #
-    - name: Install pexpect
-      ansible.builtin.package:
-        name: "{{ pexpect_package_names }}"
-    - name: Upgrade Cobalt Strike
-      ansible.builtin.expect:
-        chdir: /opt/cobaltstrike
-        command: sh ./update
-        timeout: 300
-        responses:
-          continue: "yes"
-      async: 300
-      poll: 30
+    # - name: Install pexpect
+    #   ansible.builtin.package:
+    #     name: "{{ pexpect_package_names }}"
+    # - name: Upgrade Cobalt Strike
+    #   ansible.builtin.expect:
+    #     chdir: /opt/cobaltstrike
+    #     command: sh ./update
+    #     timeout: 300
+    #     responses:
+    #       continue: "yes"
+    #   async: 300
+    #   poll: 30
   when: not cobaltstrike_directory.stat.exists
