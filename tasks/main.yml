@@ -63,24 +63,21 @@
         path: /tmp/{{ tarball_object_name }}
         state: absent
 
-    # TODO: Uncomment these two tasks when that becomes possible.  See
-    # #31 for more details:
-    # https://github.com/cisagov/ansible-role-cobalt-strike/issues/31
     #
     # Upgrade Cobalt Strike
     #
     # The expect Ansible module requires pexpect.
     #
-    # - name: Install pexpect
-    #   ansible.builtin.package:
-    #     name: "{{ pexpect_package_names }}"
-    # - name: Upgrade Cobalt Strike
-    #   ansible.builtin.expect:
-    #     chdir: /opt/cobaltstrike
-    #     command: sh ./update
-    #     timeout: 300
-    #     responses:
-    #       continue: "yes"
-    #   async: 300
-    #   poll: 30
+    - name: Install pexpect
+      ansible.builtin.package:
+        name: "{{ pexpect_package_names }}"
+    - name: Upgrade Cobalt Strike
+      ansible.builtin.expect:
+        chdir: /opt/cobaltstrike
+        command: sh ./update
+        timeout: 300
+        responses:
+          continue: "yes"
+      async: 300
+      poll: 30
   when: not cobaltstrike_directory.stat.exists
