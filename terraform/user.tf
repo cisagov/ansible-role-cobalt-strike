@@ -12,6 +12,4 @@ module "user" {
 
   entity         = "skeleton-ansible-role-with-test-user"
   ssm_parameters = ["/github/personal_authorization_token"]
-
-  tags = var.tags
 }
