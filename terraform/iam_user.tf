@@ -3,7 +3,6 @@ resource "aws_iam_user" "user" {
   provider = aws.users
 
   name = "test-ansible-role-cobalt-strike"
-  tags = var.tags
 }
 resource "aws_iam_access_key" "key" {
   provider = aws.users
