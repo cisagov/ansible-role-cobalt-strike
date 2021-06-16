@@ -3,7 +3,7 @@
 # used to assume the roles required to access remote state in the
 # Terraform backend.
 provider "aws" {
-  default_tags = {
+  default_tags {
     tags = var.tags
   }
   region = var.aws_region
@@ -17,7 +17,7 @@ provider "aws" {
     role_arn     = data.terraform_remote_state.images_staging.outputs.provisionaccount_role.arn
     session_name = local.caller_user_name
   }
-  default_tags = {
+  default_tags {
     tags = var.tags
   }
   region = var.aws_region
@@ -31,7 +31,7 @@ provider "aws" {
     role_arn     = data.terraform_remote_state.images_production.outputs.provisionaccount_role.arn
     session_name = local.caller_user_name
   }
-  default_tags = {
+  default_tags {
     tags = var.tags
   }
   region = var.aws_region
@@ -45,7 +45,7 @@ provider "aws" {
     role_arn     = data.terraform_remote_state.images_staging_ssm.outputs.provisionparameterstorereadroles_role.arn
     session_name = local.caller_user_name
   }
-  default_tags = {
+  default_tags {
     tags = var.tags
   }
   region = var.aws_region
@@ -59,7 +59,7 @@ provider "aws" {
     role_arn     = data.terraform_remote_state.images_production_ssm.outputs.provisionparameterstorereadroles_role.arn
     session_name = local.caller_user_name
   }
-  default_tags = {
+  default_tags {
     tags = var.tags
   }
   region = var.aws_region
@@ -72,7 +72,7 @@ provider "aws" {
     role_arn     = data.terraform_remote_state.users.outputs.provisionaccount_role.arn
     session_name = local.caller_user_name
   }
-  default_tags = {
+  default_tags {
     tags = var.tags
   }
   region = var.aws_region
