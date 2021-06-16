@@ -32,6 +32,37 @@ provider "aws" {
     session_name = local.caller_user_name
   }
   default_tags {
+<<<<<<< HEAD
+=======
+    tags = var.tags
+  }
+  region = var.aws_region
+}
+
+# The provider used to create policies and roles that can read
+# parameters from AWS SSM Parameter Store in staging.
+provider "aws" {
+  alias = "images_staging_ssm"
+  assume_role {
+    role_arn     = data.terraform_remote_state.images_staging_ssm.outputs.provisionparameterstorereadroles_role.arn
+    session_name = local.caller_user_name
+  }
+  default_tags {
+    tags = var.tags
+  }
+  region = var.aws_region
+}
+
+# The provider used to create policies and roles that can read
+# parameters from AWS SSM Parameter Store in production.
+provider "aws" {
+  alias = "images_production_ssm"
+  assume_role {
+    role_arn     = data.terraform_remote_state.images_production_ssm.outputs.provisionparameterstorereadroles_role.arn
+    session_name = local.caller_user_name
+  }
+  default_tags {
+>>>>>>> c9db812562af6ceb3c61bdc01c5a8efaa52f59b3
     tags = var.tags
   }
   region = var.aws_region
