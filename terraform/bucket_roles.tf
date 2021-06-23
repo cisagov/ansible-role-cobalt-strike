@@ -1,5 +1,15 @@
 # Create the roles that allow read-only access to the particular S3
 # objects that are required by this Ansible role
+#
+# Note that only the production role gets the additional role tags.
+# This is because the additional tags being applied mark the role as
+# being _the_ role to assume by this repo's AWS test user before
+# running molecule test. We create both a production and a staging
+# policy because any Packer repos that use this Ansible role will
+# attach the production or staging policy to the corresponding
+# production or staging Packer role; the production or staging Packer
+# role is assumed by the AWS Packer build user depending on whether a
+# production or staging AMI is being used, respectively.
 module "production_bucket_access" {
   source = "github.com/cisagov/s3-read-role-tf-module"
   providers = {
