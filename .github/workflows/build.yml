@@ -111,6 +111,11 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         if: env.RUN_TMATE
   test:
+    strategy:
+      fail-fast: false
+      matrix:
+        scenario:
+          - default
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -134,7 +139,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade --requirement requirements-test.txt
       - name: Run molecule tests
-        run: molecule test
+        run: molecule test --scenario-name ${{ matrix.scenario }}
       - name: Setup tmate debug session
         uses: mxschmitt/action-tmate@v3
         if: env.RUN_TMATE
