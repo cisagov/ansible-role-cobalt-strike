@@ -19,7 +19,7 @@ local machine.
 Before the build user can be created, the following profile must exist in
 your AWS credentials file:
 
-* `cool-terraform-backend`
+- `cool-terraform-backend`
 
 The easiest way to set up that profile is to use our
 [`aws-profile-sync`](https://github.com/cisagov/aws-profile-sync)
