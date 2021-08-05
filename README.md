@@ -59,12 +59,12 @@ Requires that a Java implementation be installed.
 
 ## Role Variables ##
 
-* `bucket-name` - The name of the AWS S3 bucket where the Cobalt
+- `bucket-name` - The name of the AWS S3 bucket where the Cobalt
   Strike tarball and license files are stored.  Defaults to
   `cisa-cool-third-party-production`.
-* `tarball_object_name` - The name of the AWS S3 object that is the
+- `tarball_object_name` - The name of the AWS S3 object that is the
   Cobalt Strike tarball.  Defaults to `cobaltstrike.tgz`.
-* `license_object_name` - The name of the AWS S3 object that is the
+- `license_object_name` - The name of the AWS S3 object that is the
   Cobalt Strike license.  Defaults to `cobaltstrike.license`.
 
 ## Dependencies ##
