@@ -64,6 +64,13 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
+  - name: fedora34_systemd
+    image: geerlingguy/docker-fedora34-ansible:latest
+    privileged: yes
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /lib/systemd/systemd
+    pre_build_image: yes
   - name: ubuntu_18_systemd
     image: geerlingguy/docker-ubuntu1804-ansible:latest
     privileged: yes
