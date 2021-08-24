@@ -28,6 +28,7 @@ galaxy_info:
       versions:
         - 32
         - 33
+        - 34
     - name: Ubuntu
       versions:
         - bionic

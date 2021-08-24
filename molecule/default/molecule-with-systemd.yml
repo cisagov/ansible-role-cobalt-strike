@@ -37,7 +37,7 @@ platforms:
     command: /lib/systemd/systemd
     pre_build_image: yes
   - name: debian11_systemd
-    image: cisagov/docker-debian11-ansible:latest
+    image: geerlingguy/docker-debian11-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -59,6 +59,13 @@ platforms:
     pre_build_image: yes
   - name: fedora33_systemd
     image: geerlingguy/docker-fedora33-ansible:latest
+    privileged: yes
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /lib/systemd/systemd
+    pre_build_image: yes
+  - name: fedora34_systemd
+    image: geerlingguy/docker-fedora34-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
