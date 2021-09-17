@@ -12,6 +12,7 @@ galaxy_info:
   # Kali Linux, so it makes sense to force the installation of Ansible
   # 2.10 or newer.
   min_ansible_version: 2.10
+  namespace: cisagov
   platforms:
     - name: Debian
       versions:
