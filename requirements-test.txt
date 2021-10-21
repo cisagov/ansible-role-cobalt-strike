@@ -5,11 +5,7 @@
 # Kali Linux, so it makes sense to force the installation of Ansible
 # 2.10 or newer.
 ansible>=2.10,<5
-# ansible-lint has a number of breaking changes with the update to v5 as we have
-# documented in https://github.com/cisagov/skeleton-ansible-role/issues/69
-# We can unpin once everything with the v5 update has shaken out and we have a
-# clear path forward.
-ansible-lint<5
+ansible-lint>=5,<6
 flake8
 molecule[docker]
 pre-commit
