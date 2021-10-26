@@ -1,5 +1,7 @@
 ---
 - name: Converge
   hosts: all
-  roles:
-    - role: skeleton-ansible-role-with-test-user
+  tasks:
+    - name: Include skeleton-ansible-role-with-test-user
+      ansible.builtin.include_role:
+        name: skeleton-ansible-role-with-test-user
