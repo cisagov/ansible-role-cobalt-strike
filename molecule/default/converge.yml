@@ -1,5 +1,7 @@
 ---
 - name: Converge
   hosts: all
-  roles:
-    - role: ansible-role-cobalt-strike
+  tasks:
+    - name: Include ansible-role-cobalt-strike
+      ansible.builtin.include_role:
+        name: ansible-role-cobalt-strike
