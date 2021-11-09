@@ -18,49 +18,83 @@
 
 - name: Install and license Cobalt Strike
   block:
-    - name: Grab Cobalt Strike tarball and license from S3
+    - name: Grab Cobalt Strike license from S3
       amazon.aws.aws_s3:
         bucket: "{{ bucket_name }}"
-        object: "{{ item }}"
-        dest: "/tmp/{{ item }}"
+        object: "{{ license_object_name }}"
+        dest: "/tmp/cobaltstrike.license"
         mode: get
       become: no
       delegate_to: localhost
-      loop:
-        - "{{ tarball_object_name }}"
-        - "{{ license_object_name }}"
 
-    - name: Copy the Cobalt Strike tarball
-      ansible.builtin.copy:
-        src: /tmp/{{ tarball_object_name }}
-        dest: /tmp/{{ tarball_object_name }}
-        mode: 0644
+    - name: Install curl
+      ansible.builtin.package:
+        name:
+          - curl
+
+    # I'd prefer to use ansible.builtin.uri here, but the following
+    # code doesn't work with the Cobalt Strike site:
+    # - name: Get download token from Cobalt Strike website
+    #   ansible.builtin.uri:
+    #     body: dlkey={{ cobaltstrike_license }}
+    #     body_format: "form-urlencoded"
+    #     dest: /tmp/html.html
+    #     method: POST
+    #     return_content: yes
+    #     url: https://www.cobaltstrike.com/download
+    #   become: no
+    #   delegate_to: localhost
+    #   register: download_token
+    #   vars:
+    #     cobaltstrike_license: >-
+    #       "{{ lookup('file', '/tmp/cobaltstrike.license') | trim }}"
+    #
+    # This is the reason for the skip_ansible_lint tag below.
+    - name: Get download token from Cobalt Strike website
+      ansible.builtin.command: >-
+        curl https://www.cobaltstrike.com/download
+        --data "dlkey={{ cobaltstrike_license }}" --output /tmp/token.html
+      become: no
+      delegate_to: localhost
+      tags:
+        - skip_ansible_lint
+      vars:
+        cobaltstrike_license: >-
+          "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
+
+    - name: Extract the download token and download the Cobalt Strike tarball
+      ansible.builtin.get_url:
+        url: "https://www.cobaltstrike.com/downloads/{{ lookup('file', '/tmp/token.html') | regex_search('href=\"/downloads/([0-9a-f]+)/cobaltstrike-dist.zip\"', '\\1') | first }}/cobaltstrike-dist.tgz"
+        dest: /tmp
 
     - name: Copy the Cobalt Strike license
       ansible.builtin.copy:
-        src: /tmp/{{ license_object_name }}
+        src: /tmp/cobaltstrike.license
         dest: /root/.cobaltstrike.license
         mode: 0400
 
-    - name: Delete local copies of Cobalt Strike tarball and license
+    - name: >
+        Delete local copies of Cobalt Strike tarball and license, as well as
+        the download token
       ansible.builtin.file:
         path: "/tmp/{{ item }}"
         state: absent
       become: no
       delegate_to: localhost
       loop:
-        - "{{ tarball_object_name }}"
-        - "{{ license_object_name }}"
+        - cobaltstrike-dist.tgz
+        - cobaltstrike.license
+        - token.html
 
     - name: Extract the Cobalt Strike tarball
       ansible.builtin.unarchive:
-        src: /tmp/{{ tarball_object_name }}
+        src: /tmp/cobaltstrike-dist.tgz
         dest: /opt
         remote_src: yes
 
     - name: Delete remote copy of Cobalt Strike tarball
       ansible.builtin.file:
-        path: /tmp/{{ tarball_object_name }}
+        path: /tmp/cobaltstrike-dist.tgz
         state: absent
 
     #
