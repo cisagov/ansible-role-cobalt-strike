@@ -42,8 +42,6 @@
     #     method: POST
     #     return_content: yes
     #     url: https://www.cobaltstrike.com/download
-    #     # grep --fixed-strings 'href="/downloads/' |
-    #     # cut --delimiter='/' --fields=3
     #   become: no
     #   delegate_to: localhost
     #   register: download_token
