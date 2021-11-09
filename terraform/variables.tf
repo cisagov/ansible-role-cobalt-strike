@@ -32,7 +32,7 @@ variable "staging_bucket_name" {
 
 variable "staging_objects" {
   type        = list(string)
-  description = "The Cobalt Strike tarball and license object(s) inside the staging bucket."
+  description = "The Cobalt Strike license object(s) inside the staging bucket."
   default = [
     "cobaltstrike.license"
   ]
