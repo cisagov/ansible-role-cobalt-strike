@@ -18,10 +18,8 @@ variable "production_bucket_name" {
 
 variable "production_objects" {
   type        = list(string)
-  description = "The Cobalt Strike tarball and license objects inside the production bucket."
+  description = "The Cobalt Strike license object(s) inside the production bucket."
   default = [
-    "cobaltstrike_3.tgz",
-    "cobaltstrike_4.tgz",
     "cobaltstrike.license"
   ]
 }
@@ -34,10 +32,8 @@ variable "staging_bucket_name" {
 
 variable "staging_objects" {
   type        = list(string)
-  description = "The Cobalt Strike tarball and license objects inside the staging bucket."
+  description = "The Cobalt Strike tarball and license object(s) inside the staging bucket."
   default = [
-    "cobaltstrike_3.tgz",
-    "cobaltstrike_4.tgz",
     "cobaltstrike.license"
   ]
 }
