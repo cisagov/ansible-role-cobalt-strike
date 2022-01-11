@@ -21,10 +21,11 @@ galaxy_info:
       versions:
         - stretch
         - buster
+        - bullseye
         # Kali linux isn't an option here, but it is based on
         # Debian Testing:
         # https://www.kali.org/docs/policy/kali-linux-relationship-with-debian
-        - bullseye
+        - bookworm
     - name: Fedora
       versions:
         - 32

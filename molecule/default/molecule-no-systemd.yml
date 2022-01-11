@@ -25,6 +25,8 @@ platforms:
     image: debian:buster-slim
   - name: debian11
     image: debian:bullseye-slim
+  - name: debian12
+    image: debian:bookworm-slim
   - name: kali
     image: kalilinux/kali-rolling
   - name: fedora32
