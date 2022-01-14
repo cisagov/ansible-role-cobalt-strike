@@ -15,70 +15,77 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - name: amazonlinux2_systemd
+  - name: amazonlinux2-systemd
     image: geerlingguy/docker-amazonlinux2-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
-  - name: debian9_systemd
+  - name: debian9-systemd
     image: geerlingguy/docker-debian9-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
-  - name: debian10_systemd
+  - name: debian10-systemd
     image: geerlingguy/docker-debian10-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
-  - name: debian11_systemd
+  - name: debian11-systemd
     image: geerlingguy/docker-debian11-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
-  - name: kali_systemd
+  - name: debian12-systemd
+    image: cisagov/docker-debian12-ansible:latest
+    privileged: yes
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /lib/systemd/systemd
+    pre_build_image: yes
+  - name: kali-systemd
     image: cisagov/docker-kali-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
-  - name: fedora32_systemd
+  - name: fedora32-systemd
     image: geerlingguy/docker-fedora32-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
-  - name: fedora33_systemd
+  - name: fedora33-systemd
     image: geerlingguy/docker-fedora33-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
-  - name: fedora34_systemd
+  - name: fedora34-systemd
     image: geerlingguy/docker-fedora34-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
-  - name: ubuntu_18_systemd
+  - name: ubuntu-18-systemd
     image: geerlingguy/docker-ubuntu1804-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
-  - name: ubuntu_20_systemd
+  - name: ubuntu-20-systemd
     image: geerlingguy/docker-ubuntu2004-ansible:latest
     privileged: yes
     volumes:
