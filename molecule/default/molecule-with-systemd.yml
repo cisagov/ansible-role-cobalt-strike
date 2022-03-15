@@ -89,7 +89,7 @@ provisioner:
   name: ansible
   inventory:
     host_vars:
-      debian9_systemd:
+      debian9-systemd:
         # auto_legacy is still the default behavior until Ansible 2.12
         # is released, but Molecule overrides this and forces the use
         # of auto.
