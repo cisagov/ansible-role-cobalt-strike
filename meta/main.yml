@@ -28,9 +28,8 @@ galaxy_info:
         - bookworm
     - name: Fedora
       versions:
-        - 32
-        - 33
         - 34
+        - 35
     - name: Ubuntu
       versions:
         - bionic
