@@ -16,9 +16,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    # ignore:
-    #   - dependency-name: "ansible"
-    #   - dependency-name: "ansible-lint"
+    ignore:
+      - dependency-name: "ansible"
+      - dependency-name: "ansible-lint"
 
   - package-ecosystem: "terraform"
     directory: "/terraform"
