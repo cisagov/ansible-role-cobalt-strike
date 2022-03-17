@@ -57,22 +57,15 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /lib/systemd/systemd
     pre_build_image: yes
-  - name: fedora32-systemd
-    image: geerlingguy/docker-fedora32-ansible:latest
-    privileged: yes
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    command: /lib/systemd/systemd
-    pre_build_image: yes
-  - name: fedora33-systemd
-    image: geerlingguy/docker-fedora33-ansible:latest
-    privileged: yes
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    command: /lib/systemd/systemd
-    pre_build_image: yes
   - name: fedora34-systemd
     image: geerlingguy/docker-fedora34-ansible:latest
+    privileged: yes
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /lib/systemd/systemd
+    pre_build_image: yes
+  - name: fedora35-systemd
+    image: geerlingguy/docker-fedora35-ansible:latest
     privileged: yes
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
@@ -96,7 +89,7 @@ provisioner:
   name: ansible
   inventory:
     host_vars:
-      debian9_systemd:
+      debian9-systemd:
         # auto_legacy is still the default behavior until Ansible 2.12
         # is released, but Molecule overrides this and forces the use
         # of auto.
