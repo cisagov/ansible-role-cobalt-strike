@@ -35,6 +35,8 @@ platforms:
     image: ubuntu:bionic
   - name: ubuntu20
     image: ubuntu:focal
+  - name: ubuntu22
+    image: ubuntu:jammy
 provisioner:
   name: ansible
   inventory:
