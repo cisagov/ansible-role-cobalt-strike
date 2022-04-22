@@ -14,7 +14,11 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 @pytest.mark.parametrize(
     "f",
-    ["/root/.cobaltstrike.license", "/opt/cobaltstrike", "/opt/cobaltstrike/update"],
+    [
+        "/opt/cobaltstrike/cobaltstrike.auth",
+        "/opt/cobaltstrike",
+        "/opt/cobaltstrike/update",
+    ],
 )
 def test_files(host, f):
     """Test that the expected files and directories are present."""

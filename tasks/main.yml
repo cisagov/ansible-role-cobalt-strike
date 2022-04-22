@@ -11,10 +11,10 @@
         - "{{ role_path }}/vars"
 
 # Check if Cobalt Strike is already installed in the expected place
-- name: Check if Cobalt Strike is already installed
+- name: Check if Cobalt Strike is already installed and licensed
   ansible.builtin.stat:
-    path: /opt/cobaltstrike
-  register: cobaltstrike_directory
+    path: /opt/cobaltstrike/cobaltstrike.auth
+  register: cobaltstrike_auth
 
 - name: Install and license Cobalt Strike
   block:
@@ -47,7 +47,7 @@
     #   register: download_token
     #   vars:
     #     cobaltstrike_license: >-
-    #       "{{ lookup('file', '/tmp/cobaltstrike.license') | trim }}"
+    #       "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
     #
     # This is the reason for the skip_ansible_lint tag below.
     - name: Get download token from Cobalt Strike website
@@ -67,25 +67,6 @@
         url: "https://download.cobaltstrike.com/downloads/{{ lookup('file', '/tmp/token.html') | regex_search('href=\"/downloads/(.+)/cobaltstrike-dist.zip\"', '\\1') | first }}/cobaltstrike-dist.tgz"
         dest: /tmp
 
-    - name: Copy the Cobalt Strike license
-      ansible.builtin.copy:
-        src: /tmp/cobaltstrike.license
-        dest: /root/.cobaltstrike.license
-        mode: 0400
-
-    - name: >
-        Delete local copies of Cobalt Strike tarball and license, as well as
-        the download token
-      ansible.builtin.file:
-        path: "/tmp/{{ item }}"
-        state: absent
-      become: no
-      delegate_to: localhost
-      loop:
-        - cobaltstrike-dist.tgz
-        - cobaltstrike.license
-        - token.html
-
     - name: Extract the Cobalt Strike tarball
       ansible.builtin.unarchive:
         src: /tmp/cobaltstrike-dist.tgz
@@ -100,18 +81,97 @@
     #
     # Upgrade Cobalt Strike
     #
-    # The expect Ansible module requires pexpect.
-    #
-    - name: Install pexpect
+    - name: Install expect
       ansible.builtin.package:
-        name: "{{ pexpect_package_names }}"
-    - name: Upgrade Cobalt Strike
-      ansible.builtin.expect:
+        name:
+          - expect
+    - name: Upgrade and license Cobalt Strike
+      ansible.builtin.shell: |
+        # $ ./update
+        # [+] Cobalt Strike Update (20220412)
+        # [*] Please enter your license key:
+        # <license key>
+        # [*] Checking for latest version
+        # [*] Downloading the latest version of Cobalt Strike
+        # Downloaded 6.5mb
+        # Downloaded 10.5mb
+        # <snip>
+        # Downloaded 66.5mb
+        # Read 67.9mb
+        # [+] Download complete. Unpacking Cobalt Strike program data.
+        # [+] Unpacked Cobalt Strike program data. Now verifying the download
+        # [*] Download latest hashes
+        # [+] Verified Cobalt Strike 4.6.0 Licensed (cobaltstrike.jar)
+        # SHA-256: 939aa731685ac5c2632e4790daf034110ae4aa7237a6db72c7bba219bd450727
+        # [*] Updating cobaltstrike.jar
+        # [+] SUCCESS! Updated cobaltstrike.jar
+        # [*] Download releasenotes.txt
+        # [+] Downloaded and updated releasenotes.txt. Be sure to read this file!
+        # [*] Refresh cobaltstrike.auth
+        # [+] Refreshed your Cobalt Strike authorization file!
+        # [+] Done!
+        #
+        # OR
+        #
+        # [+] Cobalt Strike Update (20220412)
+        # [*] Please enter your license key:
+        # <license key>
+        # [*] Checking for latest version
+        # [+] Your installation of Cobalt Strike is up to date!
+        # [*] Refresh cobaltstrike.auth
+        # [+] Refreshed your Cobalt Strike authorization file!
+        # [+] Done!
+
+        log_file "expect.txt"
+        # Increase timeout from 10 to 600 seconds
+        set timeout 300
+        spawn ./update
+
+        expect {
+          -re "Please enter your license key:" {
+            send [format "%s\n" {{ cobaltstrike_license }}]
+          } default {
+            exit 1
+          }
+        }
+
+        # Bail out if we encounter these error conditions
+        expect {
+          -re "(Failed to download hashes|Your license key is invalid)" {
+            exit 1
+          }
+        }
+
+        expect {
+          -re "Done" {
+            exit 0
+          } default {
+            exit 1
+          }
+        }
+      args:
         chdir: /opt/cobaltstrike
-        command: sh ./update
-        timeout: 300
-        responses:
-          continue: "yes"
-      async: 300
-      poll: 30
-  when: not cobaltstrike_directory.stat.exists
+        creates: /opt/cobaltstrike/cobaltstrike.auth
+        executable: /usr/bin/expect
+      failed_when: expect.rc != 0
+      # The CS license key is sensitive
+      no_log: true
+      register: expect
+      vars:
+        cobaltstrike_license: >-
+          "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
+
+    - name: >
+        Delete local copies of Cobalt Strike tarball and license, as well as
+        the download token
+      ansible.builtin.file:
+        path: "/tmp/{{ item }}"
+        state: absent
+      become: no
+      delegate_to: localhost
+      loop:
+        - cobaltstrike-dist.tgz
+        - cobaltstrike.license
+        - token.html
+
+  when: not cobaltstrike_auth.stat.exists
