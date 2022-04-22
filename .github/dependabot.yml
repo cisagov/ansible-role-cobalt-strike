@@ -28,5 +28,5 @@ updates:
     directory: "/terraform"
     schedule:
       interval: "weekly"
-    # ignore:
-    #   - dependency-name: "hashicorp/aws"
+    ignore:
+      - dependency-name: "hashicorp/aws"
