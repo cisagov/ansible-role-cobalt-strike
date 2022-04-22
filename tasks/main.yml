@@ -64,7 +64,7 @@
 
     - name: Extract the download token and download the Cobalt Strike tarball
       ansible.builtin.get_url:
-        url: "https://download.cobaltstrike.com/downloads/{{ lookup('file', '/tmp/token.html') | regex_search('href=\"/downloads/([0-9a-f]+)/cobaltstrike-dist.zip\"', '\\1') | first }}/cobaltstrike-dist.tgz"
+        url: "https://download.cobaltstrike.com/downloads/{{ lookup('file', '/tmp/token.html') | regex_search('href=\"/downloads/(.+)/cobaltstrike-dist.zip\"', '\\1') | first }}/cobaltstrike-dist.tgz"
         dest: /tmp
 
     - name: Copy the Cobalt Strike license
