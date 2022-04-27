@@ -1,15 +1,4 @@
 ---
-- name: Load var file with package names based on the OS type
-  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
-  vars:
-    params:
-      files:
-        - "{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
-        - "{{ ansible_distribution }}.yml"
-        - "{{ ansible_os_family }}.yml"
-      paths:
-        - "{{ role_path }}/vars"
-
 # Check if Cobalt Strike is already installed in the expected place
 - name: Check if Cobalt Strike is already installed and licensed
   ansible.builtin.stat:
