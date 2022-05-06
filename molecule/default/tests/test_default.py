@@ -15,8 +15,8 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 @pytest.mark.parametrize(
     "f",
     [
-        "/opt/cobaltstrike/cobaltstrike.auth",
         "/opt/cobaltstrike",
+        "/opt/cobaltstrike/cobaltstrike.auth",
         "/opt/cobaltstrike/update",
     ],
 )
