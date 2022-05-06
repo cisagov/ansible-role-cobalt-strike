@@ -23,6 +23,10 @@ galaxy_info:
         # Debian Testing:
         # https://www.kali.org/docs/policy/kali-linux-relationship-with-debian
         - bookworm
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
   role_name: cobalt_strike
 
 dependencies: []

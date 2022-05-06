@@ -1,6 +1,0 @@
----
-# vars file for Debian 9
-
-# The packages to install for pexpect
-pexpect_package_names:
-  - python-pexpect
