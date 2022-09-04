@@ -14,9 +14,9 @@ galaxy_info:
   min_ansible_version: "2.10"
   namespace: cisagov
   platforms:
-    - name: Amazon
+    - name: Amazon Linux 2
       versions:
-        - "2"
+        - any
     - name: Debian
       versions:
         - stretch
