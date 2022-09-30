@@ -16,42 +16,42 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - name: amazonlinux2-amd64
-    image: amazonlinux:2
+  - image: amazonlinux:2
+    name: amazonlinux2-amd64
     platform: amd64
-  - name: debian9-amd64
+  - dockerfile: Dockerfile_debian_9.j2
     image: debian:stretch-slim
-    dockerfile: Dockerfile_debian_9.j2
+    name: debian9-amd64
     platform: amd64
-  - name: debian10-amd64
-    image: debian:buster-slim
+  - image: debian:buster-slim
+    name: debian10-amd64
     platform: amd64
-  - name: debian11-amd64
-    image: debian:bullseye-slim
+  - image: debian:bullseye-slim
+    name: debian11-amd64
     platform: amd64
-  - name: debian12-amd64
-    image: debian:bookworm-slim
+  - image: debian:bookworm-slim
+    name: debian12-amd64
     platform: amd64
-  - name: kali-amd64
-    image: kalilinux/kali-rolling
+  - image: kalilinux/kali-rolling
+    name: kali-amd64
     platform: amd64
-  - name: fedora35-amd64
-    image: fedora:35
+  - image: fedora:35
+    name: fedora35-amd64
     platform: amd64
-  - name: fedora36-amd64
-    image: fedora:36
+  - image: fedora:36
+    name: fedora36-amd64
     platform: amd64
-  - name: fedora37-amd64
-    image: fedora:37
+  - image: fedora:37
+    name: fedora37-amd64
     platform: amd64
-  - name: ubuntu18-amd64
-    image: ubuntu:bionic
+  - image: ubuntu:bionic
+    name: ubuntu18-amd64
     platform: amd64
-  - name: ubuntu20-amd64
-    image: ubuntu:focal
+  - image: ubuntu:focal
+    name: ubuntu20-amd64
     platform: amd64
-  - name: ubuntu22-amd64
-    image: ubuntu:jammy
+  - image: ubuntu:jammy
+    name: ubuntu22-amd64
     platform: amd64
 provisioner:
   name: ansible
