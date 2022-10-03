@@ -38,8 +38,10 @@ Here's how to use it in a playbook:
 - hosts: all
   become: yes
   become_method: sudo
-  roles:
-    - skeleton
+  tasks:
+    - name: Include skeleton
+      ansible.builtin.include_role:
+        name: skeleton
 ```
 
 ## New Repositories from a Skeleton ##
