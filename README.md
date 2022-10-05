@@ -58,7 +58,7 @@ in the repository's settings.
 
 ## Requirements ##
 
-Requires that a Java implementation be installed.
+None.
 
 ## Role Variables ##
 
@@ -69,7 +69,7 @@ Requires that a Java implementation be installed.
 
 ## Dependencies ##
 
-None.
+- [cisagov/ansible-role-openjdk](https://github.com/cisagov/ansible-role-openjdk)
 
 ## Example Playbook ##
 

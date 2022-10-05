@@ -4,16 +4,3 @@
 
 - name: Import python playbook
   ansible.builtin.import_playbook: python.yml
-
-# boto3 is installed anywhere we would be applying this Ansible role
-# and this role also requires a Java installation
-- name: Install Java and boto3
-  hosts: all
-  roles:
-    - openjdk
-    - pip
-  tasks:
-    - name: Install boto3
-      ansible.builtin.pip:
-        name:
-          - boto3

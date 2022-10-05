@@ -29,4 +29,7 @@ galaxy_info:
         - focal
   role_name: cobalt_strike
 
-dependencies: []
+dependencies:
+  # CobaltStrike requires Java to run
+  - src: https://github.com/cisagov/ansible-role-openjdk
+    name: openjdk
