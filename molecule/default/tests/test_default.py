@@ -42,7 +42,7 @@ def test_files2(host, f):
 def test_version_and_license(host):
     """Verify that Cobalt Strike is licensed and is an expected version."""
     cmd = host.run("cd /opt/cobaltstrike && ./teamserver")
-    regex = r"^\[\*\] Team Server Version: (?P<version>\d+\.\d+\.\d+) \((?P<date>\d{8})\) (?P<licensed>.*)$"
+    regex = r"^\[\*\] Team Server Version: (?P<version>\d+\.\d+\.\d+) \((?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})\) (?P<licensed>.*)$"
     # Note that re.MULTILINE is critical here, since the output of the
     # command spans several lines
     print(repr(strip_ansi(cmd.stdout)))
@@ -54,10 +54,9 @@ def test_version_and_license(host):
         semver.VersionInfo.parse(version) >= min_expected_version
     ), f"Cobalt Strike version is expected to be greater than or equal to {min_expected_version}."
 
-    date = match.group("date")
-    year = int(date[0:4])
-    month = int(date[4:6])
-    day = int(date[6:8])
+    year = int(match.group("year"))
+    month = int(match.group("month"))
+    day = int(match.group("day"))
     assert (
         datetime.date(year, month, day) >= min_expected_release_date
     ), f"Cobalt Strike release date is expected to be no earlier than {min_expected_release_date}."
