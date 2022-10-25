@@ -11,4 +11,6 @@ flake8
 molecule[docker]
 pre-commit
 pytest-testinfra
+semver
+strip-ansi
 yamllint
