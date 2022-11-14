@@ -19,10 +19,6 @@ platforms:
   - image: amazonlinux:2
     name: amazonlinux2
     platform: amd64
-  - dockerfile: Dockerfile_debian_9.j2
-    image: debian:stretch-slim
-    name: debian9
-    platform: amd64
   - image: debian:buster-slim
     name: debian10
     platform: amd64

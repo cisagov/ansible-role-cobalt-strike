@@ -26,15 +26,6 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
   - cgroupns_mode: host
     command: /lib/systemd/systemd
-    image: geerlingguy/docker-debian9-ansible:latest
-    name: debian9-systemd
-    platform: amd64
-    pre_build_image: yes
-    privileged: yes
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  - cgroupns_mode: host
-    command: /lib/systemd/systemd
     image: geerlingguy/docker-debian10-ansible:latest
     name: debian10-systemd
     platform: amd64
