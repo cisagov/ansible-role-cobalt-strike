@@ -30,6 +30,7 @@ galaxy_info:
       versions:
         - "35"
         - "36"
+        - "37"
     - name: Ubuntu
       versions:
         - bionic
