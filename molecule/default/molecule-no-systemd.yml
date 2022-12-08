@@ -29,8 +29,6 @@ platforms:
     image: debian:bookworm-slim
   - name: kali
     image: kalilinux/kali-rolling
-  - name: fedora34
-    image: fedora:34
   - name: fedora35
     image: fedora:35
   - name: ubuntu18
