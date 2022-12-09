@@ -1,8 +1,7 @@
 # skeleton-ansible-role-with-test-user #
 
 [![GitHub Build Status](https://github.com/cisagov/skeleton-ansible-role-with-test-user/workflows/build/badge.svg)](https://github.com/cisagov/skeleton-ansible-role-with-test-user/actions)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/cisagov/skeleton-ansible-role-with-test-user.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/skeleton-ansible-role-with-test-user/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cisagov/skeleton-ansible-role-with-test-user.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/skeleton-ansible-role-with-test-user/context:python)
+[![CodeQL](https://github.com/cisagov/skeleton-ansible-role-with-test-user/workflows/CodeQL/badge.svg)](https://github.com/cisagov/skeleton-ansible-role-with-test-user/actions/workflows/codeql-analysis.yml)
 
 This is a skeleton project that can be used to quickly get a new
 [cisagov](https://github.com/cisagov) Ansible role GitHub project
@@ -91,8 +90,10 @@ Here's how to use it in a playbook:
 - hosts: all
   become: yes
   become_method: sudo
-  roles:
-    - skeleton
+  tasks:
+    - name: Include skeleton
+      ansible.builtin.include_role:
+        name: skeleton
 ```
 
 ## New Repositories from a Skeleton ##
