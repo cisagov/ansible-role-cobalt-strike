@@ -3,5 +3,7 @@
   name: Upgrade base image
   become: yes
   become_method: sudo
-  roles:
-    - upgrade
+  tasks:
+    - name: Upgrade system packages
+      ansible.builtin.include_role:
+        name: upgrade
