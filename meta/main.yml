@@ -11,7 +11,7 @@ galaxy_info:
   # OS family.  This simplifies a lot of things for roles that support
   # Kali Linux, so it makes sense to force the installation of Ansible
   # 2.10 or newer.
-  min_ansible_version: 2.10
+  min_ansible_version: "2.10"
   namespace: cisagov
   platforms:
     - name: Debian
@@ -27,6 +27,7 @@ galaxy_info:
       versions:
         - bionic
         - focal
+        - jammy
   role_name: cobalt_strike
 
 dependencies:

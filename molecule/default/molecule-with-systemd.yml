@@ -15,76 +15,114 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - name: amazonlinux2-systemd
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
     image: geerlingguy/docker-amazonlinux2-ansible:latest
+    name: amazonlinux2-systemd
+    platform: amd64
+    pre_build_image: yes
     privileged: yes
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
     command: /lib/systemd/systemd
-    pre_build_image: yes
-  - name: debian9-systemd
     image: geerlingguy/docker-debian9-ansible:latest
+    name: debian9-systemd
+    platform: amd64
+    pre_build_image: yes
     privileged: yes
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
     command: /lib/systemd/systemd
-    pre_build_image: yes
-  - name: debian10-systemd
     image: geerlingguy/docker-debian10-ansible:latest
+    name: debian10-systemd
+    platform: amd64
+    pre_build_image: yes
     privileged: yes
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
     command: /lib/systemd/systemd
-    pre_build_image: yes
-  - name: debian11-systemd
     image: geerlingguy/docker-debian11-ansible:latest
+    name: debian11-systemd
+    platform: amd64
+    pre_build_image: yes
     privileged: yes
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
     command: /lib/systemd/systemd
-    pre_build_image: yes
-  - name: debian12-systemd
     image: cisagov/docker-debian12-ansible:latest
+    name: debian12-systemd
+    platform: amd64
+    pre_build_image: yes
     privileged: yes
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
     command: /lib/systemd/systemd
-    pre_build_image: yes
-  - name: kali-systemd
     image: cisagov/docker-kali-ansible:latest
+    name: kali-systemd
+    platform: amd64
+    pre_build_image: yes
     privileged: yes
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
     command: /lib/systemd/systemd
-    pre_build_image: yes
-  - name: fedora34-systemd
-    image: geerlingguy/docker-fedora34-ansible:latest
-    privileged: yes
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    command: /lib/systemd/systemd
-    pre_build_image: yes
-  - name: fedora35-systemd
     image: geerlingguy/docker-fedora35-ansible:latest
+    name: fedora35-systemd
+    platform: amd64
+    pre_build_image: yes
     privileged: yes
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
     command: /lib/systemd/systemd
+    image: geerlingguy/docker-fedora36-ansible:latest
+    name: fedora36-systemd
+    platform: amd64
     pre_build_image: yes
-  - name: ubuntu-18-systemd
+    privileged: yes
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: geerlingguy/docker-fedora37-ansible:latest
+    name: fedora37-systemd
+    platform: amd64
+    pre_build_image: yes
+    privileged: yes
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
     image: geerlingguy/docker-ubuntu1804-ansible:latest
+    name: ubuntu-18-systemd
+    platform: amd64
+    pre_build_image: yes
     privileged: yes
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
     command: /lib/systemd/systemd
-    pre_build_image: yes
-  - name: ubuntu-20-systemd
     image: geerlingguy/docker-ubuntu2004-ansible:latest
+    name: ubuntu-20-systemd
+    platform: amd64
+    pre_build_image: yes
     privileged: yes
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
     command: /lib/systemd/systemd
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    name: ubuntu-22-systemd
+    platform: amd64
     pre_build_image: yes
+    privileged: yes
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
 provisioner:
   name: ansible
   inventory:
