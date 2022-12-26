@@ -1,8 +1,7 @@
 # ansible-role-cobalt-strike #
 
 [![GitHub Build Status](https://github.com/cisagov/ansible-role-cobalt-strike/workflows/build/badge.svg)](https://github.com/cisagov/ansible-role-cobalt-strike/actions)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/cisagov/ansible-role-cobalt-strike.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/ansible-role-cobalt-strike/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/cisagov/ansible-role-cobalt-strike.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/cisagov/ansible-role-cobalt-strike/context:python)
+[![CodeQL](https://github.com/cisagov/ansible-role-cobalt-strike/workflows/CodeQL/badge.svg)](https://github.com/cisagov/ansible-role-cobalt-strike/actions/workflows/codeql-analysis.yml)
 
 An Ansible role for installing [Cobalt
 Strike](https://www.cobaltstrike.com/).
@@ -79,8 +78,10 @@ Here's how to use it in a playbook:
 - hosts: teamservers
   become: yes
   become_method: sudo
-  roles:
-    - cobalt_strike
+  tasks:
+    - name: Install Cobalt Strike
+      ansible.builtin.include_role:
+        name: cobalt_strike
 ```
 
 ## Contributing ##
