@@ -1,8 +1,9 @@
 ---
+dependencies: []
 galaxy_info:
   author: First Last
-  description: Skeleton Ansible role
   company: CISA Cyber Assessments
+  description: Skeleton Ansible role
   galaxy_tags:
     - skeleton
   license: CC0
@@ -37,5 +38,3 @@ galaxy_info:
         - focal
         - jammy
   role_name: skeleton
-
-dependencies: []
