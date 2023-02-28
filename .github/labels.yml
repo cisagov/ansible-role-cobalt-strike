@@ -53,6 +53,9 @@
 - color: "ef476c"
   description: This issue is a request for information or needs discussion
   name: question
+- color: "d73a4a"
+  description: This issue or pull request addresses a security issue
+  name: security
 - color: "7b42bc"
   description: Pull requests that update Terraform code
   name: terraform

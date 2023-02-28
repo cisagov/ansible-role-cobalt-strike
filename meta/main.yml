@@ -1,8 +1,9 @@
 ---
+dependencies: []
 galaxy_info:
   author: First Last
-  description: Skeleton Ansible role with test user
   company: CISA Cyber Assessments
+  description: Skeleton Ansible role with test user
   galaxy_tags:
     - skeleton
   license: CC0
@@ -28,7 +29,6 @@ galaxy_info:
         - bookworm
     - name: Fedora
       versions:
-        - "35"
         - "36"
         - "37"
     - name: Ubuntu
@@ -37,5 +37,3 @@ galaxy_info:
         - focal
         - jammy
   role_name: skeleton_with_test_user
-
-dependencies: []
