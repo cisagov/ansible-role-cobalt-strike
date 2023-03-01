@@ -1,8 +1,12 @@
 ---
+dependencies:
+  # Cobalt Strike requires Java to run
+  - src: https://github.com/cisagov/ansible-role-openjdk
+    name: openjdk
 galaxy_info:
   author: Shane Frasier
-  description: Install Cobalt Strike.
   company: CISA Cyber Assessments
+  description: Install Cobalt Strike.
   galaxy_tags:
     - cobaltstrike
   license: CC0
@@ -29,8 +33,3 @@ galaxy_info:
         - focal
         - jammy
   role_name: cobalt_strike
-
-dependencies:
-  # Cobalt Strike requires Java to run
-  - src: https://github.com/cisagov/ansible-role-openjdk
-    name: openjdk
