@@ -71,15 +71,6 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
   - cgroupns_mode: host
     command: /lib/systemd/systemd
-    image: geerlingguy/docker-fedora35-ansible:latest
-    name: fedora35-systemd
-    platform: amd64
-    pre_build_image: yes
-    privileged: yes
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  - cgroupns_mode: host
-    command: /lib/systemd/systemd
     image: geerlingguy/docker-fedora36-ansible:latest
     name: fedora36-systemd
     platform: amd64
