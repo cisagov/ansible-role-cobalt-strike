@@ -45,7 +45,6 @@ def test_version_and_license(host):
     regex = r"^\[\*\] Team Server Version: (?P<version>\d+\.\d+\.\d+) \((?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})\) (?P<licensed>.*)$"
     # Note that re.MULTILINE is critical here, since the output of the
     # command spans several lines
-    print(repr(strip_ansi(cmd.stdout)))
     match = re.search(regex, strip_ansi(cmd.stdout), re.MULTILINE)
     assert match is not None, "Regex does not match Cobalt Strike output."
 
