@@ -10,7 +10,7 @@ import semver
 from strip_ansi import strip_ansi
 import testinfra.utils.ansible_runner
 
-min_expected_version = semver.VersionInfo.parse("4.7.2")
+min_expected_version = semver.VersionInfo.parse("4.8.0")
 expected_licensed_value = "Licensed"
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
