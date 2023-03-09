@@ -47,8 +47,19 @@ def test_version_and_license(host):
     assert match is not None, "Regex does not match Cobalt Strike output."
 
     version = match.group("version")
+    try:
+        actual_version = semver.VersionInfo.parse(version)
+    except ValueError:
+        # CobaltStrike sometimes breaks semver by not including the
+        # patch version when it should be zero.
+        try:
+            actual_version = semver.VersionInfo.parse(f"{version}.0")
+        except ValueError:
+            assert (
+                False
+            ), f"Unable to parse {version} or {version}.0 as a valid semantic version."
     assert (
-        semver.VersionInfo.parse(version) >= min_expected_version
+        actual_version >= min_expected_version
     ), f"Cobalt Strike version is expected to be greater than or equal to {min_expected_version}."
 
     licensed = match.group("licensed")
