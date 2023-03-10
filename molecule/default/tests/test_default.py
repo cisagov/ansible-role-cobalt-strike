@@ -40,7 +40,9 @@ def test_files2(host, f):
 def test_version_and_license(host):
     """Verify that Cobalt Strike is licensed and is an expected version."""
     cmd = host.run("cd /opt/cobaltstrike && ./teamserver")
-    regex = r"^\[\*\] Team Server Version: (?P<version>(\d+\.)?\d+) (?P<licensed>.*)$"
+    regex = (
+        r"^\[\*\] Team Server Version: (?P<version>(\d+)(\.\d+){1,2}) (?P<licensed>.*)$"
+    )
     # Note that re.MULTILINE is critical here, since the output of the
     # command spans several lines
     match = re.search(regex, strip_ansi(cmd.stdout), re.MULTILINE)
