@@ -1,4 +1,3 @@
 ---
 - src: https://github.com/cisagov/ansible-role-upgrade
   name: upgrade
-  version: improvement/use-detected-package-manager
