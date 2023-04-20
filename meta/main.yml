@@ -15,9 +15,9 @@ galaxy_info:
   min_ansible_version: "2.10"
   namespace: cisagov
   platforms:
-    - name: Amazon
+    - name: Amazon Linux 2023
       versions:
-        - Candidate
+        - any
     - name: Debian
       versions:
         - buster
