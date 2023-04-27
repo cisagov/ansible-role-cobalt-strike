@@ -16,8 +16,8 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - image: amazonlinux:2
-    name: amazonlinux2
+  - image: amazonlinux:2023
+    name: amazonlinux2023
     platform: amd64
   - image: debian:buster-slim
     name: debian10
