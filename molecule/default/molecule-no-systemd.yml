@@ -16,12 +16,8 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - image: amazonlinux:2
-    name: amazonlinux2
-    platform: amd64
-  - dockerfile: Dockerfile_debian_9.j2
-    image: debian:stretch-slim
-    name: debian9
+  - image: amazonlinux:2023
+    name: amazonlinux2023
     platform: amd64
   - image: debian:buster-slim
     name: debian10
@@ -50,37 +46,6 @@ platforms:
   - image: ubuntu:jammy
     name: ubuntu22
     platform: amd64
-provisioner:
-  name: ansible
-  inventory:
-    host_vars:
-      debian9:
-        # auto_legacy is still the default behavior until Ansible 2.12
-        # is released, but Molecule overrides this and forces the use
-        # of auto.
-        #
-        # In auto_legacy mode Ansible will prefer the /usr/bin/python
-        # interpreter if it exists, while in auto mode it will prefer
-        # the Python interpreter specified in an internal map.  In
-        # most cases we only have Python3 installed, and the internal
-        # map specifies /usr/bin/python3, so it is immaterial whether
-        # we use auto_legacy or auto.
-        #
-        # The one place where it _does_ matter is our Debian9 AKA CyHy
-        # instances.  Here the /usr/bin/python _and_ /usr/bin/python3
-        # interpreters are both installed.  In Ansible 2.10 a Debian
-        # entry was added to the internal map, so now auto_legacy
-        # selects the /usr/bin/python interpreter while auto selects
-        # the /usr/bin/python3 interpreter.  We want to maintain the
-        # auto_legacy behavior in this case since CyHy is still
-        # Python2.
-        #
-        # See:
-        # * https://github.com/ansible-community/molecule/blob/3.0.8/molecule/provisioner/ansible.py#L389
-        # * https://docs.ansible.com/ansible/latest/reference_appendices/interpreter_discovery.html#interpreter-discovery
-        # * https://github.com/ansible/ansible/blob/v2.10.1/lib/ansible/config/base.yml#L1492-L1542
-        # * https://github.com/ansible/ansible/blob/v2.10.1/lib/ansible/executor/interpreter_discovery.py
-        ansible_python_interpreter: auto_legacy
 scenario:
   name: default
 verifier:
