@@ -10,11 +10,6 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
-  flake8
 platforms:
   - image: amazonlinux:2023
     name: amazonlinux2023
