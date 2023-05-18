@@ -26,11 +26,11 @@ platforms:
   - image: kalilinux/kali-rolling
     name: kali
     platform: amd64
-  - image: fedora:36
-    name: fedora36
-    platform: amd64
   - image: fedora:37
     name: fedora37
+    platform: amd64
+  - image: fedora:38
+    name: fedora38
     platform: amd64
   - image: ubuntu:focal
     name: ubuntu20

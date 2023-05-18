@@ -25,8 +25,8 @@ galaxy_info:
         - bookworm
     - name: Fedora
       versions:
-        - "36"
         - "37"
+        - "38"
     - name: Kali
       versions:
         - "2023"
