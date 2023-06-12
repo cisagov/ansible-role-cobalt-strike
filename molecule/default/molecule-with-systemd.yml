@@ -80,15 +80,6 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
   - cgroupns_mode: host
     command: /lib/systemd/systemd
-    image: geerlingguy/docker-ubuntu1804-ansible:latest
-    name: ubuntu-18-systemd
-    platform: amd64
-    pre_build_image: yes
-    privileged: yes
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  - cgroupns_mode: host
-    command: /lib/systemd/systemd
     image: geerlingguy/docker-ubuntu2004-ansible:latest
     name: ubuntu-20-systemd
     platform: amd64

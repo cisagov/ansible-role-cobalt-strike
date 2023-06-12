@@ -37,9 +37,6 @@ platforms:
   - image: fedora:37
     name: fedora37
     platform: amd64
-  - image: ubuntu:bionic
-    name: ubuntu18
-    platform: amd64
   - image: ubuntu:focal
     name: ubuntu20
     platform: amd64
