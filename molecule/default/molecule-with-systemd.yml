@@ -9,11 +9,6 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
-  flake8
 platforms:
   - cgroupns_mode: host
     command: /lib/systemd/systemd
