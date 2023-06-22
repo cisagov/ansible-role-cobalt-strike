@@ -8,11 +8,7 @@
 # We need at least version 6 to correctly identify Amazon Linux 2023
 # as using the dnf package manager.
 ansible>=6,<7
-ansible-lint>=5,<6
 boto3
-flake8
-molecule
 molecule-plugins[docker]
 pre-commit
 pytest-testinfra
-yamllint
