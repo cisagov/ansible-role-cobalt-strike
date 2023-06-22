@@ -9,6 +9,11 @@
 # as using the dnf package manager.
 ansible>=6,<7
 boto3
+# With the release of molecule v5 there were some breaking changes so
+# we need to pin at v5 or newer. However, v5.0.0 had an internal
+# dependency issue so we must use the bugfix release as the actual
+# lower bound.
+molecule>=5.0.1
 molecule-plugins[docker]
 pre-commit
 pytest-testinfra
