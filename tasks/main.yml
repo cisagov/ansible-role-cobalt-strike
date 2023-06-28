@@ -149,7 +149,10 @@
       # The CS license key is sensitive
       no_log: true
       register: expect
-      vars:
+      # The file /tmp/cobaltstrike.license doesn't exist until
+      # it is downloaded so the linter fails the lookup, which
+      # is the reason for the noqa below
+      vars: # noqa jinja[invalid]
         cobaltstrike_license: >-
           "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
 
