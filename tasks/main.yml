@@ -78,6 +78,8 @@
           - expect
     - name: Upgrade and license Cobalt Strike
       ansible.builtin.shell: |
+        set -o pipefail
+
         # $ ./update
         # [+] Cobalt Strike Update (20220412)
         # [*] Please enter your license key:
