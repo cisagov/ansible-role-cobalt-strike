@@ -56,6 +56,7 @@
       ansible.builtin.get_url:
         url: "https://download.cobaltstrike.com/downloads/{{ lookup('file', '/tmp/token.html') | regex_search('href=\"/downloads/(.+)/cobaltstrike-dist.zip\"', '\\1') | first }}/cobaltstrike-dist.tgz"
         dest: /tmp
+        mode: '0644'
 
     - name: Extract the Cobalt Strike tarball
       ansible.builtin.unarchive:
