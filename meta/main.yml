@@ -1,4 +1,9 @@
 ---
+# Note that dependencies listed here are automatically installed
+# before this role.  Role variables for any roles listed here can be
+# assigned static variables.
+#
+# See also cisagov/skeleton-ansible-role#153.
 dependencies: []
 galaxy_info:
   author: First Last
