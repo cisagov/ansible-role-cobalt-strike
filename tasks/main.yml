@@ -6,6 +6,7 @@
   register: cobaltstrike_auth
 
 - name: Install and license Cobalt Strike
+  when: not cobaltstrike_auth.stat.exists
   block:
     - name: Grab Cobalt Strike license from S3
       amazon.aws.aws_s3:
@@ -162,5 +163,3 @@
         - cobaltstrike-dist.tgz
         - cobaltstrike.license
         - token.html
-
-  when: not cobaltstrike_auth.stat.exists
