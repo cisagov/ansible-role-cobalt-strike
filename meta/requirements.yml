@@ -6,7 +6,7 @@
 # It _is_ possible to list both collections and roles in this file,
 # but unfortunately ansible-galaxy attempts to naively merge the
 # dependencies listed in meta/main.yml with these.  That means that
-# both sets of dependencies must be arrays. :(
+# both sets of dependencies must be lists. :(
 #
 # See also cisagov/skeleton-ansible-role#153.
 []
