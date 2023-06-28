@@ -42,4 +42,7 @@ fi
 
 check_dependencies
 
+# Note that we can't use --max-args in place of -n in the xargs
+# command since the version of xargs distributed with macOS does not
+# support it.
 yq '.platforms[].image' < "$source_file" | xargs -n 1 docker pull

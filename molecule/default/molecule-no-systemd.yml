@@ -10,11 +10,6 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
-  flake8
 platforms:
   - image: debian:buster-slim
     name: debian10
@@ -27,9 +22,6 @@ platforms:
     platform: amd64
   - image: kalilinux/kali-rolling
     name: kali
-    platform: amd64
-  - image: ubuntu:bionic
-    name: ubuntu18
     platform: amd64
   - image: ubuntu:focal
     name: ubuntu20
