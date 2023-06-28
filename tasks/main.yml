@@ -10,8 +10,8 @@
   block:
     - name: Grab Cobalt Strike license from S3
       amazon.aws.aws_s3:
-        bucket: "{{ bucket_name }}"
-        object: "{{ license_object_name }}"
+        bucket: "{{ cobalt_strike_bucket_name }}"
+        object: "{{ cobalt_strike_license_object_name }}"
         dest: "/tmp/cobaltstrike.license"
         mode: get
       become: no
@@ -79,7 +79,6 @@
     - name: Upgrade and license Cobalt Strike
       ansible.builtin.shell: |
         set -o pipefail
-
         # $ ./update
         # [+] Cobalt Strike Update (20220412)
         # [*] Please enter your license key:
