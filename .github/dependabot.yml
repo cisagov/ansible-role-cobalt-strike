@@ -37,4 +37,4 @@ updates:
       interval: "weekly"
     # ignore:
     #   # Managed by cisagov/skeleton-ansible-role-with-test-user
-    #   - dependency-name: "hashicorp/aws"
+    #   - dependency-name: hashicorp/aws
