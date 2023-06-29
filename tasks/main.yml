@@ -6,11 +6,12 @@
   register: cobaltstrike_auth
 
 - name: Install and license Cobalt Strike
+  when: not cobaltstrike_auth.stat.exists
   block:
     - name: Grab Cobalt Strike license from S3
       amazon.aws.aws_s3:
-        bucket: "{{ bucket_name }}"
-        object: "{{ license_object_name }}"
+        bucket: "{{ cobalt_strike_bucket_name }}"
+        object: "{{ cobalt_strike_license_object_name }}"
         dest: "/tmp/cobaltstrike.license"
         mode: get
       become: no
@@ -55,6 +56,7 @@
       ansible.builtin.get_url:
         url: "https://download.cobaltstrike.com/downloads/{{ lookup('file', '/tmp/token.html') | regex_search('href=\"/downloads/(.+)/cobaltstrike-dist.zip\"', '\\1') | first }}/cobaltstrike-dist.tgz"
         dest: /tmp
+        mode: '0644'
 
     - name: Extract the Cobalt Strike tarball
       ansible.builtin.unarchive:
@@ -76,6 +78,7 @@
           - expect
     - name: Upgrade and license Cobalt Strike
       ansible.builtin.shell: |
+        set -o pipefail
         # $ ./update
         # [+] Cobalt Strike Update (20220412)
         # [*] Please enter your license key:
@@ -146,7 +149,10 @@
       # The CS license key is sensitive
       no_log: true
       register: expect
-      vars:
+      # The file /tmp/cobaltstrike.license doesn't exist until
+      # it is downloaded so the linter fails the lookup, which
+      # is the reason for the noqa below
+      vars: # noqa jinja[invalid]
         cobaltstrike_license: >-
           "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
 
@@ -162,5 +168,3 @@
         - cobaltstrike-dist.tgz
         - cobaltstrike.license
         - token.html
-
-  when: not cobaltstrike_auth.stat.exists

@@ -2,7 +2,7 @@
 - hosts: all
   name: Upgrade base image
   become: yes
-  become_method: sudo
+  become_method: ansible.builtin.sudo
   tasks:
     - name: Upgrade system packages
       ansible.builtin.include_role:
