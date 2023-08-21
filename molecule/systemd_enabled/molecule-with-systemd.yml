@@ -92,6 +92,6 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
 scenario:
-  name: systemd-enabled
+  name: systemd_enabled
 verifier:
   name: testinfra

@@ -149,7 +149,7 @@ jobs:
       matrix:
         scenario:
           - default
-          - systemd-enabled
+          - systemd_enabled
     steps:
       - id: harden-runner
         name: Harden the runner
