@@ -143,12 +143,12 @@ jobs:
   test:
     needs:
       - diagnostics
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         scenario:
           - default
-    runs-on: ubuntu-latest
     steps:
       - id: harden-runner
         name: Harden the runner
