@@ -26,8 +26,8 @@ updates:
   - directory: /
     # ignore:
     #   # Managed by cisagov/skeleton-ansible-role
-    #   - dependency-name: "ansible"
-    #   - dependency-name: "ansible-lint"
+    #   - dependency-name: ansible
+    #   - dependency-name: ansible-lint
     package-ecosystem: pip
     schedule:
       interval: weekly
