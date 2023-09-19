@@ -40,3 +40,4 @@ galaxy_info:
         - focal
         - jammy
   role_name: skeleton
+  standalone: true
