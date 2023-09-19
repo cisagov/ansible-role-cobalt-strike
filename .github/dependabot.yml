@@ -37,7 +37,7 @@ updates:
   - directory: /terraform
     # ignore:
     #   # Managed by cisagov/skeleton-ansible-role-with-test-user
-    #   - dependency-name: "hashicorp/aws"
+    #   - dependency-name: hashicorp/aws
     package-ecosystem: terraform
     schedule:
       interval: weekly
