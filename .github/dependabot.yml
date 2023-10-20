@@ -19,6 +19,8 @@ updates:
       - dependency-name: actions/setup-python
       - dependency-name: hashicorp/setup-terraform
       - dependency-name: mxschmitt/action-tmate
+      # # Managed by cisagov/skeleton-ansible-role-with-test-user
+      # - dependency-name: aws-actions/configure-aws-credentials
 
   - package-ecosystem: "pip"
     directory: "/"
@@ -35,4 +37,4 @@ updates:
       interval: "weekly"
     # ignore:
     #   # Managed by cisagov/skeleton-ansible-role-with-test-user
-    #   - dependency-name: "hashicorp/aws"
+    #   - dependency-name: hashicorp/aws
