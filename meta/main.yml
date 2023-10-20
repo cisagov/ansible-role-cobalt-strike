@@ -1,8 +1,13 @@
 ---
+# Note that dependencies listed here are automatically installed
+# before this role.  Role variables for any roles listed here can be
+# assigned static variables.
+#
+# See also cisagov/skeleton-ansible-role#153.
 dependencies:
   # Cobalt Strike requires Java to run
-  - src: https://github.com/cisagov/ansible-role-openjdk
-    name: openjdk
+  - name: openjdk
+    src: https://github.com/cisagov/ansible-role-openjdk
 galaxy_info:
   author: Shane Frasier
   company: CISA Cyber Assessments
@@ -31,3 +36,4 @@ galaxy_info:
         - focal
         - jammy
   role_name: cobalt_strike
+  standalone: true

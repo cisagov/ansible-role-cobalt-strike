@@ -1,5 +1,5 @@
 ---
-- src: https://github.com/cisagov/ansible-role-openjdk
-  name: openjdk
-- src: https://github.com/cisagov/ansible-role-upgrade
-  name: upgrade
+- name: openjdk
+  src: https://github.com/cisagov/ansible-role-openjdk
+- name: upgrade
+  src: https://github.com/cisagov/ansible-role-upgrade

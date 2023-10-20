@@ -75,8 +75,8 @@ None.
 Here's how to use it in a playbook:
 
 ```yaml
-- hosts: teamservers
-  become: yes
+- hosts: all
+  become: true
   become_method: sudo
   tasks:
     - name: Install Cobalt Strike
