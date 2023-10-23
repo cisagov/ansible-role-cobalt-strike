@@ -156,15 +156,12 @@
         cobaltstrike_license: >-
           "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
 
-    - name: >
-        Delete local copies of Cobalt Strike tarball and license, as well as
-        the download token
+    - name: Delete local copies of Cobalt Strike license and download token
       ansible.builtin.file:
         path: "/tmp/{{ item }}"
         state: absent
       become: no
       delegate_to: localhost
       loop:
-        - cobaltstrike-dist.tgz
         - cobaltstrike.license
         - token.html
