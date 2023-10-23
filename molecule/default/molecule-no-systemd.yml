@@ -11,9 +11,26 @@ dependency:
 driver:
   name: docker
 platforms:
-  - image: debian:buster-slim
-    name: debian10
-    platform: amd64
+  # The latest version of CobaltStrike requires glibc 2.29, which is
+  # unavailable for Debian Buster.  When one attempts to start the
+  # teamserver on Buster one gets the following output:
+  #
+  # root@debian10:/# cd /opt/cobaltstrike/
+  # root@debian10:/opt/cobaltstrike# ./teamserver
+  #
+  # [*] Checking TeamServerImage for local update
+  #
+  # [*] Verifying MD5 Message Digest for TeamServerImage
+  # TeamServerImage: OK
+  #
+  # [*] Will use existing X509 certificate and keystore (for SSL)
+  #
+  # [*] Starting teamserver
+  # ./TeamServerImage: /lib/x86_64-linux-gnu/libm.so.6: version `GLIBC_2.29' not found (required by ./TeamServerImage)
+  #
+  # - image: debian:buster-slim
+  #   name: debian10
+  #   platform: amd64
   - image: debian:bullseye-slim
     name: debian11
     platform: amd64
