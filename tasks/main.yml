@@ -17,44 +17,24 @@
       become: no
       delegate_to: localhost
 
-    - name: Install curl
-      ansible.builtin.package:
-        name:
-          - curl
-
-    # I'd prefer to use ansible.builtin.uri here, but the following
-    # code doesn't work with the Cobalt Strike site:
-    # - name: Get download token from Cobalt Strike website
-    #   ansible.builtin.uri:
-    #     body: dlkey={{ cobaltstrike_license }}
-    #     body_format: "form-urlencoded"
-    #     dest: /tmp/html.html
-    #     method: POST
-    #     return_content: yes
-    #     url: https://www.cobaltstrike.com/download
-    #   become: no
-    #   delegate_to: localhost
-    #   register: download_token
-    #   vars:
-    #     cobaltstrike_license: >-
-    #       "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
-    #
-    # This is the reason for the skip_ansible_lint tag below.
-    - name: Get download token from Cobalt Strike website
-      ansible.builtin.command: >-
-        curl https://download.cobaltstrike.com/download
-        --data "dlkey={{ cobaltstrike_license }}" --output /tmp/token.html
-      become: no
-      delegate_to: localhost
-      tags:
-        - skip_ansible_lint
+    - name: Get CobaltStrike Download Token
+      ansible.builtin.uri:
+        url: https://download.cobaltstrike.com/download
+        method: POST
+        body: "dlkey={{ cobaltstrike_license }}"
+        return_content: true
+      register: cobaltstrike_token
       vars:
         cobaltstrike_license: >-
           "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
 
+    - name: Set CobaltStrike Token Fact
+      ansible.builtin.set_fact:
+        cobaltstrike_token_content: "{{ cobaltstrike_token.content | regex_findall('href=\"/downloads/([^/]*)/', multiline=true) | first }}"
+
     - name: Extract the download token and download the Cobalt Strike tarball
       ansible.builtin.get_url:
-        url: "https://download.cobaltstrike.com/downloads/{{ lookup('file', '/tmp/token.html') | regex_search('href=\"/downloads/(.+)/cobaltstrike-dist.zip\"', '\\1') | first }}/cobaltstrike-dist.tgz"
+        url: "https://download.cobaltstrike.com/downloads/{{ cobaltstrike_token_content }}/cobaltstrike-dist.tgz"
         dest: /tmp
         mode: '0644'
 
