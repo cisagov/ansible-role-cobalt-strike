@@ -35,7 +35,7 @@
 
     - name: Set CobaltStrike token fact
       ansible.builtin.set_fact:
-        cobaltstrike_token_content: "{{ cobaltstrike_token.content | regex_findall('href=\"/downloads/([^/]*)/', multiline=true) | first }}"
+        cobaltstrike_token_content: "{{ cobaltstrike_token.content | regex_search('href=\"/downloads/(.+)/cobaltstrike-dist.zip\"', '\\1') | first }}"
 
     - name: Extract the download token and download the Cobalt Strike tarball
       ansible.builtin.get_url:
