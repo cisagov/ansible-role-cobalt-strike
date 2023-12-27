@@ -40,7 +40,7 @@
       ansible.builtin.get_url:
         url: "https://download.cobaltstrike.com/downloads/{{ cobaltstrike_token_content }}/cobaltstrike-dist.tgz"
         dest: /tmp
-        mode: '0644'
+        mode: "0644"
 
     - name: Extract the Cobalt Strike tarball
       ansible.builtin.unarchive:
