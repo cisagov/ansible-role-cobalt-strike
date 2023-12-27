@@ -22,6 +22,7 @@
         url: https://download.cobaltstrike.com/download
         method: POST
         body: dlkey={{ cobaltstrike_license }}
+        body_format: form-urlencoded
         return_content: true
       delegate_to: localhost
       register: cobaltstrike_token
