@@ -23,6 +23,7 @@
         method: POST
         body: dlkey={{ cobaltstrike_license }}
         return_content: true
+      delegate_to: localhost
       register: cobaltstrike_token
       vars:
         cobaltstrike_license: >-
