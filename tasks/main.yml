@@ -14,7 +14,7 @@
         object: "{{ cobalt_strike_license_object_name }}"
         dest: /tmp/cobaltstrike.license
         mode: get
-      become: no
+      become: false
       delegate_to: localhost
 
     - name: Get CobaltStrike Download Token
@@ -46,7 +46,7 @@
       ansible.builtin.unarchive:
         src: /tmp/cobaltstrike-dist.tgz
         dest: /opt
-        remote_src: yes
+        remote_src: true
 
     - name: Delete remote copy of Cobalt Strike tarball
       ansible.builtin.file:
@@ -144,7 +144,7 @@
       ansible.builtin.file:
         path: /tmp/{{ item }}
         state: absent
-      become: no
+      become: false
       delegate_to: localhost
       loop:
         - cobaltstrike.license
