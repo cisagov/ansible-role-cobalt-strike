@@ -17,7 +17,7 @@
       become: false
       delegate_to: localhost
 
-    - name: Get CobaltStrike Download Token
+    - name: Get CobaltStrike download token
       ansible.builtin.uri:
         url: https://download.cobaltstrike.com/download
         method: POST
@@ -32,7 +32,7 @@
         cobaltstrike_license: >-
           "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
 
-    - name: Set CobaltStrike Token Fact
+    - name: Set CobaltStrike token fact
       ansible.builtin.set_fact:
         cobaltstrike_token_content: "{{ cobaltstrike_token.content | regex_findall('href=\"/downloads/([^/]*)/', multiline=true) | first }}"
 
