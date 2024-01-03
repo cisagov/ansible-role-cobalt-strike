@@ -31,7 +31,7 @@
       # is the reason for the noqa below
       vars: # noqa jinja[invalid]
         cobaltstrike_license: >-
-          "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
+          {{ lookup("file", "/tmp/cobaltstrike.license") }}
 
     - name: Set CobaltStrike token fact
       ansible.builtin.set_fact:
@@ -139,7 +139,7 @@
       # is the reason for the noqa below
       vars: # noqa jinja[invalid]
         cobaltstrike_license: >-
-          "{{ lookup('file', '/tmp/cobaltstrike.license') }}"
+          {{ lookup("file", "/tmp/cobaltstrike.license") }}
 
     - name: Delete local copies of Cobalt Strike license and download token
       ansible.builtin.file:
