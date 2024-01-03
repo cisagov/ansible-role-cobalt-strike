@@ -11,19 +11,19 @@
     - name: Grab Cobalt Strike license from S3
       amazon.aws.aws_s3:
         bucket: "{{ cobalt_strike_bucket_name }}"
-        object: "{{ cobalt_strike_license_object_name }}"
         dest: /tmp/cobaltstrike.license
         mode: get
+        object: "{{ cobalt_strike_license_object_name }}"
       become: false
       delegate_to: localhost
 
     - name: Get CobaltStrike download token
       ansible.builtin.uri:
-        url: https://download.cobaltstrike.com/download
-        method: POST
         body: dlkey={{ cobaltstrike_license }}
         body_format: form-urlencoded
+        method: POST
         return_content: true
+        url: https://download.cobaltstrike.com/download
       delegate_to: localhost
       register: cobaltstrike_token
       # The file /tmp/cobaltstrike.license doesn't exist until
@@ -39,15 +39,15 @@
 
     - name: Extract the download token and download the Cobalt Strike tarball
       ansible.builtin.get_url:
-        url: "https://download.cobaltstrike.com/downloads/{{ cobaltstrike_token_content }}/cobaltstrike-dist.tgz"
         dest: /tmp
         mode: "0644"
+        url: "https://download.cobaltstrike.com/downloads/{{ cobaltstrike_token_content }}/cobaltstrike-dist.tgz"
 
     - name: Extract the Cobalt Strike tarball
       ansible.builtin.unarchive:
-        src: /tmp/cobaltstrike-dist.tgz
         dest: /opt
         remote_src: true
+        src: /tmp/cobaltstrike-dist.tgz
 
     - name: Delete remote copy of Cobalt Strike tarball
       ansible.builtin.file:
