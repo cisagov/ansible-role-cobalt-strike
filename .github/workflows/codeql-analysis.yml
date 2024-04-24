@@ -7,6 +7,9 @@
 name: CodeQL
 
 on:
+  merge_group:
+    types:
+      - checks_requested
   push:
     # Dependabot triggered push events have read-only access, but uploading code
     # scanning requires write access.
@@ -20,8 +23,27 @@ on:
     - cron: '0 2 * * 6'
 
 jobs:
+  diagnostics:
+    name: Run diagnostics
+    runs-on: ubuntu-latest
+    steps:
+      # Note that a duplicate of this step must be added at the top of
+      # each job.
+      - id: harden-runner
+        name: Harden the runner
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+      - id: github-status
+        name: Check GitHub status
+        uses: crazy-max/ghaction-github-status@v3
+      - id: dump-context
+        name: Dump context
+        uses: crazy-max/ghaction-dump-context@v2
   analyze:
     name: Analyze
+    needs:
+      - diagnostics
     runs-on: ubuntu-latest
     permissions:
       # required for all workflows
@@ -48,7 +70,7 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
 
@@ -56,7 +78,7 @@ jobs:
       # Java). If this step fails, then you should remove it and run the build
       # manually (see below).
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
+        uses: github/codeql-action/autobuild@v3
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 https://git.io/JvXDl
@@ -70,4 +92,4 @@ jobs:
       #     make release
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3

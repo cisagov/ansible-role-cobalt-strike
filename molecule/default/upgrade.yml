@@ -1,6 +1,6 @@
 ---
-- hosts: all
-  name: Upgrade base image
+- name: Upgrade base image
+  hosts: all
   become: true
   become_method: ansible.builtin.sudo
   tasks:

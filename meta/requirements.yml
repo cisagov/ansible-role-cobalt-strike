@@ -1,12 +1,7 @@
 ---
-# Note that dependencies listed here are made available to the role
-# but _are not_ automatically installed.  Role variables cannot be
-# specified here.
-#
-# It _is_ possible to list both collections and roles in this file,
-# but unfortunately ansible-galaxy attempts to naively merge the
-# dependencies listed in meta/main.yml with these.  That means that
-# both sets of dependencies must be lists. :(
+# Note that role dependencies listed here are made available to the
+# role but _are not_ automatically installed.  Role variables cannot
+# be specified here.
 #
 # See also cisagov/skeleton-ansible-role#153.
 []
