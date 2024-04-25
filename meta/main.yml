@@ -46,6 +46,7 @@ galaxy_info:
         # - buster
         - bullseye
         - bookworm
+        - trixie
     - name: Kali
       versions:
         - "2023"
