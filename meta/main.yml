@@ -14,7 +14,7 @@ galaxy_info:
   description: Install Cobalt Strike.
   galaxy_tags:
     - cobaltstrike
-  license: CC0
+  license: CC0-1.0
   # With the release of version 2.10, Ansible finally correctly
   # identifies Kali Linux as being the Kali distribution of the Debian
   # OS family.  This simplifies a lot of things for roles that support
@@ -54,5 +54,6 @@ galaxy_info:
       versions:
         - focal
         - jammy
+        - noble
   role_name: cobalt_strike
   standalone: true

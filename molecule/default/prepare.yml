@@ -1,3 +1,6 @@
 ---
 - name: Import upgrade playbook
   ansible.builtin.import_playbook: upgrade.yml
+
+- name: Import externally-managed-python playbook
+  ansible.builtin.import_playbook: externally-managed-python.yml

@@ -20,6 +20,8 @@ updates:
       - dependency-name: mxschmitt/action-tmate
       - dependency-name: step-security/harden-runner
       # Managed by cisagov/skeleton-ansible-role
+      - dependency-name: docker/setup-buildx-action
+      - dependency-name: docker/setup-qemu-action
       - dependency-name: github/codeql-action
       # Managed by cisagov/skeleton-ansible-role-with-test-user
       - dependency-name: aws-actions/configure-aws-credentials
