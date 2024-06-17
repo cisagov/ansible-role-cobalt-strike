@@ -180,7 +180,9 @@ jobs:
       matrix:
         architecture:
           - amd64
-          - arm64
+          # CobaltStrike does not support ARM64.
+          # https://github.com/cisagov/ansible-role-cobalt-strike/pull/85#issuecomment-2171882459
+          # - arm64
         platform:
           # # Only Debian-based platforms are currently supported.
           # - amazonlinux2023-systemd
