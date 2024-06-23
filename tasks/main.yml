@@ -9,7 +9,7 @@
   when: not cobaltstrike_auth.stat.exists
   block:
     - name: Grab Cobalt Strike license from S3
-      amazon.aws.aws_s3:
+      amazon.aws.s3_object:
         bucket: "{{ cobalt_strike_bucket_name }}"
         dest: /tmp/cobaltstrike.license
         mode: get
