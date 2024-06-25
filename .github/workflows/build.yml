@@ -169,12 +169,51 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         if: env.RUN_TMATE
   test:
+    name: >-
+      test (${{ matrix.scenario }}) -
+      ${{ matrix.platform }}-${{ matrix.architecture }}
     needs:
       - diagnostics
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
+        architecture:
+          - amd64
+          # CobaltStrike does not support ARM64.
+          # https://github.com/cisagov/ansible-role-cobalt-strike/pull/85#issuecomment-2171882459
+          # - arm64
+        platform:
+          # # Only Debian-based platforms are currently supported.
+          # - amazonlinux2023-systemd
+          # The latest version of CobaltStrike requires glibc 2.29,
+          # which is unavailable for Debian Buster.  When one attempts
+          # to start the teamserver on Buster one gets the following
+          # output:
+          #
+          # root@debian10:/# cd /opt/cobaltstrike/
+          # root@debian10:/opt/cobaltstrike# ./teamserver
+          #
+          # [*] Checking TeamServerImage for local update
+          #
+          # [*] Verifying MD5 Message Digest for TeamServerImage
+          # TeamServerImage: OK
+          #
+          # [*] Will use existing X509 certificate and keystore (for SSL)
+          #
+          # [*] Starting teamserver
+          # ./TeamServerImage: /lib/x86_64-linux-gnu/libm.so.6: version `GLIBC_2.29' not found (required by ./TeamServerImage)
+          # - debian10-systemd
+          - debian11-systemd
+          - debian12-systemd
+          - debian13-systemd
+          # # Only Debian-based platforms are currently supported.
+          # - fedora39-systemd
+          # - fedora40-systemd
+          - kali-systemd
+          - ubuntu-20-systemd
+          - ubuntu-22-systemd
+          - ubuntu-24-systemd
         scenario:
           - default
     steps:
@@ -205,6 +244,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade --requirement requirements-test.txt
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Assume AWS test role
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -214,7 +257,10 @@ jobs:
           role-to-assume: ${{ secrets.TEST_ROLE_TO_ASSUME }}
           role-duration-seconds: 3600
       - name: Run molecule tests
-        run: molecule test --scenario-name ${{ matrix.scenario }}
+        run: >-
+          molecule test
+          --platform-name ${{ matrix.platform }}-${{ matrix.architecture }}
+          --scenario-name ${{ matrix.scenario }}
       - name: Setup tmate debug session
         uses: mxschmitt/action-tmate@v3
         if: env.RUN_TMATE

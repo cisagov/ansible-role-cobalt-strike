@@ -1,0 +1,49 @@
+---
+# This is in place to restore a destructive action in geerlingguy's Ansible
+# Docker images that we use for testing. The change is fine for the intended
+# purpose of the images but not for how we use them.
+- name: Ensure Python is marked as externally managed if appropriate
+  hosts: all
+  become: true
+  become_method: ansible.builtin.sudo
+  tasks:
+    - name: Ensure Python is marked as externally managed
+      when:
+        - ansible_distribution in ["Debian", "Ubuntu"]
+        - ansible_distribution_release not in ["bullseye", "buster", "focal", "jammy"]
+      block:
+        - name: Gather package facts
+          ansible.builtin.package_facts:
+            manager: auto
+
+        - name: Ensure the EXTERNALLY-MANAGED file is present if Python 3 is installed
+          when: '"python3" in ansible_facts.packages'
+          block:
+            # This gets a unique list of installed Python packages in the form of major.minor
+            # by taking the list of installed Python packages and:
+            # 1. Extracting the version from each package's information
+            # 2. Removing any version information after the major.minor version
+            # 3. Ensuring there are no duplicates
+            #
+            # NOTE:
+            # Since the value of python_versions is a multiline string, the regex expressions used in
+            # the regex_replace filter must use single backslashes for special sequences. If the value
+            # of python_versions were to be changed from a multiline string, the special sequences
+            # must be modified to use double backslashes instead. This is due to how the YAML is
+            # processed when Ansible reads the playbook.
+            - name: Extract version information about installed Python packages
+              ansible.builtin.set_fact:
+                python_versions: >-
+                  {{
+                    ansible_facts.packages["python3"]
+                    | map(attribute="version")
+                    | map("regex_replace", "^(\d+\.\d+)\.\d+.*$", "\1")
+                    | unique
+                  }}
+
+            - name: Restore EXTERNALLY-MANAGED file for Python
+              ansible.builtin.template:
+                dest: /usr/lib/python{{ item }}/EXTERNALLY-MANAGED
+                mode: 0644
+                src: EXTERNALLY-MANAGED.j2
+              loop: "{{ python_versions }}"
