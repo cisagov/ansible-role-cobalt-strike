@@ -2,7 +2,7 @@
 # Check if Cobalt Strike is already installed in the expected place
 - name: Check if Cobalt Strike is already installed and licensed
   ansible.builtin.stat:
-    path: /opt/cobaltstrike/cobaltstrike.auth
+    path: /opt/cobaltstrike/client/cobaltstrike.auth.client
   register: cobaltstrike_auth
 
 - name: Install and license Cobalt Strike
@@ -128,7 +128,7 @@
         }
       args:
         chdir: /opt/cobaltstrike
-        creates: /opt/cobaltstrike/cobaltstrike.auth
+        creates: /opt/cobaltstrike/client/cobaltstrike.auth.client
         executable: /usr/bin/expect
       failed_when: expect.rc != 0
       # The CS license key is sensitive

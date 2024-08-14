@@ -22,7 +22,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     "f",
     [
         "/opt/cobaltstrike",
-        "/opt/cobaltstrike/cobaltstrike.auth",
+        "/opt/cobaltstrike/client/cobaltstrike.auth.client",
         "/opt/cobaltstrike/update",
     ],
 )
