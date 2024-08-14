@@ -35,23 +35,23 @@
 
     - name: Set CobaltStrike token fact
       ansible.builtin.set_fact:
-        cobaltstrike_token_content: "{{ cobaltstrike_token.content | regex_search('href=\"/downloads/(.+)/cobaltstrike-dist.zip\"', '\\1') | first }}"
+        cobaltstrike_token_content: "{{ cobaltstrike_token.content | regex_search('href=\"/downloads/(.+)/cobaltstrike-dist-windows.zip\"', '\\1') | first }}"
 
     - name: Extract the download token and download the Cobalt Strike tarball
       ansible.builtin.get_url:
         dest: /tmp
         mode: "0644"
-        url: "https://download.cobaltstrike.com/downloads/{{ cobaltstrike_token_content }}/cobaltstrike-dist.tgz"
+        url: "https://download.cobaltstrike.com/downloads/{{ cobaltstrike_token_content }}/cobaltstrike-dist-linux.tgz"
 
     - name: Extract the Cobalt Strike tarball
       ansible.builtin.unarchive:
         dest: /opt
         remote_src: true
-        src: /tmp/cobaltstrike-dist.tgz
+        src: /tmp/cobaltstrike-dist-linux.tgz
 
     - name: Delete remote copy of Cobalt Strike tarball
       ansible.builtin.file:
-        path: /tmp/cobaltstrike-dist.tgz
+        path: /tmp/cobaltstrike-dist-linux.tgz
         state: absent
 
     #
