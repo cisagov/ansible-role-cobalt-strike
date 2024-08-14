@@ -10,7 +10,7 @@ import semver
 from strip_ansi import strip_ansi
 import testinfra.utils.ansible_runner
 
-min_expected_version = semver.VersionInfo.parse("4.8.0")
+min_expected_version = semver.VersionInfo.parse("4.10.0")
 expected_licensed_value = "Licensed"
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
@@ -22,7 +22,7 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     "f",
     [
         "/opt/cobaltstrike",
-        "/opt/cobaltstrike/cobaltstrike.auth",
+        "/opt/cobaltstrike/client/cobaltstrike.auth.client",
         "/opt/cobaltstrike/update",
     ],
 )
@@ -39,7 +39,7 @@ def test_files2(host, f):
 
 def test_version_and_license(host):
     """Verify that Cobalt Strike is licensed and is an expected version."""
-    cmd = host.run("cd /opt/cobaltstrike && ./teamserver")
+    cmd = host.run("cd /opt/cobaltstrike/server && ./teamserver")
     regex = (
         r"^\[\*\] Team Server Version: (?P<version>(\d+)(\.\d+){1,2}) (?P<licensed>.*)$"
     )
