@@ -1,4 +1,43 @@
 ---
+# When installing packages during later steps, the Fedora Docker
+# images we are using can throw sporadic errors like: "No such file or
+# directory: '/var/cache/dnf/metadata_lock.pid'".
+#
+# The fix is to ensure that systemd finishes initializing before
+# continuing on to the converge tasks.  For details see:
+# https://www.jeffgeerling.com/blog/2020/resolving-fedora-dnf-error-no-such-file-or-directory-varlibdnfrpmdblockpid
+- name: Group hosts by OS distribution
+  hosts: all
+  tasks:
+    - name: Group hosts by OS distribution
+      ansible.builtin.group_by:
+        key: os_{{ ansible_distribution }}
+- name: Wait for systemd to complete initialization (Fedora)
+  hosts: os_Fedora
+  tasks:
+    # ansible-lint wants us to use the ansible.builtin.systemd_service
+    # module here, but that module does not provide the
+    # is-system-running functionality.  This is the reason for the
+    # noqa comment on the next line.
+    - name: Wait for systemd to complete initialization # noqa command-instead-of-module
+      ansible.builtin.command: systemctl is-system-running
+      changed_when: false
+      delay: 5
+      # The systemctl is-system-running command can return a nonzero
+      # value if the status is degraded:
+      # https://man.archlinux.org/man/systemctl.1#System_Commands
+      #
+      # This often happens when running ARM64 containers under qemu,
+      # as some services (particularly systemd services) use kernel
+      # calls that qemu can't emulate.
+      failed_when: false
+      retries: 30
+      register: systemctl_status
+      until: >
+        'running' in systemctl_status.stdout or
+        'degraded' in systemctl_status.stdout
+      when: ansible_service_mgr == "systemd"
+
 - name: Import upgrade playbook
   ansible.builtin.import_playbook: upgrade.yml
 

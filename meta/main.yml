@@ -47,6 +47,12 @@ galaxy_info:
         - bullseye
         - bookworm
         - trixie
+    # Only Debian-based platforms are currently supported.
+    # - name: Fedora
+    #   versions:
+    #     - "39"
+    #     - "40"
+    #     - "41"
     - name: Kali
       versions:
         - "2023"
