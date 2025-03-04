@@ -4,11 +4,11 @@
 # data for this configuration.
 # ------------------------------------------------------------------------------
 
-data "terraform_remote_state" "images_staging" {
+data "terraform_remote_state" "images" {
   backend = "s3"
 
   config = {
-    bucket         = "cisa-cool-terraform-state"
+    bucket         = var.terraform_state_bucket
     dynamodb_table = "terraform-state-lock"
     encrypt        = true
     key            = "cool-accounts/images.tfstate"
@@ -16,29 +16,14 @@ data "terraform_remote_state" "images_staging" {
     region         = "us-east-1"
   }
 
-  workspace = "staging"
+  workspace = terraform.workspace
 }
 
-data "terraform_remote_state" "images_production" {
+data "terraform_remote_state" "images_ssm" {
   backend = "s3"
 
   config = {
-    bucket         = "cisa-cool-terraform-state"
-    dynamodb_table = "terraform-state-lock"
-    encrypt        = true
-    key            = "cool-accounts/images.tfstate"
-    profile        = "cool-terraform-readstate"
-    region         = "us-east-1"
-  }
-
-  workspace = "production"
-}
-
-data "terraform_remote_state" "images_staging_ssm" {
-  backend = "s3"
-
-  config = {
-    bucket         = "cisa-cool-terraform-state"
+    bucket         = var.terraform_state_bucket
     dynamodb_table = "terraform-state-lock"
     encrypt        = true
     key            = "cool-images-parameterstore/terraform.tfstate"
@@ -46,29 +31,14 @@ data "terraform_remote_state" "images_staging_ssm" {
     region         = "us-east-1"
   }
 
-  workspace = "staging"
-}
-
-data "terraform_remote_state" "images_production_ssm" {
-  backend = "s3"
-
-  config = {
-    bucket         = "cisa-cool-terraform-state"
-    dynamodb_table = "terraform-state-lock"
-    encrypt        = true
-    key            = "cool-images-parameterstore/terraform.tfstate"
-    profile        = "cool-terraform-readstate"
-    region         = "us-east-1"
-  }
-
-  workspace = "production"
+  workspace = terraform.workspace
 }
 
 data "terraform_remote_state" "users" {
   backend = "s3"
 
   config = {
-    bucket         = "cisa-cool-terraform-state"
+    bucket         = var.terraform_state_bucket
     dynamodb_table = "terraform-state-lock"
     encrypt        = true
     key            = "cool-accounts/users.tfstate"
@@ -76,5 +46,5 @@ data "terraform_remote_state" "users" {
     region         = "us-east-1"
   }
 
-  workspace = "production"
+  workspace = terraform.workspace
 }
