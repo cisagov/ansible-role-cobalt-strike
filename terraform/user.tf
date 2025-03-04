@@ -1,6 +1,6 @@
 # Create the test user
 module "user" {
-  source = "github.com/cisagov/molecule-iam-user-tf-module"
+  source = "github.com/cisagov/molecule-iam-user-tf-module?ref=improvement%2Fmodern-env"
 
   providers = {
     aws                         = aws.users
