@@ -170,8 +170,8 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         if: env.RUN_TMATE
   test:
-    # All tests run in the dev-a environment until we figure out a more
-    # comprehensive solution to running tests in multiple environments.
+    # TODO:  Figure out a plan to test in all environments, not just dev-a.
+    # See cisagov/skeleton-ansible-role-with-test-user#183 for more details.
     environment: dev-a
     name: >-
       test (${{ matrix.scenario }}) -
