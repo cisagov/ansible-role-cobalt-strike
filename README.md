@@ -115,12 +115,14 @@ None.
 
 None.
 
+<!-- markdownlint-disable line-length -->
 <!--
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| optional_variable | Describe its purpose. | `default_value` | No |
-| required_variable | Describe its purpose. | n/a | Yes |
+| skeleton_with_test_user_bucket_name | The name of the AWS S3 bucket where the third-party files are stored. | None | Yes |
+| skeleton_with_test_user_license_object_name | The name of the AWS S3 object that is the third-party license. | `closed_source_tool.license` | No |
 -->
+<!-- markdownlint-enable line-length -->
 
 ## Dependencies ##
 
