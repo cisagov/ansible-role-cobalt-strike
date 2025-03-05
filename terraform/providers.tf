@@ -23,6 +23,20 @@ provider "aws" {
   region = var.aws_region
 }
 
+# The provider used to create roles that can read certificates from the
+# third-party software S3 bucket in the Images account.
+provider "aws" {
+  alias = "images_provisionthirdpartybucketreadroles"
+  assume_role {
+    role_arn     = data.terraform_remote_state.images.outputs.provisionthirdpartybucketreadroles_role.arn
+    session_name = local.caller_user_name
+  }
+  default_tags {
+    tags = var.tags
+  }
+  region = var.aws_region
+}
+
 # The provider used to create policies and roles that can read
 # parameters from AWS SSM Parameter Store in the Images account.
 provider "aws" {
