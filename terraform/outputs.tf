@@ -1,11 +1,11 @@
 output "bucket_access_policy" {
   value       = module.bucket_access.policy
-  description = "The IAM policy that can read the specified objects from the specified S3 production bucket."
+  description = "The IAM policy that can read the specified objects from the specified S3 bucket."
 }
 
 output "bucket_access_role" {
   value       = module.bucket_access.role
-  description = "The IAM role that can read the specified objects from the specified S3 staging bucket."
+  description = "The IAM role that can read the specified objects from the specified S3 bucket."
 }
 
 output "user" {
