@@ -8,6 +8,8 @@ module "user" {
     aws.images-ssm              = aws.images_ssm
   }
 
-  entity         = "ansible-role-cobalt-strike"
-  ssm_parameters = ["/example/parameter"]
+  entity = "ansible-role-cobalt-strike"
+
+  # No SSM access is needed for this user, but ssm_parameters cannot be empty
+  ssm_parameters = ["/not/used"]
 }
