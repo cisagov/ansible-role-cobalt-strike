@@ -5,8 +5,8 @@
 # ------------------------------------------------------------------------------
 
 variable "cobalt_strike_bucket" {
-  type        = string
   description = "The name of the S3 bucket where the Cobalt Strike tarball and license live."
+  type        = string
 }
 
 variable "terraform_state_bucket" {
@@ -21,25 +21,24 @@ variable "terraform_state_bucket" {
 # ------------------------------------------------------------------------------
 
 variable "aws_region" {
-  type        = string
-  description = "The AWS region to deploy into (e.g. us-east-1)."
   default     = "us-east-1"
+  description = "The AWS region to deploy into (e.g. us-east-1)."
+  type        = string
 }
 
 variable "cobalt_strike_objects" {
-  type        = list(string)
-  description = "The Cobalt Strike license object(s) inside the bucket."
   default = [
     "cobaltstrike.license"
   ]
+  description = "The Cobalt Strike license object(s) inside the bucket."
+  type        = list(string)
 }
 
 variable "tags" {
-  type        = map(string)
-  description = "Tags to apply to all AWS resources created"
-
   default = {
     Team        = "VM Fusion - Development"
     Application = "ansible-role-cobalt-strike testing"
   }
+  description = "Tags to apply to all AWS resources created"
+  type        = map(string)
 }
