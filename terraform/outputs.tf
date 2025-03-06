@@ -14,12 +14,12 @@ output "role" {
 }
 
 output "user" {
-  value       = aws_iam_user.user
+  value       = module.user.user
   description = "The IAM user being created to test the cisagov/ansible-cobalt-strike Ansible role."
 }
 
 output "user_access_key" {
-  value       = aws_iam_access_key.key
+  value       = module.user.access_key
   description = "The access key for the IAM user being created to test the cisagov/ansible-cobalt-strike Ansible role."
   sensitive   = true
 }
