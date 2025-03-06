@@ -4,6 +4,11 @@
 # You must provide a value for each of these parameters.
 # ------------------------------------------------------------------------------
 
+variable "cobalt_strike_bucket" {
+  type        = string
+  description = "The name of the S3 bucket where the Cobalt Strike tarball and license live."
+}
+
 variable "terraform_state_bucket" {
   description = "The name of the S3 bucket where Terraform state is stored."
   type        = string
@@ -21,29 +26,9 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable "production_bucket_name" {
-  type        = string
-  description = "The name of the S3 bucket where the production Cobalt Strike tarball and license live."
-  default     = "cisa-cool-third-party-production"
-}
-
-variable "production_objects" {
+variable "cobalt_strike_objects" {
   type        = list(string)
-  description = "The Cobalt Strike license object(s) inside the production bucket."
-  default = [
-    "cobaltstrike.license"
-  ]
-}
-
-variable "staging_bucket_name" {
-  type        = string
-  description = "The name of the S3 bucket where the staging Cobalt Strike tarball and license live."
-  default     = "cisa-cool-third-party-staging"
-}
-
-variable "staging_objects" {
-  type        = list(string)
-  description = "The Cobalt Strike license object(s) inside the staging bucket."
+  description = "The Cobalt Strike license object(s) inside the bucket."
   default = [
     "cobaltstrike.license"
   ]
