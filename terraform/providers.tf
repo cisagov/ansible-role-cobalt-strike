@@ -9,12 +9,12 @@ provider "aws" {
   region = var.aws_region
 }
 
-# The provider used to create roles that can read certificates from a
-# production S3 bucket
+# The provider used to create the role that can be assumed to do
+# everything the CI user needs to do in the Images account.
 provider "aws" {
-  alias = "images_production"
+  alias = "images_provisionaccount"
   assume_role {
-    role_arn     = data.terraform_remote_state.images_production.outputs.provisionthirdpartybucketreadroles_role.arn
+    role_arn     = data.terraform_remote_state.images.outputs.provisionaccount_role.arn
     session_name = local.caller_user_name
   }
   default_tags {
@@ -23,12 +23,26 @@ provider "aws" {
   region = var.aws_region
 }
 
-# The provider used to create roles that can read certificates from a
-# staging S3 bucket
+# The provider used to create roles that can read certificates from the
+# third-party software S3 bucket in the Images account.
 provider "aws" {
-  alias = "images_staging"
+  alias = "images_provisionthirdpartybucketreadroles"
   assume_role {
-    role_arn     = data.terraform_remote_state.images_staging.outputs.provisionthirdpartybucketreadroles_role.arn
+    role_arn     = data.terraform_remote_state.images.outputs.provisionthirdpartybucketreadroles_role.arn
+    session_name = local.caller_user_name
+  }
+  default_tags {
+    tags = var.tags
+  }
+  region = var.aws_region
+}
+
+# The provider used to create policies and roles that can read
+# parameters from AWS SSM Parameter Store in the Images account.
+provider "aws" {
+  alias = "images_ssm"
+  assume_role {
+    role_arn     = data.terraform_remote_state.images_ssm.outputs.provisionparameterstorereadroles_role.arn
     session_name = local.caller_user_name
   }
   default_tags {
