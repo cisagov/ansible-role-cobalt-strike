@@ -4,14 +4,9 @@ output "access_key" {
   sensitive   = true
 }
 
-output "production_role" {
-  value       = module.user.production_role
-  description = "The IAM role that the CI user can assume to read SSM parameters in the production account."
-}
-
-output "staging_role" {
-  value       = module.user.staging_role
-  description = "The IAM role that the CI user can assume to read SSM parameters in the staging account."
+output "role" {
+  value       = module.user.role
+  description = "The IAM role that the CI user can assume to read SSM parameters in the Images account."
 }
 
 output "user" {

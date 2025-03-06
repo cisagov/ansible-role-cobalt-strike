@@ -16,51 +16,95 @@ create the AWS test user.
 
 ## Pre-requisites ##
 
-In order to execute the Molecule tests for this Ansible role in GitHub
-Actions, a build user must exist in AWS. The accompanying Terraform
-code will create the user with the appropriate name and
-permissions. This only needs to be run once per project, per AWS
-account. This user can also be used to run the Molecule tests on your
-local machine.
+In order to execute the Molecule tests for this Ansible role in GitHub Actions,
+a test user must exist in AWS. The accompanying Terraform code will create the
+user with the appropriate name and permissions. This only needs to be run once
+per project, per AWS account. This user can also be used to run the Molecule
+tests on your local machine.
 
-Before the build user can be created, you will need a profile in your
-AWS credentials file that allows you to read and write your remote
-Terraform state.  (You almost certainly do not want to use local
-Terraform state for this long-lived build user.)  If the build user is
-to be created in the CISA COOL environment, for example, then you will
-need the `cool-terraform-backend` profile.
+Before the test user can be created, you will need a profile in your AWS
+credentials file that allows you to read and write your remote Terraform state.
+(You almost certainly do not want to use local Terraform state for this
+long-lived test user.)  If the test user is to be created in the CISA COOL
+environment, for example, then you will need the `cool-terraform-backend`
+profile.
 
-The easiest way to set up the Terraform remote state profile is to
-make use of our
-[`aws-profile-sync`](https://github.com/cisagov/aws-profile-sync)
-utility. Follow the usage instructions in that repository before
-continuing with the next steps, and note that you will need to know
-where your team stores their remote profile data in order to use
+The easiest way to set up the Terraform remote state profile is to make use of
+our [`aws-profile-sync`](https://github.com/cisagov/aws-profile-sync) utility.
+Follow the usage instructions in that repository before continuing with the next
+steps, and note that you will need to know where your team stores their remote
+profile data in order to use
 [`aws-profile-sync`](https://github.com/cisagov/aws-profile-sync).
 
-To create the build user, follow these instructions:
+### Creating a test user ###
 
-```console
-cd terraform
-terraform init --upgrade=true
-terraform apply
-```
+You will need to create a test user for each environment that you use.  The
+following steps show how to create a test user for an environment named "dev".
+You will need to repeat this process for any additional environments.
 
-Once the user is created you will need to update the [repository's
-secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets)
-with the new encrypted environment variables. This should be done
-using the
+1. Change into the `terraform` directory:
+
+   ```console
+   cd terraform
+   ```
+
+1. Create a backend configuration file named `dev.tfconfig` containing the
+name of the bucket where "dev" environment Terraform state is stored - this file
+is required to initialize the Terraform backend in each environment:
+
+    ```hcl
+    bucket = "my-dev-terraform-state-bucket"
+    ```
+
+1. Initialize the Terraform backend for the "dev" environment using your backend
+   configuration file:
+
+    ```console
+    terraform init -backend-config=dev.tfconfig
+    ```
+
+    > [!NOTE]
+    > When performing this step for additional environments (i.e. not your first
+    > environment), use the `-reconfigure` flag:
+    >
+    > ```console
+    > terraform init -backend-config=other-env.tfconfig -reconfigure
+    > ```
+
+1. Create a Terraform variables file named `dev.tfvars` containing all
+required variables (currently only `terraform_state_bucket`):
+
+    ```hcl
+    terraform_state_bucket = "my-dev-terraform-state-bucket"
+    ```
+
+1. Create a Terraform workspace for the "dev" environment:
+
+    ```console
+   terraform workspace new dev
+   ```
+
+1. Initialize and upgrade the Terraform workspace, then apply the configuration
+   to create the test user in the "dev" environment:
+
+    ```console
+    terraform init -upgrade=true
+    terraform apply -var-file=dev.tfvars
+    ```
+
+Once the test user is created you will need to update the
+[repository's secrets](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets)
+with the new encrypted environment variables. This should be done using the
 [`terraform-to-secrets`](https://github.com/cisagov/development-guide/tree/develop/project_setup#terraform-iam-credentials-to-github-secrets-)
-tool available in the [development
-guide](https://github.com/cisagov/development-guide). Instructions for
-how to use this tool can be found in the ["Terraform IAM Credentials
-to GitHub Secrets"
-section](https://github.com/cisagov/development-guide/tree/develop/project_setup#terraform-iam-credentials-to-github-secrets-).
+tool available in the
+[development guide](https://github.com/cisagov/development-guide). Instructions
+for how to use this tool can be found in the
+["Terraform IAM Credentials to GitHub Secrets" section](https://github.com/cisagov/development-guide/tree/develop/project_setup#terraform-iam-credentials-to-github-secrets-).
 of the Project Setup README.
 
-If you have appropriate permissions for the repository you can view
-existing secrets on the [appropriate
-page](https://github.com/cisagov/skeleton-ansible-role-with-test-user/settings/secrets)
+If you have appropriate permissions for the repository you can view existing
+secrets on the
+[appropriate page](https://github.com/cisagov/skeleton-ansible-role-with-test-user/settings/secrets)
 in the repository's settings.
 
 ## Requirements ##
@@ -71,12 +115,14 @@ None.
 
 None.
 
+<!-- markdownlint-disable line-length -->
 <!--
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| optional_variable | Describe its purpose. | `default_value` | No |
-| required_variable | Describe its purpose. | n/a | Yes |
+| skeleton_with_test_user_bucket_name | The name of the AWS S3 bucket where the third-party files are stored. | None | Yes |
+| skeleton_with_test_user_license_object_name | The name of the AWS S3 object that is the third-party license. | `closed_source_tool.license` | No |
 -->
+<!-- markdownlint-enable line-length -->
 
 ## Dependencies ##
 
