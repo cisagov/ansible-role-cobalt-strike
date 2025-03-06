@@ -5,9 +5,5 @@
     - name: Include ansible-role-cobalt-strike
       ansible.builtin.include_role:
         name: ansible-role-cobalt-strike
-      # This is an example of how to pass GHA secrets to Molecule via
-      # an environment variable.  See also the "Run molecule tests"
-      # step from the .github/workflows/build.yml workflow in this
-      # repository.
-      # vars:
-      #   skeleton_with_test_user_bucket_name: "{{ lookup('env', 'THIRD_PARTY_BUCKET') }}"
+      vars:
+        cobalt_strike_bucket_name: "{{ lookup('env', 'THIRD_PARTY_BUCKET') }}"
