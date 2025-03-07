@@ -23,7 +23,7 @@ provider "aws" {
   region = var.aws_region
 }
 
-# The provider used to create roles that can read certificates from the
+# The provider used to create roles that can read objects from the
 # third-party software S3 bucket in the Images account.
 provider "aws" {
   alias = "images_provisionthirdpartybucketreadroles"
