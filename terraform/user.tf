@@ -8,6 +8,9 @@ module "user" {
     aws.images-ssm              = aws.images_ssm
   }
 
-  entity         = "skeleton-ansible-role-with-test-user"
-  ssm_parameters = ["/example/parameter"]
+  entity = "skeleton-ansible-role-with-test-user"
+
+  # If necessary, provide a list of SSM parameters that the test user needs to
+  # be able to read
+  # ssm_parameters = ["/example/parameter"]
 }
