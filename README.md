@@ -107,8 +107,8 @@ None.
 
 | Variable | Description | Default | Required |
 |----------|-------------|---------|----------|
-| cobalt_strike_bucket_name | The name of the AWS S3 bucket where the Cobalt Strike tarball and license files are stored. | n/a | Yes |
-| cobalt_strike_license_object_name | The name of the AWS S3 object that is the Cobalt Strike license. | `cobaltstrike.license` | No |
+| cobalt\_strike\_bucket\_name | The name of the AWS S3 bucket where the Cobalt Strike tarball and license files are stored. | n/a | Yes |
+| cobalt\_strike\_license\_object\_name | The name of the AWS S3 object that is the Cobalt Strike license. | `cobaltstrike.license` | No |
 
 ## Dependencies ##
 
