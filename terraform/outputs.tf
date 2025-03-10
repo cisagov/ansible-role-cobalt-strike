@@ -9,12 +9,12 @@ output "bucket_access_role" {
 }
 
 output "user" {
-  description = "The IAM user being created to test the cisagov/ansible-cobalt-strike Ansible role."
+  description = "The IAM user being created to test the cisagov/ansible-role-cobalt-strike Ansible role."
   value       = module.user.user
 }
 
 output "user_access_key" {
-  description = "The access key for the IAM user being created to test the cisagov/ansible-cobalt-strike Ansible role."
+  description = "The access key for the IAM user being created to test the cisagov/ansible-role-cobalt-strike Ansible role."
   sensitive   = true
   value       = module.user.access_key
 }
