@@ -275,12 +275,7 @@ jobs:
           sudo apt-get install apparmor-utils
           sudo aa-disable /usr/sbin/unix_chkpwd
         if: ${{ startsWith(matrix.platform, 'fedora') }}
-      - # This is an example of how to pass GHA secrets to Molecule
-        # via an environment variable.  See also
-        # molecule/default/converge.yml in this repository.
-        # env:
-        #   THIRD_PARTY_BUCKET: ${{ secrets.THIRD_PARTY_BUCKET }}
-        name: Run molecule tests
+      - name: Run molecule tests
         run: >-
           molecule test
           --platform-name ${{ matrix.platform }}-${{ matrix.architecture }}
