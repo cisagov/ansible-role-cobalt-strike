@@ -170,6 +170,9 @@ jobs:
         uses: mxschmitt/action-tmate@v3
         if: env.RUN_TMATE
   test:
+    # TODO:  Figure out a plan to test in all environments, not just dev-a.
+    # See cisagov/skeleton-ansible-role-with-test-user#183 for more details.
+    environment: dev-a
     name: >-
       test (${{ matrix.scenario }}) -
       ${{ matrix.platform }}-${{ matrix.architecture }}
@@ -293,7 +296,9 @@ jobs:
           sudo apt-get install apparmor-utils
           sudo aa-disable /usr/sbin/unix_chkpwd
         if: ${{ startsWith(matrix.platform, 'fedora') }}
-      - name: Run molecule tests
+      - env:
+          THIRD_PARTY_BUCKET: ${{ secrets.THIRD_PARTY_BUCKET }}
+        name: Run molecule tests
         run: >-
           molecule test
           --platform-name ${{ matrix.platform }}-${{ matrix.architecture }}
