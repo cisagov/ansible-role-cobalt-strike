@@ -5,3 +5,9 @@
     - name: Include skeleton-ansible-role-with-test-user
       ansible.builtin.include_role:
         name: skeleton-ansible-role-with-test-user
+      # This is an example of passing role vars via AWS SSM Parameter
+      # Store parameters.  In particular, roles that require access to
+      # resources inside the third-party bucket will likely need the
+      # name of that bucket passed in.
+      # vars:
+      #   skeleton_bucket_name: "{{ lookup('aws_ssm', '/third_party_bucket_name') }}"
