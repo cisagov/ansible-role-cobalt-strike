@@ -4,6 +4,6 @@
   tasks:
     - name: Include ansible-role-cobalt-strike
       ansible.builtin.include_role:
-        name: skeleton-ansible-role-with-test-user
+        name: ansible-role-cobalt-strike
       vars:
         cobalt_strike_bucket_name: "{{ lookup('aws_ssm', '/third_party_bucket_name') }}"
