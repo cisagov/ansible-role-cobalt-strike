@@ -8,5 +8,6 @@ module "user" {
     aws.images-ssm              = aws.images_ssm
   }
 
-  entity = "ansible-role-cobalt-strike"
+  entity         = "ansible-role-cobalt-strike"
+  ssm_parameters = ["/third_party_bucket_name"]
 }

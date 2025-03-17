@@ -296,9 +296,7 @@ jobs:
           sudo apt-get install apparmor-utils
           sudo aa-disable /usr/sbin/unix_chkpwd
         if: ${{ startsWith(matrix.platform, 'fedora') }}
-      - env:
-          THIRD_PARTY_BUCKET: ${{ secrets.THIRD_PARTY_BUCKET }}
-        name: Run molecule tests
+      - name: Run molecule tests
         run: >-
           molecule test
           --platform-name ${{ matrix.platform }}-${{ matrix.architecture }}
