@@ -21,9 +21,9 @@ updates:
       - dependency-name: hashicorp/setup-packer
       - dependency-name: hashicorp/setup-terraform
       - dependency-name: mxschmitt/action-tmate
-      # # Managed by cisagov/skeleton-ansible-role
-      # - dependency-name: cisagov/action-disable-apparmor
-      # - dependency-name: docker/setup-buildx-action
+      # Managed by cisagov/skeleton-ansible-role
+      - dependency-name: cisagov/action-disable-apparmor
+      - dependency-name: docker/setup-buildx-action
     package-ecosystem: github-actions
     schedule:
       interval: weekly
