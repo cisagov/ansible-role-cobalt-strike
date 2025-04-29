@@ -1,7 +1,8 @@
 ---
-# This is necessary to ensure a version of this collection that is compatible
-# with version 2.32.0+ of the Python requests library. This should be removed when
-# it is no longer required per https://github.com/cisagov/skeleton-ansible-role/issues/195
+# This is necessary to ensure a version of this collection that is
+# compatible with version 2.32.0+ of the Python requests library. This
+# should be removed when it is no longer required per
+# https://github.com/cisagov/skeleton-ansible-role/issues/195
 collections:
   - name: community.docker
     version: ">=3.10.2"
