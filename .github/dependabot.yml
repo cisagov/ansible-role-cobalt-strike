@@ -24,6 +24,8 @@ updates:
       # Managed by cisagov/skeleton-ansible-role
       - dependency-name: cisagov/action-disable-apparmor
       - dependency-name: docker/setup-buildx-action
+      # # Managed by cisagov/skeleton-ansible-role-with-test-user
+      # - dependency-name: aws-actions/configure-aws-credentials
     package-ecosystem: github-actions
     schedule:
       interval: weekly
