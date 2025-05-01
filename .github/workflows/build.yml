@@ -1,7 +1,7 @@
 ---
 name: build
 
-on:
+on:  # yamllint disable-line rule:truthy
   merge_group:
     types:
       - checks_requested
@@ -37,23 +37,34 @@ jobs:
     steps:
       # Note that a duplicate of this step must be added at the top of
       # each job.
-      - uses: GitHubSecurityLab/actions-permissions/monitor@v1
+      - name: Apply standard cisagov job preamble
+        uses: cisagov/action-job-preamble@v1
         with:
-          # Uses the organization variable unless overridden
-          config: ${{ vars.ACTIONS_PERMISSIONS_CONFIG }}
-      # Note that a duplicate of this step must be added at the top of
-      # each job.
-      - id: harden-runner
-        name: Harden the runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
-      - id: github-status
-        name: Check GitHub status
-        uses: crazy-max/ghaction-github-status@v4
-      - id: dump-context
-        name: Dump context
-        uses: crazy-max/ghaction-dump-context@v2
+          check_github_status: "true"
+          # This functionality is poorly implemented and has been
+          # causing problems due to the MITM implementation hogging or
+          # leaking memory.  As a result we disable it by default.  If
+          # you want to temporarily enable it, simply set
+          # monitor_permissions equal to "true".
+          #
+          # TODO: Re-enable this functionality when practical.  See
+          # cisagov/skeleton-generic#207 for more details.
+          monitor_permissions: "false"
+          output_workflow_context: "true"
+          # Use a variable to specify the permissions monitoring
+          # configuration. By default this will yield the
+          # configuration stored in the cisagov organization-level
+          # variable, but if you want to use a different configuration
+          # then simply:
+          # 1. Create a repository-level variable with the name
+          # ACTIONS_PERMISSIONS_CONFIG.
+          # 2. Set this new variable's value to the configuration you
+          # want to use for this repository.
+          #
+          # Note in particular that changing the permissions
+          # monitoring configuration *does not* require you to modify
+          # this workflow.
+          permissions_monitoring_config: ${{ vars.ACTIONS_PERMISSIONS_CONFIG }}
   lint:
     needs:
       - diagnostics
@@ -62,15 +73,32 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: GitHubSecurityLab/actions-permissions/monitor@v1
+      - name: Apply standard cisagov job preamble
+        uses: cisagov/action-job-preamble@v1
         with:
-          # Uses the organization variable unless overridden
-          config: ${{ vars.ACTIONS_PERMISSIONS_CONFIG }}
-      - id: harden-runner
-        name: Harden the runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
+          # This functionality is poorly implemented and has been
+          # causing problems due to the MITM implementation hogging or
+          # leaking memory.  As a result we disable it by default.  If
+          # you want to temporarily enable it, simply set
+          # monitor_permissions equal to "true".
+          #
+          # TODO: Re-enable this functionality when practical.  See
+          # cisagov/skeleton-generic#207 for more details.
+          monitor_permissions: "false"
+          # Use a variable to specify the permissions monitoring
+          # configuration. By default this will yield the
+          # configuration stored in the cisagov organization-level
+          # variable, but if you want to use a different configuration
+          # then simply:
+          # 1. Create a repository-level variable with the name
+          # ACTIONS_PERMISSIONS_CONFIG.
+          # 2. Set this new variable's value to the configuration you
+          # want to use for this repository.
+          #
+          # Note in particular that changing the permissions
+          # monitoring configuration *does not* require you to modify
+          # this workflow.
+          permissions_monitoring_config: ${{ vars.ACTIONS_PERMISSIONS_CONFIG }}
       - id: setup-env
         uses: cisagov/setup-env-github-action@develop
       - uses: actions/checkout@v4
@@ -93,16 +121,16 @@ jobs:
           echo "dir=$(go env GOCACHE)" >> $GITHUB_OUTPUT
       - uses: actions/cache@v4
         env:
-          BASE_CACHE_KEY: "${{ github.job }}-${{ runner.os }}-\
+          BASE_CACHE_KEY: ${{ github.job }}-${{ runner.os }}-\
             py${{ steps.setup-python.outputs.python-version }}-\
             go${{ steps.setup-go.outputs.go-version }}-\
             packer${{ steps.setup-env.outputs.packer-version }}-\
-            tf${{ steps.setup-env.outputs.terraform-version }}-"
+            tf${{ steps.setup-env.outputs.terraform-version }}-
         with:
-          key: "${{ env.BASE_CACHE_KEY }}\
+          key: ${{ env.BASE_CACHE_KEY }}\
             ${{ hashFiles('**/requirements-test.txt') }}-\
             ${{ hashFiles('**/requirements.txt') }}-\
-            ${{ hashFiles('**/.pre-commit-config.yaml') }}"
+            ${{ hashFiles('**/.pre-commit-config.yaml') }}
           # Note that the .terraform directory IS NOT included in the
           # cache because if we were caching, then we would need to use
           # the `-upgrade=true` option. This option blindly pulls down the
@@ -181,6 +209,9 @@ jobs:
     permissions:
       # actions/checkout needs this to fetch code
       contents: read
+    # This line is long, but if I use a block style indicator then GH
+    # Actions doesn't parse and execute the expression.
+    # yamllint disable-line rule:line-length
     runs-on: ubuntu-${{ startsWith(matrix.architecture, 'arm') && '24.04-arm' || 'latest' }}
     strategy:
       fail-fast: false
@@ -204,15 +235,32 @@ jobs:
         scenario:
           - default
     steps:
-      - uses: GitHubSecurityLab/actions-permissions/monitor@v1
+      - name: Apply standard cisagov job preamble
+        uses: cisagov/action-job-preamble@v1
         with:
-          # Uses the organization variable unless overridden
-          config: ${{ vars.ACTIONS_PERMISSIONS_CONFIG }}
-      - id: harden-runner
-        name: Harden the runner
-        uses: step-security/harden-runner@v2
-        with:
-          egress-policy: audit
+          # This functionality is poorly implemented and has been
+          # causing problems due to the MITM implementation hogging or
+          # leaking memory.  As a result we disable it by default.  If
+          # you want to temporarily enable it, simply set
+          # monitor_permissions equal to "true".
+          #
+          # TODO: Re-enable this functionality when practical.  See
+          # cisagov/skeleton-ansible-role#227 for more details.
+          monitor_permissions: "false"
+          # Use a variable to specify the permissions monitoring
+          # configuration. By default this will yield the
+          # configuration stored in the cisagov organization-level
+          # variable, but if you want to use a different configuration
+          # then simply:
+          # 1. Create a repository-level variable with the name
+          # ACTIONS_PERMISSIONS_CONFIG.
+          # 2. Set this new variable's value to the configuration you
+          # want to use for this repository.
+          #
+          # Note in particular that changing the permissions
+          # monitoring configuration *does not* require you to modify
+          # this workflow.
+          permissions_monitoring_config: ${{ vars.ACTIONS_PERMISSIONS_CONFIG }}
       - id: setup-env
         uses: cisagov/setup-env-github-action@develop
       - uses: actions/checkout@v4
@@ -222,21 +270,19 @@ jobs:
           python-version: ${{ steps.setup-env.outputs.python-version }}
       - uses: actions/cache@v4
         env:
-          BASE_CACHE_KEY: "${{ github.job }}-${{ runner.os }}-\
-            py${{ steps.setup-python.outputs.python-version }}-"
+          BASE_CACHE_KEY: ${{ github.job }}-${{ runner.os }}-\
+            py${{ steps.setup-python.outputs.python-version }}-
         with:
           path: ${{ env.PIP_CACHE_DIR }}
-          key: "${{ env.BASE_CACHE_KEY }}\
+          key: ${{ env.BASE_CACHE_KEY }}\
             ${{ hashFiles('**/requirements-test.txt') }}-\
-            ${{ hashFiles('**/requirements.txt') }}"
+            ${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade --requirement requirements-test.txt
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Assume AWS test role
@@ -247,46 +293,24 @@ jobs:
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
           role-to-assume: ${{ secrets.TEST_ROLE_TO_ASSUME }}
           role-duration-seconds: 3600
-      # Disabling the unix-chkpwd AppArmor profile is necessary when
-      # running Molecule tests against Fedora 40 and 41; otherwise,
-      # the privileged container cannot successfully run sudo and
-      # hence Ansible is unable to do anything.  See
+      # AppArmor interferes when running Molecule tests against Fedora
+      # 40 and 41; it does not allow the privileged container to run
+      # sudo and hence Ansible is unable to do anything.  See
       # fedora-cloud/docker-brew-fedora#117 for more details.
       #
-      # Purging firefox is currently necessary because the
-      # installation available on the GitHub runner instance provides
-      # two conflicting AppArmor profiles:
-      # /etc/apparmor.d/usr.bin.firefox and /etc/apparmor.d/firefox.
-      # This conflict causes the aa-disable /usr/sbin/unix_chkpwd
-      # command to fail.
-      #
-      # Purging passt is currently necessary because the installation
-      # available on the GitHub runner instance contains a wonky
-      # AppArmor file (/etc/apparmor.d/abstractions/passt) that causes
-      # the aa-disable command to fail.
-      #
-      # TODO: Remove the apt-get purge and systemctl reload commands
-      # when possible.  See cisagov/skeleton-ansible-role#215 for more
-      # details.
-      - name: Disable unix-chkpwd AppArmor profile
-        run: |
-          sudo apt-get purge firefox passt
-          sudo systemctl reload apparmor.service
-          sudo apt-get install apparmor-utils
-          sudo aa-disable /usr/sbin/unix_chkpwd
-        if: ${{ startsWith(matrix.platform, 'fedora') }}
+      # There is a growing consensus that AppArmor causes too many
+      # problems and should not be active on the short-lived GitHub
+      # runners.  See, for example,
+      # actions/runner-images/issues/10015.  To avoid problems in the
+      # future, it makes sense to simply disable AppArmor altogether
+      # before running Molecule tests.
+      - name: Disable AppArmor
+        uses: cisagov/action-disable-apparmor@v1
       - name: Run molecule tests
         run: >-
           molecule test
           --platform-name ${{ matrix.platform }}-${{ matrix.architecture }}
           --scenario-name ${{ matrix.scenario }}
-      # TODO: Remove the apt-get install command when possible.  See
-      # cisagov/skeleton-ansible-role#215 for more details.
-      - name: Re-enable unix-chkpwd AppArmor profile
-        run: |
-          sudo aa-enforce /usr/sbin/unix_chkpwd
-          sudo apt-get install firefox passt
-        if: ${{ startsWith(matrix.platform, 'fedora') }}
       - name: Setup tmate debug session
         uses: mxschmitt/action-tmate@v3
         if: env.RUN_TMATE

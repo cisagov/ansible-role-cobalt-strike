@@ -1,0 +1,234 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-amazonlinux2023-ansible:latest
+    name: amazonlinux2023-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-amazonlinux2023-ansible:latest
+    name: amazonlinux2023-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-debian10-ansible:latest
+    name: debian10-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-debian10-ansible:latest
+    name: debian10-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-debian11-ansible:latest
+    name: debian11-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-debian11-ansible:latest
+    name: debian11-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-debian12-ansible:latest
+    name: debian12-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-debian12-ansible:latest
+    name: debian12-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/cisagov/docker-debian13-ansible:latest
+    name: debian13-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/cisagov/docker-debian13-ansible:latest
+    name: debian13-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/cisagov/docker-kali-ansible:latest
+    name: kali-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/cisagov/docker-kali-ansible:latest
+    name: kali-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-fedora39-ansible:latest
+    name: fedora39-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-fedora39-ansible:latest
+    name: fedora39-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-fedora40-ansible:latest
+    name: fedora40-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-fedora40-ansible:latest
+    name: fedora40-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-fedora41-ansible:latest
+    name: fedora41-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-fedora41-ansible:latest
+    name: fedora41-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-ubuntu2004-ansible:latest
+    name: ubuntu-20-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-ubuntu2004-ansible:latest
+    name: ubuntu-20-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-ubuntu2204-ansible:latest
+    name: ubuntu-22-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-ubuntu2204-ansible:latest
+    name: ubuntu-22-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-ubuntu2404-ansible:latest
+    name: ubuntu-24-systemd-amd64
+    platform: amd64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - cgroupns_mode: host
+    command: /lib/systemd/systemd
+    image: docker.io/geerlingguy/docker-ubuntu2404-ansible:latest
+    name: ubuntu-24-systemd-arm64
+    platform: arm64
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      # Molecule used to add ${MOLECULE_PROJECT_DIRECTORY}/. to this
+      # path for us pre-25.2.0, but now we have to do it ourselves.
+      # See ansible/molecule#4380 and
+      # https://github.com/ansible/molecule/releases/tag/v25.2.0 for
+      # more details.
+      roles_path: ~/.cache/molecule/skeleton-ansible-role/${MOLECULE_SCENARIO_NAME}/roles:${MOLECULE_PROJECT_DIRECTORY}/..:~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles
+verifier:
+  name: testinfra
