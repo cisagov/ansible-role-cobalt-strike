@@ -43,7 +43,7 @@
     - name: Extract the download token and download the Cobalt Strike tarball
       ansible.builtin.get_url:
         dest: /tmp
-        mode: "0644"
+        mode: u=rw,g=r,o=r
         url: >-
           https://download.cobaltstrike.com/downloads/{{
           cobaltstrike_token_content }}/cobaltstrike-dist-linux.tgz
