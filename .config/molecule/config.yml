@@ -23,6 +23,12 @@ platforms:
   #   privileged: true
   #   volumes:
   #     - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  # yamllint complains about a long line in this comment, but I don't
+  # want to break it up because I am quoting verbatim the output of
+  # ./teamserver.  This is the reason for the yamllint disable
+  # directive below.
+  #
+  # yamllint disable rule:line-length
   # The latest version of CobaltStrike requires glibc 2.29, which is
   # unavailable for Debian Buster.  When one attempts to start the
   # teamserver on Buster one gets the following output:
@@ -39,6 +45,8 @@ platforms:
   #
   # [*] Starting teamserver
   # ./TeamServerImage: /lib/x86_64-linux-gnu/libm.so.6: version `GLIBC_2.29' not found (required by ./TeamServerImage)
+  #
+  # yamllint enable rule:line-length
   # - cgroupns_mode: host
   #   command: /lib/systemd/systemd
   #   image: docker.io/geerlingguy/docker-debian10-ansible:latest
