@@ -19,18 +19,21 @@
         - name: Ensure the EXTERNALLY-MANAGED file is present if Python 3 is installed
           when: '"python3" in ansible_facts.packages'
           block:
-            # This gets a unique list of installed Python packages in the form of major.minor
-            # by taking the list of installed Python packages and:
+            # This gets a unique list of installed Python packages in
+            # the form of major.minor by taking the list of installed
+            # Python packages and:
             # 1. Extracting the version from each package's information
             # 2. Removing any version information after the major.minor version
             # 3. Ensuring there are no duplicates
             #
-            # NOTE:
-            # Since the value of python_versions is a multiline string, the regex expressions used in
-            # the regex_replace filter must use single backslashes for special sequences. If the value
-            # of python_versions were to be changed from a multiline string, the special sequences
-            # must be modified to use double backslashes instead. This is due to how the YAML is
-            # processed when Ansible reads the playbook.
+            # NOTE: Since the value of python_versions is a multiline
+            # string, the regex expressions used in the regex_replace
+            # filter must use single backslashes for special
+            # sequences. If the value of python_versions were to be
+            # changed from a multiline string, the special sequences
+            # must be modified to use double backslashes instead. This
+            # is due to how the YAML is processed when Ansible reads
+            # the playbook.
             - name: Extract version information about installed Python packages
               ansible.builtin.set_fact:
                 python_versions: >-
@@ -44,6 +47,6 @@
             - name: Restore EXTERNALLY-MANAGED file for Python
               ansible.builtin.template:
                 dest: /usr/lib/python{{ item }}/EXTERNALLY-MANAGED
-                mode: 0644
+                mode: u=rw,g=r,o=r
                 src: EXTERNALLY-MANAGED.j2
               loop: "{{ python_versions }}"
