@@ -31,15 +31,13 @@ galaxy_info:
         - trixie
     - name: Fedora
       versions:
-        - "39"
-        - "40"
         - "41"
+        - "42"
     - name: Kali
       versions:
         - "2023"
     - name: Ubuntu
       versions:
-        - focal
         - jammy
         - noble
   role_name: skeleton_with_test_user
