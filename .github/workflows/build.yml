@@ -253,7 +253,7 @@ jobs:
           - debian11-systemd
           - debian12-systemd
           - debian13-systemd
-          # # Only Debian-based platforms are currently supported.
+          # Only Debian-based platforms are currently supported.
           # - fedora41-systemd
           # - fedora42-systemd
           - kali-systemd
