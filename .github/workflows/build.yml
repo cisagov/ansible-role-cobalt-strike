@@ -253,12 +253,10 @@ jobs:
           - debian11-systemd
           - debian12-systemd
           - debian13-systemd
-          # # Only Debian-based platforms are currently supported.
-          # - fedora39-systemd
-          # - fedora40-systemd
+          # Only Debian-based platforms are currently supported.
           # - fedora41-systemd
+          # - fedora42-systemd
           - kali-systemd
-          - ubuntu-20-systemd
           - ubuntu-22-systemd
           - ubuntu-24-systemd
         scenario:

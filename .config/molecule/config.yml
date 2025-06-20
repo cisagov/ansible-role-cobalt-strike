@@ -148,42 +148,6 @@ platforms:
   # Only Debian-based platforms are currently supported.
   # - cgroupns_mode: host
   #   command: /lib/systemd/systemd
-  #   image: docker.io/geerlingguy/docker-fedora39-ansible:latest
-  #   name: fedora39-systemd-amd64
-  #   platform: amd64
-  #   pre_build_image: true
-  #   privileged: true
-  #   volumes:
-  #     - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  # - cgroupns_mode: host
-  #   command: /lib/systemd/systemd
-  #   image: docker.io/geerlingguy/docker-fedora39-ansible:latest
-  #   name: fedora39-systemd-arm64
-  #   platform: arm64
-  #   pre_build_image: true
-  #   privileged: true
-  #   volumes:
-  #     - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  # - cgroupns_mode: host
-  #   command: /lib/systemd/systemd
-  #   image: docker.io/geerlingguy/docker-fedora40-ansible:latest
-  #   name: fedora40-systemd-amd64
-  #   platform: amd64
-  #   pre_build_image: true
-  #   privileged: true
-  #   volumes:
-  #     - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  # - cgroupns_mode: host
-  #   command: /lib/systemd/systemd
-  #   image: docker.io/geerlingguy/docker-fedora40-ansible:latest
-  #   name: fedora40-systemd-arm64
-  #   platform: arm64
-  #   pre_build_image: true
-  #   privileged: true
-  #   volumes:
-  #     - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  # - cgroupns_mode: host
-  #   command: /lib/systemd/systemd
   #   image: docker.io/geerlingguy/docker-fedora41-ansible:latest
   #   name: fedora41-systemd-amd64
   #   platform: amd64
@@ -200,21 +164,20 @@ platforms:
   #   privileged: true
   #   volumes:
   #     - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  - cgroupns_mode: host
-    command: /lib/systemd/systemd
-    image: docker.io/geerlingguy/docker-ubuntu2004-ansible:latest
-    name: ubuntu-20-systemd-amd64
-    platform: amd64
-    pre_build_image: true
-    privileged: true
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-  # CobaltStrike does not support ARM64:
-  # https://github.com/cisagov/ansible-role-cobalt-strike/pull/85#issuecomment-2171882459
+  # Only Debian-based platforms are currently supported.
   # - cgroupns_mode: host
   #   command: /lib/systemd/systemd
-  #   image: docker.io/geerlingguy/docker-ubuntu2004-ansible:latest
-  #   name: ubuntu-20-systemd-arm64
+  #   image: docker.io/geerlingguy/docker-fedora42-ansible:latest
+  #   name: fedora42-systemd-amd64
+  #   platform: amd64
+  #   pre_build_image: true
+  #   privileged: true
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  # - cgroupns_mode: host
+  #   command: /lib/systemd/systemd
+  #   image: docker.io/geerlingguy/docker-fedora42-ansible:latest
+  #   name: fedora42-systemd-arm64
   #   platform: arm64
   #   pre_build_image: true
   #   privileged: true
