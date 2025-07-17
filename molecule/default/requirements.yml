@@ -8,5 +8,7 @@ collections:
     version: ">=3.10.2"
 
 roles:
+  - name: debian_archive
+    src: https://github.com/cisagov/ansible-role-debian-archive
   - name: upgrade
     src: https://github.com/cisagov/ansible-role-upgrade

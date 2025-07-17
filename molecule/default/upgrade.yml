@@ -4,6 +4,12 @@
   become: true
   become_method: ansible.builtin.sudo
   tasks:
+    - name: >
+        Switch Debian platforms that are no longer supported to Debian
+        Archive package repositories
+      ansible.builtin.include_role:
+        name: debian_archive
+
     - name: Upgrade system packages
       ansible.builtin.include_role:
         name: upgrade
