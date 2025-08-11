@@ -4,7 +4,7 @@ This directory consists of [Terraform](https://www.terraform.io/) code
 that is used to create a test user.  This test user is in turn used by
 our CI/CD pipeline to test the Ansible role.
 
-See [the overall project documentation](../README.md) for a detailed
+See the [overall project documentation](../README.md) for a detailed
 description of how this code is intended to be used.
 
 <!-- BEGIN_TF_DOCS -->
