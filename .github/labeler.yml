@@ -52,10 +52,10 @@ python:
       - any-glob-to-any-file:
           - "**/*.py"
 # Enable if Terraform is used in the repository.
-# terraform:
-#   - changed-files:
-#       - any-glob-to-any-file:
-#           - "**/*.tf"
+terraform:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.tf"
 test:
   - changed-files:
       - any-glob-to-any-file:
