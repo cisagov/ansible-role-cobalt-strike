@@ -22,6 +22,8 @@ dependencies:
       - any-glob-to-any-file:
           # Add any dependency files used.
           - .pre-commit-config.yaml
+          - "**/.terraform.lock.hcl"
+          - "**/versions.tf"
           - meta/**/*.yml
           - requirements*.txt
 # Enable if Docker is used in the repository.
