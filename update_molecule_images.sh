@@ -9,6 +9,8 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
+DEFAULT_SOURCE_FILE=".config/molecule/config.yml"
+
 # Print usage information and exit.
 function usage {
   echo "Usage:"
@@ -16,7 +18,7 @@ function usage {
   echo
   echo "Arguments:"
   echo "  source_file  If specified use this file instead of the default"
-  echo "               molecule/default/molecule.yml"
+  echo "               $DEFAULT_SOURCE_FILE"
   exit 1
 }
 
@@ -37,7 +39,7 @@ fi
 if [ $# -eq 1 ]; then
   source_file="$1"
 else
-  source_file="molecule/default/molecule.yml"
+  source_file="$DEFAULT_SOURCE_FILE"
 fi
 
 check_dependencies
