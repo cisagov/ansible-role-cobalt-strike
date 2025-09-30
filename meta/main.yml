@@ -54,6 +54,7 @@ galaxy_info:
         - bullseye
         - bookworm
         - trixie
+        - forky
     # Only Debian-based platforms are currently supported.
     # - name: Fedora
     #   versions:
