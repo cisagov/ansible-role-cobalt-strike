@@ -32,8 +32,8 @@ galaxy_info:
         - forky
     - name: Fedora
       versions:
-        - "41"
         - "42"
+        - "43"
     - name: Kali
       versions:
         - "2023"

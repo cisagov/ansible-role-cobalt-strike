@@ -1,6 +1,7 @@
 # skeleton-ansible-role-with-test-user #
 
 [![GitHub Build Status](https://github.com/cisagov/skeleton-ansible-role-with-test-user/workflows/build/badge.svg)](https://github.com/cisagov/skeleton-ansible-role-with-test-user/actions)
+[![License](https://img.shields.io/github/license/cisagov/skeleton-ansible-role-with-test-user)](https://spdx.org/licenses/)
 [![CodeQL](https://github.com/cisagov/skeleton-ansible-role-with-test-user/workflows/CodeQL/badge.svg)](https://github.com/cisagov/skeleton-ansible-role-with-test-user/actions/workflows/codeql-analysis.yml)
 
 This is a skeleton project that can be used to quickly get a new
