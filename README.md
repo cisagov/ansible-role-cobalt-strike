@@ -1,6 +1,7 @@
 # ansible-role-cobalt-strike #
 
 [![GitHub Build Status](https://github.com/cisagov/ansible-role-cobalt-strike/workflows/build/badge.svg)](https://github.com/cisagov/ansible-role-cobalt-strike/actions)
+[![License](https://img.shields.io/github/license/cisagov/ansible-role-cobalt-strike)](https://spdx.org/licenses/)
 [![CodeQL](https://github.com/cisagov/ansible-role-cobalt-strike/workflows/CodeQL/badge.svg)](https://github.com/cisagov/ansible-role-cobalt-strike/actions/workflows/codeql-analysis.yml)
 
 An Ansible role for installing [Cobalt

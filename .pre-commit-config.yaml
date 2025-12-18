@@ -63,20 +63,20 @@ repos:
 
   # GitHub Actions hooks
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.33.3
+    rev: 0.35.0
     hooks:
       - id: check-github-actions
       - id: check-github-workflows
 
   # pre-commit hooks
   - repo: https://github.com/pre-commit/pre-commit
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
       - id: validate_manifest
 
   # Go hooks
   - repo: https://github.com/TekWizely/pre-commit-golang
-    rev: v1.0.0-rc.2
+    rev: v1.0.0-rc.4
     hooks:
       # Go Build
       - id: go-build-repo-mod
@@ -128,17 +128,29 @@ repos:
       - id: shellcheck
 
   # Python hooks
+  # Run bandit on the Molecule tests
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.6
+    rev: 1.9.1
     hooks:
       - id: bandit
-        # Bandit complains about the use of assert() in tests. This should cover
-        # the tests/ subdirectory for any molecule scenario.
-        exclude: molecule/[^/]+/tests
+        name: bandit (Molecule tests)
+        files: molecule/[^/]+/tests
         args:
-          - --config=.bandit.yml
+          # Skip "assert used" check since assertions are used
+          # frequently in pytests.
+          - --skip=B101
+  # Run bandit on everything except the Molecule tests
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.9.1
+    hooks:
+      - id: bandit
+        name: bandit (everything else)
+        # Bandit complains about the use of assert() in tests. This
+        # should cover the tests/ subdirectory for any molecule
+        # scenario.
+        exclude: molecule/[^/]+/tests
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 25.1.0
+    rev: 25.11.0
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
@@ -148,11 +160,11 @@ repos:
         additional_dependencies:
           - flake8-docstrings==1.7.0
   - repo: https://github.com/PyCQA/isort
-    rev: 6.0.1
+    rev: 7.0.0
     hooks:
       - id: isort
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.18.1
+    rev: v1.18.2
     hooks:
       - id: mypy
   - repo: https://github.com/pypa/pip-audit
@@ -160,11 +172,19 @@ repos:
     hooks:
       - id: pip-audit
         args:
-          # We have to ignore this particular vulnerability in
-          # ansible-core>=2.11 as there is currently no fix.  See
-          # cisagov/skeleton-ansible-role#210 for more details.
+          # We have to ignore this vulnerability since we need to pin
+          # to Ansible 10 for now to support our CyHy code that must
+          # still run on Debian Buster.  This vulnerability is fixed
+          # in ansible>=12.
+          #
+          # This isn't a big deal since the vulnerability only impacts
+          # users of the Keycloak modules in
+          # ansible.community.general, and we don't use these modules.
+          #
+          # TODO: Remove this when it becomes possible.  See
+          # cisagov/skeleton-ansible-role#248 for more details.
           - --ignore-vuln
-          - GHSA-99w6-3xph-cx78
+          - GHSA-8ggh-xwr9-3373
           # Add any pip requirements files to scan
           - --requirement
           - requirements-dev.txt
@@ -173,13 +193,19 @@ repos:
           - --requirement
           - requirements.txt
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
+    rev: v3.21.1
     hooks:
       - id: pyupgrade
+        args:
+          # Python 3.10 is currently the oldest non-EOL version of
+          # Python, so we want to apply all rules that apply to this
+          # version or later.  See here for more details:
+          # https://www.gyford.com/phil/writing/2025/08/26/how-to-use-pyupgrade/
+          - --py310-plus
 
   # Ansible hooks
   - repo: https://github.com/ansible/ansible-lint
-    rev: v25.9.0
+    rev: v25.11.1
     hooks:
       - id: ansible-lint
         additional_dependencies:
@@ -195,35 +221,17 @@ repos:
           # hook identifies a vulnerability in ansible-core 2.16.13,
           # but all versions of ansible 9 have a dependency on
           # ~=2.16.X.
-          #
-          # It is also a good idea to go ahead and upgrade to version
-          # 10 since version 9 is going EOL at the end of November:
-          # https://endoflife.date/ansible
           # - ansible>=10,<11
-          # ansible-core 2.16.3 through 2.16.6 suffer from the bug
-          # discussed in ansible/ansible#82702, which breaks any
-          # symlinked files in vars, tasks, etc. for any Ansible role
-          # installed via ansible-galaxy.  Hence we never want to
-          # install those versions.
-          #
-          # Note that the pip-audit pre-commit hook identifies a
-          # vulnerability in ansible-core 2.16.13.  The pin of
-          # ansible-core to >=2.17 effectively also pins ansible to
-          # >=10.
-          #
-          # It is also a good idea to go ahead and upgrade to
-          # ansible-core 2.17 since security support for ansible-core
-          # 2.16 ends this month:
-          # https://docs.ansible.com/ansible/devel/reference_appendices/release_and_maintenance.html#ansible-core-support-matrix
+          # ansible-core<2.17.7 suffers from GHSA-99w6-3xph-cx78.
           #
           # Note that any changes made to this dependency must also be
           # made in requirements.txt in cisagov/skeleton-packer and
           # requirements-test.txt in cisagov/skeleton-ansible-role.
-          - ansible-core>=2.17
+          - ansible-core>=2.17.7
 
   # Terraform hooks
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.100.0
+    rev: v1.103.0
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
