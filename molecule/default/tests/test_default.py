@@ -31,7 +31,10 @@ def test_files(host, f):
     assert host.file(f).exists
 
 
-@pytest.mark.parametrize("f", ["/tmp/cobaltstrike.tgz"])
+# Yes /tmp/cobaltstrike.tgz is a hardcoded temp file, but since we're
+# only checking to make sure it doesn't exist we can ignore the Bandit
+# error.  This gets rid of an error from the bandit pre-commit hook.
+@pytest.mark.parametrize("f", ["/tmp/cobaltstrike.tgz"])  # nosec: B108
 def test_files2(host, f):
     """Test that the expected files and directories were deleted."""
     assert not host.file(f).exists
