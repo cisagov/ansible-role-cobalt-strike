@@ -6,4 +6,5 @@
       ansible.builtin.include_role:
         name: ansible-role-cobalt-strike
       vars:
-        cobalt_strike_bucket_name: "{{ lookup('aws_ssm', '/third_party_bucket_name') }}"
+        cobalt_strike_bucket_name: >-
+          {{ lookup('amazon.aws.ssm_parameter', '/third_party_bucket_name') }}
