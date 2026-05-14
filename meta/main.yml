@@ -41,5 +41,6 @@ galaxy_info:
       versions:
         - jammy
         - noble
+        - resolute
   role_name: skeleton_with_test_user
   standalone: true
