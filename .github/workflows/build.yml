@@ -5,6 +5,8 @@ on:  # yamllint disable-line rule:truthy
   merge_group:
     types:
       - checks_requested
+  # We use the default activity types for the pull_request event as specified here:
+  # https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request
   pull_request:
   push:
   repository_dispatch:
@@ -24,7 +26,7 @@ env:
   PIP_CACHE_DIR: ~/.cache/pip
   PRE_COMMIT_CACHE_DIR: ~/.cache/pre-commit
   RUN_TMATE: ${{ secrets.RUN_TMATE }}
-  TERRAFORM_DOCS_REPO_BRANCH_NAME: improvement/support_atx_closed_markdown_headers
+  TERRAFORM_DOCS_REPO_BRANCH_NAME: cisagov
   TERRAFORM_DOCS_REPO_DEPTH: 1
   TERRAFORM_DOCS_REPO_URL: https://github.com/mcdonnnj/terraform-docs.git
 
@@ -119,18 +121,20 @@ jobs:
         name: Lookup Go cache directory
         run: |
           echo "dir=$(go env GOCACHE)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         env:
-          BASE_CACHE_KEY: ${{ github.job }}-${{ runner.os }}-\
-            py${{ steps.setup-python.outputs.python-version }}-\
-            go${{ steps.setup-go.outputs.go-version }}-\
-            packer${{ steps.setup-env.outputs.packer-version }}-\
-            tf${{ steps.setup-env.outputs.terraform-version }}-
+          BASE_CACHE_KEY: >-
+            ${{ github.job }}-${{ runner.os
+            }}-py${{ steps.setup-python.outputs.python-version
+            }}-go${{ steps.setup-go.outputs.go-version
+            }}-packer${{ steps.setup-env.outputs.packer-version
+            }}-tf${{ steps.setup-env.outputs.terraform-version }}-
         with:
-          key: ${{ env.BASE_CACHE_KEY }}\
-            ${{ hashFiles('**/requirements-test.txt') }}-\
-            ${{ hashFiles('**/requirements.txt') }}-\
-            ${{ hashFiles('**/.pre-commit-config.yaml') }}
+          key: >-
+            ${{ env.BASE_CACHE_KEY }}${{
+            hashFiles('**/requirements-test.txt') }}-${{
+            hashFiles('**/requirements.txt') }}-${{
+            hashFiles('**/.pre-commit-config.yaml') }}
           # Note that the .terraform directory IS NOT included in the
           # cache because if we were caching, then we would need to use
           # the `-upgrade=true` option. This option blindly pulls down the
@@ -146,12 +150,12 @@ jobs:
       - uses: hashicorp/setup-packer@v3
         with:
           version: ${{ steps.setup-env.outputs.packer-version }}
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ steps.setup-env.outputs.terraform-version }}
       - name: Install go-critic
         env:
-          PACKAGE_URL: github.com/go-critic/go-critic/cmd/gocritic
+          PACKAGE_URL: github.com/go-critic/go-critic/cmd/go-critic
           PACKAGE_VERSION: ${{ steps.setup-env.outputs.go-critic-version }}
         run: go install ${PACKAGE_URL}@${PACKAGE_VERSION}
       - name: Install goimports
@@ -170,10 +174,13 @@ jobs:
           PACKAGE_VERSION: ${{ steps.setup-env.outputs.staticcheck-version }}
         run: go install ${PACKAGE_URL}@${PACKAGE_VERSION}
       # TODO: https://github.com/cisagov/skeleton-generic/issues/165
-      # We are temporarily using @mcdonnnj's forked branch of terraform-docs
-      # until his PR: https://github.com/terraform-docs/terraform-docs/pull/745
-      # is approved. This temporary fix will allow for ATX header support when
-      # terraform-docs is run during linting.
+      # We are temporarily using a branch of @mcdonnnj's fork of terraform-docs that
+      # groups changes from his PRs until they are approved and merged:
+      # https://github.com/terraform-docs/terraform-docs/pull/745
+      # https://github.com/terraform-docs/terraform-docs/pull/901
+      # This temporary fix will allow for ATX header support when terraform-docs is run
+      # during linting and output delimiter rows with cell spacing that passes
+      # Markdownlint's MD060/table-column-style rule.
       - name: Clone ATX headers branch from terraform-docs fork
         run: |
           git clone \
@@ -188,7 +195,7 @@ jobs:
           -o $(go env GOPATH)/bin/terraform-docs
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade pip setuptools
           pip install --upgrade --requirement requirements-test.txt
       - name: Set up pre-commit hook environments
         run: pre-commit install-hooks
@@ -231,6 +238,7 @@ jobs:
           - kali-systemd
           - ubuntu-22-systemd
           - ubuntu-24-systemd
+          - ubuntu-26-systemd
         scenario:
           - default
     steps:
@@ -267,15 +275,17 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: ${{ steps.setup-env.outputs.python-version }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         env:
-          BASE_CACHE_KEY: ${{ github.job }}-${{ runner.os }}-\
-            py${{ steps.setup-python.outputs.python-version }}-
+          BASE_CACHE_KEY: >-
+            ${{ github.job }}-${{ runner.os }}-py${{
+            steps.setup-python.outputs.python-version }}-
         with:
           path: ${{ env.PIP_CACHE_DIR }}
-          key: ${{ env.BASE_CACHE_KEY }}\
-            ${{ hashFiles('**/requirements-test.txt') }}-\
-            ${{ hashFiles('**/requirements.txt') }}
+          key: >-
+            ${{ env.BASE_CACHE_KEY }}${{
+            hashFiles('**/requirements-test.txt') }}-${{
+            hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ env.BASE_CACHE_KEY }}
       - name: Install dependencies

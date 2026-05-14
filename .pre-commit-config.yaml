@@ -45,17 +45,17 @@ repos:
 
   # Text file hooks
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.45.0
+    rev: v0.48.0
     hooks:
       - id: markdownlint
         args:
           - --config=.mdl_config.yaml
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.6.2
+    rev: v3.8.1
     hooks:
       - id: prettier
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.37.1
+    rev: v1.38.0
     hooks:
       - id: yamllint
         args:
@@ -63,14 +63,14 @@ repos:
 
   # GitHub Actions hooks
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.35.0
+    rev: 0.37.0
     hooks:
       - id: check-github-actions
       - id: check-github-workflows
 
   # pre-commit hooks
   - repo: https://github.com/pre-commit/pre-commit
-    rev: v4.4.0
+    rev: v4.5.1
     hooks:
       - id: validate_manifest
 
@@ -105,7 +105,7 @@ repos:
 
   # Shell script hooks
   - repo: https://github.com/scop/pre-commit-shfmt
-    rev: v3.12.0-2
+    rev: v3.13.0-1
     hooks:
       - id: shfmt
         args:
@@ -130,7 +130,7 @@ repos:
   # Python hooks
   # Run bandit on the Molecule tests
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.9.1
+    rev: 1.9.4
     hooks:
       - id: bandit
         name: bandit (Molecule tests)
@@ -141,7 +141,7 @@ repos:
           - --skip=B101
   # Run bandit on everything except the Molecule tests
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.9.1
+    rev: 1.9.4
     hooks:
       - id: bandit
         name: bandit (everything else)
@@ -150,7 +150,7 @@ repos:
         # scenario.
         exclude: molecule/[^/]+/tests
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 25.11.0
+    rev: 26.3.1
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
@@ -158,20 +158,41 @@ repos:
     hooks:
       - id: flake8
         additional_dependencies:
+          - dlint==0.16.0
+          - flake8-bugbear==25.11.29
+          - flake8-comprehensions==3.17.0
           - flake8-docstrings==1.7.0
+          - flake8-noqa==1.5.0
+          - pep8-naming==0.15.1
   - repo: https://github.com/PyCQA/isort
-    rev: 7.0.0
+    rev: 8.0.1
     hooks:
       - id: isort
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.18.2
+    rev: v1.19.1
     hooks:
       - id: mypy
   - repo: https://github.com/pypa/pip-audit
-    rev: v2.9.0
+    rev: v2.10.0
     hooks:
       - id: pip-audit
         args:
+          # We have to ignore this vulnerability for now since an
+          # update for pygments has not yet been released.
+          #
+          # In any event, this vulnerability is unlikely to cause us
+          # any problems since we don't feed any regexes to pygments
+          # directly.  pygments is pulled in as a dependency of
+          # pytest.
+          #
+          # See also:
+          # - https://nvd.nist.gov/vuln/detail/CVE-2026-4539
+          # - https://github.com/pygments/pygments/issues/3058
+          #
+          # TODO: Remove this when it becomes possible.  See
+          # cisagov/skeleton-generic#257 for more details.
+          - --ignore-vuln
+          - CVE-2026-4539
           # We have to ignore this vulnerability since we need to pin
           # to Ansible 10 for now to support our CyHy code that must
           # still run on Debian Buster.  This vulnerability is fixed
@@ -193,7 +214,7 @@ repos:
           - --requirement
           - requirements.txt
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.21.1
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
         args:
@@ -205,7 +226,7 @@ repos:
 
   # Ansible hooks
   - repo: https://github.com/ansible/ansible-lint
-    rev: v25.11.1
+    rev: v26.4.0
     hooks:
       - id: ansible-lint
         additional_dependencies:
@@ -228,13 +249,38 @@ repos:
           # made in requirements.txt in cisagov/skeleton-packer and
           # requirements-test.txt in cisagov/skeleton-ansible-role.
           - ansible-core>=2.17.7
+        # We are still using Python 3.13 in our GitHub Actions
+        # configuration, but after version v26.1.1 of this pre-commit
+        # hook language_version is (somewhat unnecessarily but
+        # understandably[1]) hard coded to Python 3.14.  ansible-lint
+        # itself currently supports Python>=3.10[2].
+        #
+        # Note that this version must stay in sync with the Python
+        # version specified in cisagov/setup-env-github-action[3].
+        #
+        # [1]:
+        # https://github.com/ansible/ansible-lint/issues/4812#issuecomment-3382337336
+        # [2]:
+        # https://github.com/ansible/ansible-lint/blob/eefc3626bb341032d5a80288735cca6441c9c873/pyproject.toml#L9
+        # [3]:
+        # https://github.com/cisagov/setup-env-github-action/blob/8567c2291ccdf5b84c297b487f592606f3af214f/src/versions.js#L27
+        language_version: python3.13
 
   # Terraform hooks
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.103.0
+    rev: v1.105.0
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
+      # This needs to run after the terraform_validate hook so that any Terraform
+      # configurations are initialized.
+      - id: terraform_providers_lock
+        args:
+          - --args=-platform=darwin_amd64
+          - --args=-platform=darwin_arm64
+          - --args=-platform=linux_amd64
+          - --args=-platform=linux_arm64
+          - --hook-config=--mode=always-regenerate-lockfile
 
   # Docker hooks
   - repo: https://github.com/IamTheFij/docker-pre-commit
