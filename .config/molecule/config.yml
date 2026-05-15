@@ -14,6 +14,12 @@ platforms:
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      # This is necessary because of the new containerd
+      # snapshotters[1].  Note that the volume that has to be created
+      # is at /var/lib/containerd instead of /var/lib/docker[2].
+      #
+      # [1]: https://github.com/docker/cli/issues/6646#issuecomment-3518152318
+      # [2]: https://github.com/docker/cli/issues/6646#issuecomment-3830743220
       - /var/lib/containerd
 
   - &common_arm64_platform_config
