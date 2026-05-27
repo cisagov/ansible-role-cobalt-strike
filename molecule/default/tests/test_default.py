@@ -60,9 +60,10 @@ def test_version_and_license(host):
         try:
             actual_version = semver.VersionInfo.parse(f"{version}.0")
         except ValueError:
-            assert (
-                False
-            ), f"Unable to parse {version} or {version}.0 as a valid semantic version."
+            raise ValueError(
+                f"Unable to parse {version} or {version}.0 as a valid "
+                "semantic version."
+            )
     assert actual_version >= min_expected_version, (
         "Cobalt Strike version is expected to be greater than or equal to "
         f"{min_expected_version}."
