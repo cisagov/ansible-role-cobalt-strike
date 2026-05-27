@@ -63,9 +63,10 @@ def test_version_and_license(host):
             assert (
                 False
             ), f"Unable to parse {version} or {version}.0 as a valid semantic version."
-    assert (
-        actual_version >= min_expected_version
-    ), f"Cobalt Strike version is expected to be greater than or equal to {min_expected_version}."
+    assert actual_version >= min_expected_version, (
+        "Cobalt Strike version is expected to be greater than or equal to "
+        f"{min_expected_version}."
+    )
 
     licensed = match.group("licensed")
     assert licensed == expected_licensed_value, "Cobalt Strike is not licensed."
