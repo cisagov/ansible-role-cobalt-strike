@@ -46,7 +46,7 @@ description of how this code is intended to be used.
 | ---- | ----------- | ---- | ------- | :------: |
 | aws\_region | The AWS region to deploy into (e.g. us-east-1). | `string` | `"us-east-1"` | no |
 | cobalt\_strike\_bucket | The name of the S3 bucket where the Cobalt Strike tarball and license live. | `string` | n/a | yes |
-| cobalt\_strike\_objects | The Cobalt Strike license object(s) inside the bucket. | `list(string)` | ```[ "cobaltstrike.license" ]``` | no |
+| cobalt\_strike\_objects | The Cobalt Strike license and tarball object(s) inside the bucket. | `list(string)` | ```[ "cobaltstrike.license", "cobaltstrike-dist-linux.tgz" ]``` | no |
 | tags | Tags to apply to all AWS resources created | `map(string)` | ```{ "Application": "ansible-role-cobalt-strike testing", "Team": "VM Fusion - Development" }``` | no |
 | terraform\_state\_bucket | The name of the S3 bucket where Terraform state is stored. | `string` | n/a | yes |
 

@@ -1,3 +1,6 @@
 ---
 # The name of the AWS S3 object that is the Cobalt Strike license
 cobalt_strike_license_object_name: cobaltstrike.license
+
+# The name of the AWS S3 object that is the Cobalt Strike tarball
+cobalt_strike_tarball_object_name: cobaltstrike-dist-linux.tgz
