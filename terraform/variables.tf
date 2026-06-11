@@ -31,9 +31,10 @@ variable "aws_region" {
 
 variable "cobalt_strike_objects" {
   default = [
-    "cobaltstrike.license"
+    "cobaltstrike.license",
+    "cobaltstrike-dist-linux.tgz",
   ]
-  description = "The Cobalt Strike license object(s) inside the bucket."
+  description = "The Cobalt Strike license and tarball object(s) inside the bucket."
   nullable    = false
   type        = list(string)
 }

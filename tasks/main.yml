@@ -8,59 +8,37 @@
 - name: Install and license Cobalt Strike
   when: not cobaltstrike_auth.stat.exists
   block:
-    - name: Grab Cobalt Strike license from S3
+    - name: Grab Cobalt Strike license and tarball from S3
       amazon.aws.s3_object:
         bucket: "{{ cobalt_strike_bucket_name }}"
-        dest: /tmp/cobaltstrike.license
+        dest: /tmp/{{ item }}
         mode: get
-        object: "{{ cobalt_strike_license_object_name }}"
+        object: "{{ item }}"
       become: false
       delegate_to: localhost
+      loop:
+        - "{{ cobalt_strike_license_object_name }}"
+        - "{{ cobalt_strike_tarball_object_name }}"
 
-    - name: Get CobaltStrike download token
-      ansible.builtin.uri:
-        body: dlkey={{ cobaltstrike_license }}
-        body_format: form-urlencoded
-        method: POST
-        return_content: true
-        url: https://download.cobaltstrike.com/download
-      delegate_to: localhost
-      register: cobaltstrike_token
-      # The file /tmp/cobaltstrike.license doesn't exist until
-      # it is downloaded so the linter fails the lookup, which
-      # is the reason for the noqa below
-      vars: # noqa jinja[invalid]
-        cobaltstrike_license: >-
-          {{ lookup("ansible.builtin.file", "/tmp/cobaltstrike.license") }}
-
-    - name: Set CobaltStrike token fact
-      ansible.builtin.set_fact:
-        cobaltstrike_token_content: >-
-          {{ cobaltstrike_token.content |
-          regex_search('href="/downloads/(.+)/cobaltstrike-dist-windows\.zip"',
-          '\1') | first }}
-
-    - name: Extract the download token and download the Cobalt Strike tarball
-      ansible.builtin.get_url:
-        dest: /tmp
+    - name: Copy the Cobalt Strike tarball
+      ansible.builtin.copy:
+        src: /tmp/{{ cobalt_strike_tarball_object_name }}
+        dest: /tmp/{{ cobalt_strike_tarball_object_name }}
         mode: u=rw,g=r,o=r
-        url: >-
-          https://download.cobaltstrike.com/downloads/{{
-          cobaltstrike_token_content }}/cobaltstrike-dist-linux.tgz
 
     - name: Extract the Cobalt Strike tarball
       ansible.builtin.unarchive:
         dest: /opt
         remote_src: true
-        src: /tmp/cobaltstrike-dist-linux.tgz
+        src: /tmp/{{ cobalt_strike_tarball_object_name }}
 
     - name: Delete remote copy of Cobalt Strike tarball
       ansible.builtin.file:
-        path: /tmp/cobaltstrike-dist-linux.tgz
+        path: /tmp/{{ cobalt_strike_tarball_object_name }}
         state: absent
 
     #
-    # Upgrade Cobalt Strike
+    # Upgrade and license Cobalt Strike
     #
     - name: Install expect
       ansible.builtin.package:
@@ -146,12 +124,12 @@
         cobaltstrike_license: >-
           {{ lookup("ansible.builtin.file", "/tmp/cobaltstrike.license") }}
 
-    - name: Delete local copies of Cobalt Strike license and download token
+    - name: Delete local copies of Cobalt Strike license and tarball
       ansible.builtin.file:
         path: /tmp/{{ item }}
         state: absent
       become: false
       delegate_to: localhost
       loop:
-        - cobaltstrike.license
-        - token.html
+        - "{{ cobalt_strike_license_object_name }}"
+        - "{{ cobalt_strike_tarball_object_name }}"
